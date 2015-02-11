@@ -1,0 +1,11 @@
+<widget id="com.daveberzack.hobnob" version="0.0.1">
+    <name>HobNob</name>
+    <description>
+      The Game about Making Friends
+    </description>
+    <author email="daveberzack@gmail.com" href="http://daveberzack.com">
+	    Dave Berzack
+    </author>
+    <content src="index.html" />
+    <access origin="*" />
+</widget>
