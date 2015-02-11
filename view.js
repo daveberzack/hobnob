@@ -108,9 +108,11 @@ var View = function(model_in){
 		corner( $("#control"), gutter*4);
 	  $("#addInfo >.inner").css("padding-top", (controlHeight-$("#addInfo >.inner"))/2  );
 	  $("#control .title").css({"font-size":gutter*4, "top":(-3)*gutter, "left":gutter});
-	  $("#control h3").css("font-size",gutter*11);
-	  $("#control h5").css("font-size",gutter*4);
-	  $("#control h6").css("font-size",gutter*3);
+	  
+	  $("p").css("font-size",gutter*4);
+	  $("h3").css("font-size",gutter*11);
+	  $("h5").css("font-size",gutter*4);
+	  $("h6").css("font-size",gutter*3);
 
 
 		corner( $("#optionsScreen a"), gutter*2);
