@@ -200,7 +200,7 @@ var View = function(model_in){
 
 	function showCharacter(id){
 		if (!id) id=1;
-		$(".characterHolder img").attr("src", "img/characters/c"+id+".png");
+		$(".characterHolder img").attr("src", "img/characters/c"+id+".jpg");
 	}
 
 	this.showGame = function(){
