@@ -3,6 +3,7 @@ var Model = function(){
 	var currentlyInChallenge;
 	var characters;
 	var view;
+	var phonegap;
 	var players;
 	var initFacts=0;
 	var maxScore;
@@ -11,20 +12,21 @@ var Model = function(){
   this.init = function(){
 		characters = new Characters();
 		players = new Players();
-		view = new View(this);
+		phonegap = new Phonegap();
+		view = new View(this, phonegap);
 		view.showMenu();
-		//this.startGame(3,7,1,5,20,.7,4);
+		//this.startGame(3,7,1,5,20,.7,4,"photo");
 		//view.showChallengePlayers(1);
   }
 
 	///////////////////// TURN MANAGEMENT 
-	this.startGame = function(numPlayers, maxS, initF, initChars, maxChars, chanceOfUnnamed, turnsBeforeRepeat){
+	this.startGame = function(numPlayers, maxS, initF, initChars, maxChars, chanceOfUnnamed, turnsBeforeRepeat, playerIconType){
 		this.isGameInProgress=true;
 		this.maxScore=maxS;
 		players.setPlayers(numPlayers);
 		characters = new Characters();
 	  characters.setValues(initChars, 79, maxChars, chanceOfUnnamed, turnsBeforeRepeat);
-		view.startGame(players.all, this.maxScore);
+		view.startGame(players.all, this.maxScore, playerIconType);
 		currentlyInChallenge = false;
 		initFacts=initF;
 		this.startTurn();
@@ -43,10 +45,7 @@ var Model = function(){
 		}
 	}
 
-	this.submitFact = function(){
-		var factRef = "*"+characters.currentCharacter.index +":"+characters.getCurrentFactIndex()+"*";
-		characters.setFact(factRef);
-
+	this.introComplete = function(){
 		if (characters.getNumberOfFacts()<initFacts) {
 			view.showIntro(players.activePlayer.index, characters.currentCharacter.index, characters.getFactPrompt());
 		}
@@ -93,6 +92,35 @@ var Model = function(){
 		view.showGuess(players.activePlayer.index, characters.currentCharacter, true);
 	}
 
+	this.playCurrentFactForCurrentCharacter = function(){
+		var characterIndex = characters.currentCharacter.index;
+		var factIndex = characters.getCurrentFactIndex();
+		this.playFact(characterIndex, factIndex);
+	}
+
+	this.playAllFactsForCurrentCharacter = function(){
+		var characterIndex = characters.currentCharacter.index;
+		console.log("play audio for character :"+characterIndex);
+	}
+	this.playFact = function(characterIndex, factIndex){
+		console.log("play audio for character fact "+characterIndex+"_"+factIndex);
+	}
+
+	this.takePlayerPhoto = function(cameraPlayerIndex, cameraShootCallback){
+		phonegap.takePlayerPhoto(cameraPlayerIndex, cameraShootCallback);
+	}
+	this.startRecordingCharacterFact = function(){
+		phonegap.startRecordingCharacterFact();
+	}
+	this.stopRecordingCharacterFact = function(callback){
+		var characterIndex = characters.currentCharacter.index;
+		var factIndex = characters.getCurrentFactIndex();
+		phonegap.stopRecordingCharacterFact(characterIndex, factIndex, function(){
+			var factRef = "*"+characters.currentCharacter.index +":"+characters.getCurrentFactIndex()+"*";
+			characters.setFact(factRef);
+			callback();
+		});
+	}
 }
 var model = new Model();
 model.init();

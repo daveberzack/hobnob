@@ -1,15 +1,17 @@
 <widget id="com.daveberzack.hobnob" version="0.0.1">
+
     <name>HobNob</name>
-    <description>
-      The Game about Making Friends
-    </description>
-    <author email="daveberzack@gmail.com" href="http://daveberzack.com">
-	    Dave Berzack
-    </author>
+    <description>The Game about Making Friends</description>
+    <author email="daveberzack@gmail.com" href="http://daveberzack.com">Dave Berzack</author>
     <content src="index.html" />
     <access origin="*" />
+
+    <gap:plugin name="Camera" value="org.apache.cordova.core.CameraLauncher" />
+    <gap:plugin name="Media" value="org.apache.cordova.core.AudioHandler" />
+    <gap:plugin name="Capture" value="org.apache.cordova.core.Capture" />
 
     <preference name="android-minSdkVersion" value="14" />
     <preference name="orientation" value="portrait" />
     <preference name="fullscreen" value="true" />
+
 </widget>

@@ -39,7 +39,9 @@
 					  <h5 id="factLabel1">What is this character's</h5>
 					  <h3 id="factLabel2">Name?</h3>
 				  </div>
-				  <a href="#" id="introLink"><img src="img/record.jpg"/></a>
+				  <a href="#" id="introRecord"><img src="img/record.jpg"/></a>
+				  <a href="#" id="introPlay"><img src="img/play.jpg"/></a>
+					<a href="#" id="introNext"><img src="img/right.jpg"/></a>
 				</div>
 			</div>
 		</div>
@@ -53,6 +55,7 @@
 </div>
 
 <div id="menuScreen" class="screen">
+
 	<p>
 		Main Menu...
 		<a href="#" class="continueGameLink">Continue Game</a><br/>
@@ -60,6 +63,18 @@
 		<a href="#" class="instructionsLink">How to Play</a><br/>
 		<a href="#" class="hintsLink">Tip to Remember Names</a><br/>
 	</p>
+
+
+
+
+    <button onclick="capturePhoto();">Capture Photo</button> <br>
+    <button onclick="capturePhotoEdit();">Capture Editable Photo</button> <br>
+    <button onclick="getPhoto(pictureSource.PHOTOLIBRARY);">From Photo Library</button><br>
+    <button onclick="getPhoto(pictureSource.SAVEDPHOTOALBUM);">From Photo Album</button><br>
+    <img style="display:none;width:60px;height:60px;" id="smallImage" src="" />
+    <img style="display:none;" id="largeImage" src="" />
+
+
 </div>
 
 <div id="instructionsScreen" class="screen">
@@ -114,11 +129,18 @@
   </div>
 
 	<a href="#" class="startGameLink">Start Game</a>
+	<a href="#" class="cameraLink">Take Photos</a>
 </div>
 
-<div id="playersScreen" class="screen">
-
+<div id="cameraScreen" class="screen">
+  <h3>Player 1:</h3>
+	<a href="#" class="cameraShootLink">Take Picture!</a><br/>
+	<a href="#" class="cameraNextLink">Next Player</a><br/>
+	<a href="#" class="startGameLink">Start Game</a><br/>
+  </p>
 </div>
+
+
 <div id="winScreen" class="screen">
  <h3>Player # Won!</h3>
 	<a href="#" class="newGameLink">Start a New Game</a><br/>
@@ -130,6 +152,7 @@
 <script src="players.js"></script>
 <script src="characters.js"></script>
 <script src="view.js"></script>
+<script src="phonegap.js"></script>
 <script src="model.js"></script>
 
 </body>

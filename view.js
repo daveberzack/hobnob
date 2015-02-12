@@ -15,6 +15,9 @@ var View = function(model_in){
 	var view = this;
   var maxPoints;
   var numPlayers;
+  var playerIconType="number";
+  var isRecording=false;
+  var cameraPlayerIndex;
 
 	/////////// updating view
 
@@ -120,15 +123,19 @@ var View = function(model_in){
   }
   $(window).resize(doResize);
 
-	this.startGame = function(players, maxPointsIn){
+	this.startGame = function(players, maxPointsIn, playerIconTypeIn){
 		numPlayers = players.length;
 		maxPoints = maxPointsIn;
+		playerIconType = playerIconTypeIn;
 
 		var playersHtml="";
 		var challengeHtml="";
 		for (var p=0; p<players.length; p++){
-			playersHtml+='<div class="playerTab playerTab'+p+'"><img class="picture" src="img/players/player'+p+'.jpg"/><div class="score"></div></div>';
-			challengeHtml+='<a href="#" class="challengePlayer challengePlayer'+p+'" data-index="'+p+'"><img src="img/players/player'+p+'.jpg"></a>';
+			var img = "img/players_numbers/player"+p+".jpg";
+			if (playerIconType=="animal") img = "img/players_animals/player"+p+".jpg";
+			if (playerIconType=="photo") img = "img/players_temp/player"+p+".jpg";
+			playersHtml+='<div class="playerTab playerTab'+p+'"><img class="picture" src="'+img+'"/><div class="score"></div></div>';
+			challengeHtml+='<a href="#" class="challengePlayer challengePlayer'+p+'" data-index="'+p+'"><img src="'+img+'"></a>';
 		}
 		$(".players").html(playersHtml);
 		$("#challengeOptions").html(challengeHtml);
@@ -203,10 +210,27 @@ var View = function(model_in){
 		$(".characterHolder img").attr("src", "img/characters/c"+id+".jpg");
 	}
 
+	function toggleRecording(){
+		if (isRecording){
+			model.stopRecordingCharacterFact( 
+				function(){
+						$("#introRecord img").attr("src","img/record.jpg");
+						isRecording=false;
+				}
+			);
+		}
+		else  {
+			$("#introRecord img").attr("src","img/stop.jpg");
+			isRecording=true;
+			model.startRecordingCharacterFact();
+		}
+	}
+
 	this.showGame = function(){
 		showScreen("game");
 	}
 	this.showOptions = function(){
+		optionClick( $() );
 		showScreen("options");
 	}
 	this.showInstructions = function(){
@@ -215,12 +239,34 @@ var View = function(model_in){
 	this.showHints = function(){
 		showScreen("hints")
 	}
-	this.showPlayers = function(){
-		showScreen("players")
+	this.showCamera = function(){
+		numPlayers = $("#optionsPlayers .chosen").attr("data-value");
+		showScreen("camera");
+		cameraPlayerIndex=-1;
+		cameraNext();
 	}
 	this.showMenu = function(){
 		toggleContinueLinks();
 		showScreen("menu");
+	}
+
+	function takePlayerPhoto(){
+		model.takePlayerPhoto(cameraPlayerIndex, takePlayerPhotoCallback);
+	}
+	function takePlayerPhotoCallback(){
+		console.log("took photo. now show it as preview.");
+	}
+	function cameraNext(){
+		cameraPlayerIndex++;
+		if (cameraPlayerIndex>=numPlayers) {
+			$("#cameraScreen .startGameLink").show();
+			$("#cameraScreen .cameraNextLink").hide();
+		}
+		else {
+			$("#cameraScreen .startGameLink").hide();
+			$("#cameraScreen .cameraNextLink").show();
+		}
+		$("#cameraScreen h3").html("player "+(cameraPlayerIndex+1) );
 	}
 
 	this.showChallengePlayers = function(currentPlayerIndex){
@@ -279,10 +325,19 @@ var View = function(model_in){
 		model.startGame(numPlayers, maxScore, initFacts, initChars, maxChars, chanceOfUnnamed, turnsBeforeRepeat);
 	}
 
-	$("#optionsScreen a").click(function(){
-		$(this).siblings().removeClass("chosen");
-		$(this).addClass("chosen");
-	})
+	function optionClick(me){
+		me.siblings().removeClass("chosen");
+		me.addClass("chosen");
+
+		if ( $("#optionsIcons1").hasClass("chosen") ){
+			$("#optionsScreen .startGameLink").hide();
+			$("#optionsScreen .cameraLink").show();
+		}
+		else {
+			$("#optionsScreen .startGameLink").show();
+			$("#optionsScreen .cameraLink").hide();
+		}
+	}
 
 	///////////////////// click handlers
 	$(".newGameLink").click( function(){ view.showOptions() });
@@ -290,13 +345,19 @@ var View = function(model_in){
 	$(".startGameLink").click( function(){ startGameClicked() });
 	$(".menuLink").click( function(){ view.showMenu() });
 	$(".instructionsLink").click( function(){ view.showInstructions() });
+	$(".cameraLink").click( function(){ view.showCamera() });
 	$(".hintsLink").click( function(){ view.showHints() });
+	$(".cameraShootLink").click( function(){ takePlayerPhoto() });
+	$(".cameraNextLink").click( function(){ cameraNext() });
 
-	$("#introLink").click( function(){ model.submitFact() });
-	$("#guessCheck").click( function(){ model.checkInfo() });
+	$("#introRecord").click( function(){ toggleRecording() });
+	$("#introPlay").click( function(){ model.playCurrentFactForCurrentCharacter() });
+	$("#introNext").click( function(){ model.introComplete(); });
+	$("#guessCheck").click( function(){ model.playAllFactsForCurrentCharacter() });
 	$("#guessCorrect").click( function(){ model.submitCorrect() });
 	$("#guessIncorrect").click( function(){ model.submitIncorrect() });
 	$("#guessChallenge").click( function(){ model.showChallengePlayers() });
+	$("#optionsScreen a").click(function(){ optionClick( $(this) ) });
 	
 }
 
