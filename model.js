@@ -109,7 +109,7 @@ var Model = function(){
 	this.takePlayerPhoto = function(cameraPlayerIndex){
 		media.takePlayerPhoto(cameraPlayerIndex, view.setPlayerPicture);
 	}
-	
+
 	this.startRecordingCharacterFact = function(){
 		media.startRecordingCharacterFact();
 	}
@@ -126,6 +126,12 @@ var Model = function(){
 var model = new Model();
 model.init();
 
+if (navigator.device.capture){
+	alert("audio");
+}
+else {
+	alert("no audio");
+}
 
 function getParam(name, defaultVal) {
     name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
