@@ -3,7 +3,7 @@ var Model = function(){
 	var currentlyInChallenge;
 	var characters;
 	var view;
-	var phonegap;
+	var media;
 	var players;
 	var initFacts=0;
 	var maxScore;
@@ -12,8 +12,8 @@ var Model = function(){
   this.init = function(){
 		characters = new Characters();
 		players = new Players();
-		phonegap = new Phonegap();
-		view = new View(this, phonegap);
+		media = new Media(this);
+		view = new View(this);
 		view.showMenu();
 		//this.startGame(3,7,1,5,20,.7,4,"photo");
 		//view.showChallengePlayers(1);
@@ -106,16 +106,17 @@ var Model = function(){
 		console.log("play audio for character fact "+characterIndex+"_"+factIndex);
 	}
 
-	this.takePlayerPhoto = function(cameraPlayerIndex, cameraShootCallback){
-		phonegap.takePlayerPhoto(cameraPlayerIndex, cameraShootCallback);
+	this.takePlayerPhoto = function(cameraPlayerIndex){
+		media.takePlayerPhoto(cameraPlayerIndex, view.setPlayerPicture);
 	}
+	
 	this.startRecordingCharacterFact = function(){
-		phonegap.startRecordingCharacterFact();
+		media.startRecordingCharacterFact();
 	}
 	this.stopRecordingCharacterFact = function(callback){
 		var characterIndex = characters.currentCharacter.index;
 		var factIndex = characters.getCurrentFactIndex();
-		phonegap.stopRecordingCharacterFact(characterIndex, factIndex, function(){
+		media.stopRecordingCharacterFact(characterIndex, factIndex, function(){
 			var factRef = "*"+characters.currentCharacter.index +":"+characters.getCurrentFactIndex()+"*";
 			characters.setFact(factRef);
 			callback();

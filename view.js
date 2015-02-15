@@ -14,7 +14,7 @@ var View = function(model_in){
 	var model = model_in;
 	var view = this;
   var maxPoints;
-  var numPlayers;
+  var numPlayers=4;
   var playerIconType="number";
   var isRecording=false;
   var cameraPlayerIndex;
@@ -106,6 +106,10 @@ var View = function(model_in){
 		$(".characterHolder").css({"margin-top":gutter*2, "margin-bottom":gutter*4, "border-width":gutter, "height":characterHeight, "margin-left":gutter*2, "margin-right":gutter*2});
 		corner( $(".characterHolder"), gutter*4);
 
+    var cameraPicWidth = (winW-gutter*6)/2;
+    var cameraPicHeight = (winH - gutter*20) / Math.ceil(numPlayers/2) - gutter*2;
+		$("#cameraScreen .pic").css({"margin-left":gutter*2, "margin-top":gutter*2, "width": Math.min(cameraPicWidth, cameraPicHeight), "height": Math.min(cameraPicWidth, cameraPicHeight) })
+
 		$("#control").css({"border-width":gutter, "margin-left":gutter*2, "margin-right":gutter*2});		
 		corner( $("#control .title"), gutter*2);
 		corner( $("#control"), gutter*4);
@@ -127,20 +131,8 @@ var View = function(model_in){
 		numPlayers = players.length;
 		maxPoints = maxPointsIn;
 		playerIconType = playerIconTypeIn;
-
-		var playersHtml="";
-		var challengeHtml="";
-		for (var p=0; p<players.length; p++){
-			var img = "img/players_numbers/player"+p+".jpg";
-			if (playerIconType=="animal") img = "img/players_animals/player"+p+".jpg";
-			if (playerIconType=="photo") img = "img/players_temp/player"+p+".jpg";
-			playersHtml+='<div class="playerTab playerTab'+p+'"><img class="picture" src="'+img+'"/><div class="score"></div></div>';
-			challengeHtml+='<a href="#" class="challengePlayer challengePlayer'+p+'" data-index="'+p+'"><img src="'+img+'"></a>';
-		}
-		$(".players").html(playersHtml);
-		$("#challengeOptions").html(challengeHtml);
-		$("#challenge .challengePlayer").click(function(){ model.submitChallenge( $(this).attr("data-index") ); });
-
+		
+		setPlayerHtml();
 
 		showScreen("game");
 		$("#challenge").hide();
@@ -226,6 +218,29 @@ var View = function(model_in){
 		}
 	}
 
+	function setPlayerHtml(){
+		var playersHtml="";
+		var challengeHtml="";
+		var cameraHtml="";
+		for (var p=0; p<numPlayers; p++){
+			var img = "img/players_numbers/player"+p+".jpg";
+			if (playerIconType=="animal") img = "img/players_animals/player"+p+".jpg";
+			if (playerIconType=="photo") img = "img/players_temp/player"+p+".jpg";
+			playersHtml+='<div class="playerTab playerTab'+p+'"><img class="picture" src="'+img+'"/><div class="score"></div></div>';
+			challengeHtml+='<a href="#" class="challengePlayer challengePlayer'+p+'" data-index="'+p+'"><img src="'+img+'"></a>';
+  		cameraHtml += '<a href="#" class="pic" id="pic'+p+'" data-index="'+p+'"><img src="img/cameraTemp.jpg"/></a>';
+  		if (p%2!=0) cameraHtml += '<br/>';
+		}
+		$(".players").html(playersHtml);
+		$("#challengeOptions").html(challengeHtml);
+		$("#cameraOptions").html(cameraHtml);
+
+		$("#challenge .challengePlayer").click(function(){ model.submitChallenge( $(this).attr("data-index") ); });
+		$("#cameraScreen .pic").click( function(){ takePlayerPhoto( $(this).data("index") ) });
+
+		this.doResize();
+	}
+
 	this.showGame = function(){
 		showScreen("game");
 	}
@@ -242,31 +257,19 @@ var View = function(model_in){
 	this.showCamera = function(){
 		numPlayers = $("#optionsPlayers .chosen").attr("data-value");
 		showScreen("camera");
-		cameraPlayerIndex=-1;
-		cameraNext();
+		setPlayerHtml();
 	}
 	this.showMenu = function(){
 		toggleContinueLinks();
 		showScreen("menu");
 	}
 
-	function takePlayerPhoto(){
-		model.takePlayerPhoto(cameraPlayerIndex, takePlayerPhotoCallback);
+	function takePlayerPhoto(playerIndex){
+		model.takePlayerPhoto(playerIndex);
 	}
-	function takePlayerPhotoCallback(){
-		console.log("took photo. now show it as preview.");
-	}
-	function cameraNext(){
-		cameraPlayerIndex++;
-		if (cameraPlayerIndex>=numPlayers) {
-			$("#cameraScreen .startGameLink").show();
-			$("#cameraScreen .cameraNextLink").hide();
-		}
-		else {
-			$("#cameraScreen .startGameLink").hide();
-			$("#cameraScreen .cameraNextLink").show();
-		}
-		$("#cameraScreen h3").html("player "+(cameraPlayerIndex+1) );
+	this.setPlayerPicture = function(playerIndex, imageReference){
+		model.debug("setPlayerPicture:"+playerIndex+":"+imageReference);
+		$("#cameraOptions #pic"+playerIndex).attr("src", imageReference);
 	}
 
 	this.showChallengePlayers = function(currentPlayerIndex){
@@ -298,7 +301,6 @@ var View = function(model_in){
 
 	function startGameClicked(){
 		var numPlayers = $("#optionsPlayers .chosen").attr("data-value");
-
 		var maxScores = [0,13,9,8,6,5,4,3,3];
 		var maxScores = [0,2,2,2,2,2,2,2,2];
 		var maxScore = maxScores[numPlayers];
@@ -347,9 +349,6 @@ var View = function(model_in){
 	$(".instructionsLink").click( function(){ view.showInstructions() });
 	$(".cameraLink").click( function(){ view.showCamera() });
 	$(".hintsLink").click( function(){ view.showHints() });
-	$(".cameraShootLink").click( function(){ takePlayerPhoto() });
-	$(".cameraNextLink").click( function(){ cameraNext() });
-
 	$("#introRecord").click( function(){ toggleRecording() });
 	$("#introPlay").click( function(){ model.playCurrentFactForCurrentCharacter() });
 	$("#introNext").click( function(){ model.introComplete(); });

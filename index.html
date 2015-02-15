@@ -64,17 +64,6 @@
 		<a href="#" class="hintsLink">Tip to Remember Names</a><br/>
 	</p>
 
-
-
-
-    <button onclick="capturePhoto();">Capture Photo</button> <br>
-    <button onclick="capturePhotoEdit();">Capture Editable Photo</button> <br>
-    <button onclick="getPhoto(pictureSource.PHOTOLIBRARY);">From Photo Library</button><br>
-    <button onclick="getPhoto(pictureSource.SAVEDPHOTOALBUM);">From Photo Album</button><br>
-    <img style="display:none;width:60px;height:60px;" id="smallImage" src="" />
-    <img style="display:none;" id="largeImage" src="" />
-
-
 </div>
 
 <div id="instructionsScreen" class="screen">
@@ -133,9 +122,8 @@
 </div>
 
 <div id="cameraScreen" class="screen">
-  <h3>Player 1:</h3>
-	<a href="#" class="cameraShootLink">Take Picture!</a><br/>
-	<a href="#" class="cameraNextLink">Next Player</a><br/>
+  <h3>Take photos:</h3>
+  <div id="cameraOptions"/></div>
 	<a href="#" class="startGameLink">Start Game</a><br/>
   </p>
 </div>
@@ -147,12 +135,14 @@
 	<a href="#" class="menuLink">Back to Main Screen</a><br/>
 </div>
 
-<div id="overlay"></div>
+<div id="debug"></div>
+
 <script src="jquery-2.1.3.min.js"></script>
+<script src="phonegap.js"></script>
 <script src="players.js"></script>
 <script src="characters.js"></script>
 <script src="view.js"></script>
-<script src="phonegap.js"></script>
+<script src="media.js"></script>
 <script src="model.js"></script>
 
 </body>

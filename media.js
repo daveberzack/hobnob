@@ -1,9 +1,34 @@
-var Phonegap = function(){
+var Media = function(model_in){
+  var model=model_in;
+
+  function showAlert(message, title) {
+    $("#debug").append("<br/>"+title+":"+message);
+    //if (navigator.notification) navigator.notification.alert("*Native*:"+message, null, title, 'OK');
+    //else alert("*Alert*:"+title + " - " + message);
+  }
 
 	this.takePlayerPhoto = function(playerIndex, callback){
-		console.log("take photo with camera and save it in an accessible folder as player"+playerIndex+".jpg");
-		callback();
-	}
+
+    if (!navigator.camera) {
+      showAlert("Camera API problem", "Error");
+      return;
+    }
+
+    var options = { quality: 50, destinationType: Camera.DestinationType.FILE_URI, sourceType: 1, encodingType: 0 };  // sournce: 0:Photo Library, 1=Camera, 2=Saved Photo Album  // encoding: 0=JPG 1=PNG
+    showAlert("Take picture", "Log");
+
+    navigator.camera.getPicture(
+      function(imageReference) {
+        showAlert('Success taking picture: '+playerIndex+" ... "+imageReference, 'Success'); 
+        $("#pic"+playerIndex+" img").attr('src', imageReference);
+        callback(playerIndex, imageReference);
+      },
+      function() { 
+        showAlert('Error taking picture', 'Error'); 
+      }, 
+      options
+    );
+  }
 
 	this.startRecordingCharacterFact = function(){
 		console.log("start recording audio")
@@ -16,7 +41,7 @@ var Phonegap = function(){
 	
 }
 
-
+/*
 
     var pictureSource;   // picture source
     var destinationType; // sets the format of returned value
@@ -44,40 +69,14 @@ var Phonegap = function(){
       smallImage.src = "data:image/jpeg;base64," + imageData;
     }
 
-    // Called when a photo is successfully retrieved
-    function onPhotoURISuccess(imageURI) {
-      console.log(imageURI);
-
-      // Get image handle
-      var largeImage = document.getElementById('largeImage');
-
-      // Unhide image elements
-      largeImage.style.display = 'block';
-
-      // Show the captured photo ... The in-line CSS rules are used to resize the image
-      largeImage.src = imageURI;
-    }
-
-    // A button will call this function      // Take picture using device camera and retrieve image as base64-encoded string
-    function capturePhoto() {
-      navigator.camera.getPicture(onPhotoDataSuccess, onFail, { quality: 50,
-        destinationType: destinationType.DATA_URL });
-    }
-
-    // A button will call this function      // Take picture using device camera, allow edit, and retrieve image as base64-encoded string
-    function capturePhotoEdit() {
-
-      navigator.camera.getPicture(onPhotoDataSuccess, onFail, { quality: 20, allowEdit: true,
-        destinationType: destinationType.DATA_URL });
-    }
-
-    // A button will call this function // Retrieve image file location from specified source
-    function getPhoto(source) {
-      navigator.camera.getPicture(onPhotoURISuccess, onFail, { quality: 50,
-        destinationType: destinationType.FILE_URI,
-        sourceType: source });
-    }
-
     function onFail(message) {
       alert('Failed because: ' + message);
     }
+
+
+    // A button will call this function      // Take picture using device camera and retrieve image as base64-encoded string
+    function capturePhoto() {
+      navigator.camera.getPicture(onPhotoDataSuccess, onFail, { quality: 50, destinationType: destinationType.DATA_URL });
+    }
+
+*/

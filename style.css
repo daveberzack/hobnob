@@ -73,6 +73,14 @@ h1,h2,h3,h4,h5,h6 {
 	overflow:hidden;
 	position:relative;
 }
+
+#debug {
+	background:#FFFFFF;
+	color:#000000;
+	padding:5px;
+	opacity:.5;
+	pointer-events:none;
+}
 /* ////////////////////////////////////////////////// MENU SCREEN */
 
 #menuScreen {
@@ -348,4 +356,16 @@ background-repeat:no-repeat;
 #optionsScreen .optionGroup {
 	overflow:hidden;
 	margin:20px;
+}
+
+
+#cameraScreen .pic {
+	display:inline-block;
+	overflow:hidden;
+}
+#cameraOptions {
+	text-align:center;
+}
+#cameraScreen .pic img {
+	width:100%;
 }
