@@ -8,6 +8,7 @@
     <name>HobNob</name>
     <description>The Game about Making Friends</description>
     <author email="hobnob@daveberzack.com" href="http://daveberzack.com">Dave Berzack</author>
+    <icon src="img/icon.png" />
 
     <preference name="android-minSdkVersion" value="14" />
     <preference name="orientation" value="portrait" />
