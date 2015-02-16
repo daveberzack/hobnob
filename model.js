@@ -117,21 +117,19 @@ var Model = function(){
 	}
 	this.stopRecordingCharacterFact = function(){
 		media.stopRecordingCharacterFact();
-
-		/*
-		var characterIndex = characters.currentCharacter.index;
-		var factIndex = characters.getCurrentFactIndex();
-		media.stopRecordingCharacterFact(characterIndex, factIndex, function(){
-			var factRef = "*"+characters.currentCharacter.index +":"+characters.getCurrentFactIndex()+"*";
-			characters.setFact(factRef);
-			callback();
-		});
-		*/
 	}
 	this.characterFactCallback = function(){
 		//nothing yet.
 	}
 
+	this.startPlayingCurrentCharacterFact = function(){
+		var characterIndex = characters.currentCharacter.index;
+		var factIndex = characters.getCurrentFactIndex();
+		media.startPlayingCharacterFact(characterIndex, factIndex);
+	}
+	this.stopPlayingCharacterFact = function(){
+		media.stopPlayingCharacterFact();
+	}
 
   this.showAlert = function(message, title) {
     $("#debug").append("<br/>"+message);

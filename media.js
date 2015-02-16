@@ -50,7 +50,15 @@ var Media = function(model_in){
     model.showAlert("recordAudio():Stop");
     mediaRec.stopRecord();
 
-    setTimeout(function(){ model.showAlert("... "+mediaRec)}, 3000);
+    setTimeout(function(){ mediaRec.play(); }, 3000);
+  }
+  var mediaPlay;
+  this.startPlayingCharacterFact = function(characterIndex, factIndex){
+    mediaPlay = new Media("audio/fact"+characterIndex+"_"+factIndex+".mp3");
+    mediaPlay.play();
+  }
+  this.stopPlayingCharacterFact = function(characterIndex, factIndex){
+    mediaPlay.stop();
   }
 
 	

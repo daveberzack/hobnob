@@ -350,7 +350,7 @@ var View = function(model_in){
 	$(".cameraLink").click( function(){ view.showCamera() });
 	$(".hintsLink").click( function(){ view.showHints() });
 	$("#introRecord").click( function(){ toggleRecording() });
-	$("#introPlay").click( function(){ model.playCurrentFactForCurrentCharacter() });
+	$("#introPlay").click( function(){ model.startPlayingCurrentCharacterFact() });
 	$("#introNext").click( function(){ model.introComplete(); });
 	$("#guessCheck").click( function(){ model.playAllFactsForCurrentCharacter() });
 	$("#guessCorrect").click( function(){ model.submitCorrect() });
