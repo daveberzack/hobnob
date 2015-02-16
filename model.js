@@ -142,12 +142,6 @@ var Model = function(){
 var model = new Model();
 model.init();
 
-if (navigator.device.capture){
-	alert("audio");
-}
-else {
-	alert("no audio");
-}
 
 function getParam(name, defaultVal) {
     name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
