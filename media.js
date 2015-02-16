@@ -33,7 +33,7 @@ var Media = function(model_in){
 
   var audioCallback;
 	this.startRecordingCharacterFact = function(callback){
-    showAlert("AUDIO START");
+    showAlert("AUDIO START:"+navigator.device.capture);
     navigator.device.capture.captureAudio(captureSuccess, captureError, {limit:1, duration:10});
     audioCallback = callback;
 	}
