@@ -33,7 +33,7 @@ var Media = function(model_in){
 
   var mediaRec;
 	this.startRecordingCharacterFact = function(characterIndex, factIndex, callback){
-/*    showAlert("AUDIO START:"+navigator.device.capture.captureAudio);
+/*    
     navigator.device.capture.captureAudio(captureSuccess, audioError, {limit:1, duration:10});
     audioCallback = callback;
 */
@@ -48,6 +48,7 @@ var Media = function(model_in){
       }
     );
 
+    showAlert("AUDIO START:"+mediaRec+":"+mediaRec.startRecord );
     // Record audio
     mediaRec.startRecord();
 	}
