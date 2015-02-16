@@ -34,7 +34,7 @@ var Media = function(model_in){
     mediaRec = new Media(
       "audio/fact"+characterIndex+"_"+factIndex+".mp3",
       function() { // success callback
-          model.showAlert("recordAudio():Audio Success:+" mediaRec.src);
+          model.showAlert("recordAudio():Audio Success:"+mediaRec.src);
           callback();
 
           setTimeout(function(){ mediaRec.play(); }, 3000);
