@@ -204,12 +204,9 @@ var View = function(model_in){
 
 	function toggleRecording(){
 		if (isRecording){
-			model.stopRecordingCharacterFact( 
-				function(){
-						$("#introRecord img").attr("src","img/record.jpg");
-						isRecording=false;
-				}
-			);
+			model.stopRecordingCharacterFact();
+			$("#introRecord img").attr("src","img/record.jpg");
+			isRecording=false;
 		}
 		else  {
 			$("#introRecord img").attr("src","img/stop.jpg");

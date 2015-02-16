@@ -113,10 +113,11 @@ var Model = function(){
 	this.startRecordingCharacterFact = function(){
 		var characterIndex = characters.currentCharacter.index;
 		var factIndex = characters.getCurrentFactIndex();
-		media.startRecordingCharacterFact(characterIndex, factIndex, this.stopRecordingCharacterFact);
+		media.startRecordingCharacterFact(characterIndex, factIndex, this.characterFactCallback);
 	}
 	this.stopRecordingCharacterFact = function(){
-		
+		media.stopRecordingCharacterFact();
+
 		/*
 		var characterIndex = characters.currentCharacter.index;
 		var factIndex = characters.getCurrentFactIndex();
@@ -126,7 +127,9 @@ var Model = function(){
 			callback();
 		});
 		*/
-
+	}
+	this.characterFactCallback = function(){
+		//nothing yet.
 	}
 }
 var model = new Model();

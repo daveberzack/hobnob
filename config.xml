@@ -6,7 +6,7 @@
         version     = "1.1.0">
 
     <name>HobNob</name>
-    <description>The Game about Making Friends</description>
+    <description>The Game of Making Friends</description>
     <author email="hobnob@daveberzack.com" href="http://daveberzack.com">Dave Berzack</author>
     <icon src="img/icon.png" />
 

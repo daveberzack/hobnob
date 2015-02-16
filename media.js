@@ -38,7 +38,7 @@ var Media = function(model_in){
     audioCallback = callback;
 */
     mediaRec = new Media(
-      "myrecording.mp3",
+      "audio/fact"+characterIndex+"_"+factIndex+".mp3",
       function() { // success callback
           showAlert("recordAudio():Audio Success");
           callback();
@@ -55,14 +55,8 @@ var Media = function(model_in){
   this.stopRecordingCharacterFact = function(){
     showAlert("recordAudio():Stop");
     mediaRec.stopRecord();
-  }
 
-  function audioError(){
-    showAlert("AUDIO ERROR");
-  }
-  function audioSuccess(audioFile){
-    showAlert( "AUDIO SUCCESS:"+audioFile.fullPath );
-    audioCallback();
+    setTimeout(function(){ showAlert("... "+mediaRec)}, 3000);
   }
 
 	this.stopRecordingCharacterFact = function(characterIndex, factIndex, callback){
