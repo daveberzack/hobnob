@@ -34,8 +34,10 @@ var Media = function(model_in){
     mediaRec = new Media(
       "audio/fact"+characterIndex+"_"+factIndex+".mp3",
       function() { // success callback
-          model.showAlert("recordAudio():Audio Success");
+          model.showAlert("recordAudio():Audio Success:+" mediaRec.src);
           callback();
+
+          setTimeout(function(){ mediaRec.play(); }, 3000);
       },
       function(err) {        // error callback
           model.showAlert("recordAudio():Audio Error: "+ err.code);
@@ -50,10 +52,10 @@ var Media = function(model_in){
     model.showAlert("recordAudio():Stop");
     mediaRec.stopRecord();
 
-    setTimeout(function(){ mediaRec.play(); }, 3000);
   }
   var mediaPlay;
   this.startPlayingCharacterFact = function(characterIndex, factIndex){
+    model.showAlert("playAudio():"+characterIndex+"_"+factIndex);
     mediaPlay = new Media("audio/fact"+characterIndex+"_"+factIndex+".mp3");
     mediaPlay.play();
   }
