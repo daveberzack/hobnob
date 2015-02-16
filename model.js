@@ -111,9 +111,12 @@ var Model = function(){
 	}
 
 	this.startRecordingCharacterFact = function(){
-		media.startRecordingCharacterFact(this.stopRecordingCharacterFact);
+		var characterIndex = characters.currentCharacter.index;
+		var factIndex = characters.getCurrentFactIndex();
+		media.startRecordingCharacterFact(characterIndex, factIndex, this.stopRecordingCharacterFact);
 	}
 	this.stopRecordingCharacterFact = function(){
+		
 		/*
 		var characterIndex = characters.currentCharacter.index;
 		var factIndex = characters.getCurrentFactIndex();
@@ -123,7 +126,7 @@ var Model = function(){
 			callback();
 		});
 		*/
-		
+
 	}
 }
 var model = new Model();

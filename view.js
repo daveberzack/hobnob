@@ -203,7 +203,6 @@ var View = function(model_in){
 	}
 
 	function toggleRecording(){
-		/*
 		if (isRecording){
 			model.stopRecordingCharacterFact( 
 				function(){
@@ -213,11 +212,10 @@ var View = function(model_in){
 			);
 		}
 		else  {
-			*/
-			//$("#introRecord img").attr("src","img/stop.jpg");
-			//isRecording=true;
+			$("#introRecord img").attr("src","img/stop.jpg");
+			isRecording=true;
 			model.startRecordingCharacterFact();
-		//}
+		}
 	}
 
 	function setPlayerHtml(){

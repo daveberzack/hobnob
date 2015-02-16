@@ -31,12 +31,30 @@ var Media = function(model_in){
   }
 
 
-  var audioCallback;
-	this.startRecordingCharacterFact = function(callback){
-    showAlert("AUDIO START:"+navigator.device.capture.captureAudio);
-    navigator.device.capture.captureAudio(audioSuccess, audioError, {limit:1, duration:10});
+  var mediaRec;
+	this.startRecordingCharacterFact = function(characterIndex, factIndex, callback){
+/*    showAlert("AUDIO START:"+navigator.device.capture.captureAudio);
+    navigator.device.capture.captureAudio(captureSuccess, audioError, {limit:1, duration:10});
     audioCallback = callback;
+*/
+    mediaRec = new Media(
+      "myrecording.mp3",
+      function() { // success callback
+          showAlert("recordAudio():Audio Success");
+          callback();
+      },
+      function(err) {        // error callback
+          showAlert("recordAudio():Audio Error: "+ err.code);
+      }
+    );
+
+    // Record audio
+    mediaRec.startRecord();
 	}
+  this.stopRecordingCharacterFact = function(){
+    showAlert("recordAudio():Stop");
+    mediaRec.stopRecord();
+  }
 
   function audioError(){
     showAlert("AUDIO ERROR");
