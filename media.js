@@ -1,12 +1,6 @@
 var Media = function(model_in){
   var model=model_in;
 
-  function showAlert(message, title) {
-    $("#debug").append("<br/>"+message);
-    //if (navigator.notification) navigator.notification.alert("*Native*:"+message, null, title, 'OK');
-    //else alert("*Alert*:"+title + " - " + message);
-  }
-
 	this.takePlayerPhoto = function(playerIndex, callback){
 
     if (!navigator.camera) {

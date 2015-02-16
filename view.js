@@ -35,6 +35,8 @@ var View = function(model_in){
 	  var topButtonWidth = winW - (tabWidth+gutter)*numPlayers - gutter*2;
 
 	  $("#addInfo, #guess").css("height","");
+	  $("body").css("font-size",gutter*5);
+
 	  $("#addInfo >.inner").css("padding-top", gutter*2 );
 	  var controlHeight = Math.max($("#addInfo").height(), $("#guess").height() )
 	  $("#addInfo, #guess").height(controlHeight);
@@ -114,12 +116,13 @@ var View = function(model_in){
 		corner( $("#control .title"), gutter*2);
 		corner( $("#control"), gutter*4);
 	  $("#addInfo >.inner").css("padding-top", (controlHeight-$("#addInfo >.inner"))/2  );
-	  $("#control .title").css({"font-size":gutter*4, "top":(-3)*gutter, "left":gutter});
-	  
+	  $("#control .title").css({"top":(-3)*gutter, "left":gutter});
+	  /*
 	  $("p").css("font-size",gutter*4);
 	  $("h3").css("font-size",gutter*11);
 	  $("h5").css("font-size",gutter*4);
 	  $("h6").css("font-size",gutter*3);
+	  */
 
 
 		corner( $("#optionsScreen a"), gutter*2);
