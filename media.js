@@ -30,9 +30,21 @@ var Media = function(model_in){
     );
   }
 
-	this.startRecordingCharacterFact = function(){
-		console.log("start recording audio")
+
+  var audioCallback;
+	this.startRecordingCharacterFact = function(callback){
+    showAlert("AUDIO START");
+    navigator.device.capture.captureAudio(captureSuccess, captureError, {limit:1, duration:10});
+    audioCallback = callback;
 	}
+
+  function audioError(){
+    showAlert("AUDIO ERROR");
+  }
+  function audioSuccess(audioFile){
+    showAlert( "AUDIO SUCCESS:"+audioFile.fullPath );
+    audioCallback();
+  }
 
 	this.stopRecordingCharacterFact = function(characterIndex, factIndex, callback){
 		console.log("stop recording audio and save it in an accessible folder as fact"+characterIndex+"_"+factIndex+".mp3");

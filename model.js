@@ -14,8 +14,8 @@ var Model = function(){
 		players = new Players();
 		media = new Media(this);
 		view = new View(this);
-		view.showMenu();
-		//this.startGame(3,7,1,5,20,.7,4,"photo");
+		//view.showMenu();
+		this.startGame(3,7,1,5,20,.7,4,"photo");
 		//view.showChallengePlayers(1);
   }
 
@@ -111,9 +111,10 @@ var Model = function(){
 	}
 
 	this.startRecordingCharacterFact = function(){
-		media.startRecordingCharacterFact();
+		media.startRecordingCharacterFact(this.stopRecordingCharacterFact);
 	}
-	this.stopRecordingCharacterFact = function(callback){
+	this.stopRecordingCharacterFact = function(){
+		/*
 		var characterIndex = characters.currentCharacter.index;
 		var factIndex = characters.getCurrentFactIndex();
 		media.stopRecordingCharacterFact(characterIndex, factIndex, function(){
@@ -121,6 +122,8 @@ var Model = function(){
 			characters.setFact(factRef);
 			callback();
 		});
+		*/
+		
 	}
 }
 var model = new Model();
