@@ -9,7 +9,7 @@ var View = function(model_in){
 		{light:"#b7e6f4", dark:"#043543"},
 		{light:"#b7b7b7", dark:"#3d3d3d"},
 		{light:"#f0f1d7", dark:"#353119"}
-	];  
+	];
 
 	var model = model_in;
 	var view = this;
