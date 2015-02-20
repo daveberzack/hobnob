@@ -340,7 +340,7 @@ var View = function(model_in){
 			$("#optionsScreen .cameraLink").hide();
 		}
 	}
- 
+  
 	///////////////////// click handlers
 	$(".newGameLink").click( function(){ view.showOptions() });
 	$(".continueGameLink").click( function(){ view.showGame() });
