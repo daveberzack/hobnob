@@ -98,10 +98,26 @@ var Model = function(){
 		this.playFact(characterIndex, factIndex);
 	}
 
+	var factIndexToPlay = 0;
 	this.playAllFactsForCurrentCharacter = function(){
-		var characterIndex = characters.currentCharacter.index;
-		console.log("play audio for character :"+characterIndex);
+		factIndexToPlay = -1;
+		playNextFactForCurrentCharacter();
 	}
+
+	this.playNextFactForCurrentCharacter = function(){
+		factIndexToPlay++;
+		var character = characters.currentCharacter;
+		if (factIndexToPlay>=characters.FACT_TYPES.length){
+			return;
+		} 
+		else if (character.facts[factIndexToPlay] == ""){
+			this.playNextFactForCurrentCharacter
+		}
+		else {
+			startPlayingCurrentCharacterFact(character.index, factIndexToPlay, this.playNextFactForCurrentCharacter);
+		}
+	}
+
 	this.playFact = function(characterIndex, factIndex){
 		console.log("play audio for character fact "+characterIndex+"_"+factIndex);
 	}
@@ -131,8 +147,11 @@ var Model = function(){
 		media.stopPlayingCharacterFact();
 	}
 
+	var timeout;
   this.showAlert = function(message, title) {
     $("#debug").append("<br/>"+message);
+    if (timeout) clearTimeout(timeout);
+    timeout = setTimeout(function(){ $("#debug").html(""); }, 3000 );
     //if (navigator.notification) navigator.notification.alert("*Native*:"+message, null, title, 'OK');
     //else alert("*Alert*:"+title + " - " + message);
   }

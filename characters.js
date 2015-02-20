@@ -7,7 +7,7 @@ var Characters = function(){
 	var initialCharactersNamed=4;
 
 	//////// THE TYPES OF FACTS THAT CAN BE INTRODUCED
-	var FACT_TYPES = [
+	this.FACT_TYPES = [
 		{label:"Name",prompt:"Name"},
 		{label:"Job",prompt:"Job"},
 		{label:"Hobby",prompt:"Hobby"},
@@ -52,7 +52,7 @@ var Characters = function(){
   	while (this.currentCharacter.facts[currentFactIndex]!=""){
   		currentFactIndex = Math.floor( Math.random()*4 +1);
   	}
-  	return FACT_TYPES[ currentFactIndex ].prompt;
+  	return this.FACT_TYPES[ currentFactIndex ].prompt;
   }
 
   this.getNumberOfFacts = function(){

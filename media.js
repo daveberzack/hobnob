@@ -49,15 +49,17 @@ var Media = function(model_in){
 
   }
   //var mediaPlay;
-  this.startPlayingCharacterFact = function(characterIndex, factIndex){
+  this.startPlayingCharacterFact = function(characterIndex, factIndex, callback){
     model.showAlert("playAudio():"+characterIndex+"_"+factIndex);
     var mediaPlay = new Media(
       "fact"+characterIndex+"_"+factIndex+".mp3",
       function() { // success callback
         showAlert("Play Success: ");
+        callback();
       },
       function(err) {  // error callback
         showAlert("Play Error: "+ err.code);
+        callback();
       }
     );
     mediaPlay.play();
@@ -66,43 +68,4 @@ var Media = function(model_in){
     mediaPlay.stop();
   }
 
-
- /*   var mediaRec = null;
-    var mediaFileReference;
-    function recordAudio(filename) {
-    //alert("Inside Record Audio"+filename);
-      mediaRec = new Media(
-      filename,
-      function() { // success callback
-        showAlert("Record Success: "+mediaRec.src);
-        mediaFileReference = mediaRec.src;
-      },
-      function(err) {  // error callback
-        showAlert("Record Error: "+ err.code);
-      }
-    );
-      showAlert("Record Start: "+mediaRec.src+","+mediaRec.startRecord );
-      mediaRec.startRecord();
-    }
-
-  function stopRecordAudio(){
-    showAlert("Record Stop");
-    mediaRec.stopRecord();
-  }
-
-  function playAudio(filename) {
-   showAlert("Play Start: "+filename);
-    var newmediaRec = new Media(
-      filename,
-      function() { // success callback
-        showAlert("Play Success: ");
-      },
-      function(err) {  // error callback
-        showAlert("Play Error: "+ err.code);
-      }
-    );
-    newmediaRec.play();
-  }
-*/
-	
 }
