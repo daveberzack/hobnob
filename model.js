@@ -15,7 +15,7 @@ var Model = function(){
 		media = new Media(this);
 		view = new View(this);
 		//view.showMenu();
-		this.startGame(3,7,1,5,20,.7,4,"photo");
+		this.startGame(7,7,1,5,20,.7,4,"photo");
 		//view.showChallengePlayers(1);
   }
 

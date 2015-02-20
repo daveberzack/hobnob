@@ -27,17 +27,12 @@ var Media = function(model_in){
 
   var mediaRec;
 	this.startRecordingCharacterFact = function(characterIndex, factIndex, callback){
-/*    
-    navigator.device.capture.captureAudio(captureSuccess, audioError, {limit:1, duration:10});
-    audioCallback = callback;
-*/
+
     mediaRec = new Media(
-      "audio/fact"+characterIndex+"_"+factIndex+".mp3",
+      "fact"+characterIndex+"_"+factIndex+".mp3",
       function() { // success callback
           model.showAlert("recordAudio():Audio Success:"+mediaRec.src);
           callback();
-
-          setTimeout(function(){ mediaRec.play(); }, 3000);
       },
       function(err) {        // error callback
           model.showAlert("recordAudio():Audio Error: "+ err.code);
@@ -53,15 +48,61 @@ var Media = function(model_in){
     mediaRec.stopRecord();
 
   }
-  var mediaPlay;
+  //var mediaPlay;
   this.startPlayingCharacterFact = function(characterIndex, factIndex){
     model.showAlert("playAudio():"+characterIndex+"_"+factIndex);
-    mediaPlay = new Media("audio/fact"+characterIndex+"_"+factIndex+".mp3");
+    var mediaPlay = new Media(
+      "fact"+characterIndex+"_"+factIndex+".mp3",
+      function() { // success callback
+        showAlert("Play Success: ");
+      },
+      function(err) {  // error callback
+        showAlert("Play Error: "+ err.code);
+      }
+    );
     mediaPlay.play();
   }
   this.stopPlayingCharacterFact = function(characterIndex, factIndex){
     mediaPlay.stop();
   }
 
+
+ /*   var mediaRec = null;
+    var mediaFileReference;
+    function recordAudio(filename) {
+    //alert("Inside Record Audio"+filename);
+      mediaRec = new Media(
+      filename,
+      function() { // success callback
+        showAlert("Record Success: "+mediaRec.src);
+        mediaFileReference = mediaRec.src;
+      },
+      function(err) {  // error callback
+        showAlert("Record Error: "+ err.code);
+      }
+    );
+      showAlert("Record Start: "+mediaRec.src+","+mediaRec.startRecord );
+      mediaRec.startRecord();
+    }
+
+  function stopRecordAudio(){
+    showAlert("Record Stop");
+    mediaRec.stopRecord();
+  }
+
+  function playAudio(filename) {
+   showAlert("Play Start: "+filename);
+    var newmediaRec = new Media(
+      filename,
+      function() { // success callback
+        showAlert("Play Success: ");
+      },
+      function(err) {  // error callback
+        showAlert("Play Error: "+ err.code);
+      }
+    );
+    newmediaRec.play();
+  }
+*/
 	
 }
