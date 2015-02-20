@@ -46,6 +46,7 @@ var Model = function(){
 	}
 
 	this.introComplete = function(){
+		showAlert("introComplete:"+characters.getNumberOfFacts()+","+initFacts);
 		if (characters.getNumberOfFacts()<initFacts) {
 			view.showIntro(players.activePlayer.index, characters.currentCharacter.index, characters.getFactPrompt());
 		}
