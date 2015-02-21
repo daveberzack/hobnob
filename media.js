@@ -32,7 +32,7 @@ var Media = function(model_in){
       "fact"+characterIndex+"_"+factIndex+".mp3",
       function() { // success callback
           model.showAlert("recordAudio():Audio Success:"+mediaRec.src);
-          callback();
+          if (callback) callback(filename);
       },
       function(err) {        // error callback
           model.showAlert("recordAudio():Audio Error: "+ err.code);
@@ -50,16 +50,16 @@ var Media = function(model_in){
   }
   //var mediaPlay;
   this.startPlayingCharacterFact = function(characterIndex, factIndex, callback){
-    model.showAlert("playAudio():"+characterIndex+"_"+factIndex);
+    var filename = "fact"+characterIndex+"_"+factIndex+".mp3";
+    model.showAlert("playAudio():"+filename);
     var mediaPlay = new Media(
-      "fact"+characterIndex+"_"+factIndex+".mp3",
+      filename,
       function() { // success callback
         showAlert("Play Success: ");
-        callback();
+        if (callback) callback(filename);
       },
       function(err) {  // error callback
         showAlert("Play Error: "+ err.code);
-        callback();
       }
     );
     mediaPlay.play();
