@@ -135,8 +135,9 @@ var Model = function(){
 	this.stopRecordingCharacterFact = function(){
 		media.stopRecordingCharacterFact();
 	}
-	this.characterFactCallback = function(){
-		//nothing yet.
+	this.characterFactCallback = function(filename){
+		this.alert("store filename:"+filename);
+		characters.setFact(filename);
 	}
 
 	this.startPlayingCurrentCharacterFact = function(){

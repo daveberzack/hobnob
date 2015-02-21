@@ -351,7 +351,7 @@ var View = function(model_in){
 	$(".hintsLink").click( function(){ view.showHints() });
 	$("#introRecord").click( function(){ toggleRecording() });
 	$("#introPlay").click( function(){ model.startPlayingCurrentCharacterFact() });
-	$("#introNext").click( function(){ $(this).hide(); model.introComplete(); });
+	$("#introNext").click( function(){ model.introComplete(); });
 	$("#guessCheck").click( function(){ model.playAllFactsForCurrentCharacter() });
 	$("#guessCorrect").click( function(){ model.submitCorrect() });
 	$("#guessIncorrect").click( function(){ model.submitIncorrect() });
