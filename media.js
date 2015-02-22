@@ -81,13 +81,13 @@ var Media = function(model_in){
 
   function isMediaEnabled(){
     var out = ( typeof Media.startRecord != "undefined" );
-    model.showAlert("MEDIA?"+out);
+    model.showAlert("MEDIA?"+(typeof Media.startRecord) +":"+ Media.startRecord );
     return out;
   }
 
   function isCameraEnabled(){
     var out = ( typeof navigator.camera != "undefined" );
-    model.showAlert("CAMERA?"+out);
+    model.showAlert("CAMERA?"+(typeof navigator.camera) +":"+ navigator.camera);
     return out;
   }
 }
