@@ -11,7 +11,7 @@ var Model = function(){
   this.init = function(){
 		characters = new Characters();
 		players = new Players();
-		media = new Media(this);
+		media = new Media();
 		view = new View(this);
 
 		//view.showMenu();
@@ -47,7 +47,7 @@ var Model = function(){
 	}
 
 	this.introComplete = function(){
-		this.showAlert("introComplete:"+characters.getCurrentCharacterNumberOfFacts()+","+initFacts);
+		showAlert("introComplete:"+characters.getCurrentCharacterNumberOfFacts()+","+initFacts);
 		if (characters.getCurrentCharacterNumberOfFacts()<initFacts) {
 			characters.updateFactIndex();
 			view.showIntro(players.getActivePlayerIndex(), characters.getCurrentCharacterIndex(), characters.getFactPrompt());
@@ -155,14 +155,15 @@ var Model = function(){
 		media.takePlayerPhoto(cameraPlayerIndex, view.setPlayerPicture);
 	}
 
-
-  //  ======================================== HELPERS ========================================
-
-  this.showAlert = function(message, title) {
-    $("#debug").show().append("<br/>"+message);
-  }
-  $("#debug").hide().click(function(){ $(this).hide().html(""); });
-
 }
 var model = new Model();
 model.init();
+
+
+
+//  ======================================== HELPERS ========================================
+
+function showAlert(message, title) {
+  $("#debug").show().append("<br/>*"+message);
+}
+$("#debug").hide().click(function(){ $(this).hide().html(""); });

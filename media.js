@@ -1,20 +1,19 @@
-var Media = function(model_in){
-  var model=model_in;
+var Media = function(){
 
   //take a picture, then callback when complete
 	this.takePlayerPhoto = function(playerIndex, callback){
 
-    model.showAlert("TAKE PICTURE:"+playerIndex);
+    showAlert("TAKE PICTURE:"+playerIndex);
     if (isCameraEnabled()){
       var options = { quality: 50, destinationType: Camera.DestinationType.FILE_URI, sourceType:1, encodingType:0, allowEdit:false, cameraDirection:1, saveToPhotoAlbum:false, correctOrientation:true };
       navigator.camera.getPicture(
         function(imageReference) {
-          model.showAlert('Success taking picture: '+playerIndex+" ... "+imageReference, 'Success'); 
+          showAlert('Success taking picture: '+playerIndex+" ... "+imageReference, 'Success'); 
           $("#pic"+playerIndex+" img").attr('src', imageReference);
           callback(playerIndex, imageReference);
         },
         function() { 
-          model.showAlert('Error taking picture'); 
+          showAlert('Error taking picture'); 
         }, 
         options
       );
@@ -27,17 +26,17 @@ var Media = function(model_in){
   var mediaRec;
 	this.startRecordingCharacterFact = function(characterIndex, factIndex, callback){
     var filename = "fact"+characterIndex+"_"+factIndex+".mp3";
-    model.showAlert("RECORD START:"+filename);
+    //showAlert("RECORD START:"+filename);
 
     if ( isMediaEnabled() ){
       mediaRec = new Media(
         filename,
         function() { // success callback
-            model.showAlert("recordAudio():Audio Success:"+mediaRec.src);
+            showAlert("recordAudio():Audio Success:"+mediaRec.src);
             if (callback) callback(filename);
         },
         function(err) { // error callback
-            model.showAlert("recordAudio():Audio Error: "+ err.code);
+            showAlert("recordAudio():Audio Error: "+ err.code);
         }
       );
       mediaRec.startRecord();
@@ -48,7 +47,7 @@ var Media = function(model_in){
 	}
 
   this.stopRecordingCharacterFact = function(){
-    model.showAlert("RECORD STOP");
+    //showAlert("RECORD STOP");
     if (isMediaEnabled() ){
       mediaRec.stopRecord();
     }
@@ -57,7 +56,7 @@ var Media = function(model_in){
 
   this.startPlayingCharacterFact = function(characterIndex, factIndex, callback){
     var filename = "fact"+characterIndex+"_"+factIndex+".mp3";
-    model.showAlert("PLAY:"+filename);
+    showAlert("PLAY:"+filename);
     if (isMediaEnabled()){
       var mediaPlay = new Media(
         filename,
@@ -73,7 +72,7 @@ var Media = function(model_in){
     }
   }
   this.stopPlayingCharacterFact = function(characterIndex, factIndex){
-    model.showAlert("STOP:"+filename);
+    showAlert("STOP:"+filename);
     if ( isMediaEnabled() ){
       mediaPlay.stop();
     }

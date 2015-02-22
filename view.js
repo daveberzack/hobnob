@@ -158,9 +158,9 @@ var View = function(model_in){
 		$("#guess").show();
 		$("#addInfo").hide();
 
-		if (numFacts<1) $("#guess h3").html("Recall: Name");
-		else if (numFacts==1) $("#guess h3").html("Recall: Name & 1 fact");
-		else $("#guess h3").html("Recall: Name & "+numFacts+" facts");
+		if (numFacts<1) $("#guess .prompt").html("Recall: Name");
+		else if (numFacts==1) $("#guess .prompt").html("Recall: Name & 1 fact");
+		else $("#guess .prompt").html("Recall: Name & "+numFacts+" facts");
 
 		$("#gameScreen").removeClass().addClass("screen player"+playerIndex);
 		$("#guessChallenge").toggle(!isChallenge);
@@ -220,7 +220,7 @@ var View = function(model_in){
 		var playersHtml="";
 		var challengeHtml="";
 		var cameraHtml="";
-		model.showAlert("PLAYER HTML:"+playerIconType);
+		
 		for (var p=0; p<numPlayers; p++){
 			var img = "img/players_numbers/player"+p+".jpg";
 			if (playerIconType=="animal") img = "img/players_animals/player"+p+".jpg";
@@ -269,7 +269,7 @@ var View = function(model_in){
 		model.takePlayerPhoto(playerIndex);
 	}
 	this.setPlayerPicture = function(playerIndex, imageReference){
-		model.showAlert("setPlayerPicture:"+playerIndex+":"+imageReference);
+		showAlert("setPlayerPicture:"+playerIndex+":"+imageReference);
 		$("#cameraOptions #pic"+playerIndex).attr("src", imageReference);
 		playerPhotos[playerIndex] = imageReference;
 	}
