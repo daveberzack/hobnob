@@ -14,7 +14,8 @@
     <preference name="orientation" value="portrait" />
     <preference name="fullscreen" value="true" />
     <preference name="phonegap-version" value="3.6.3" />
-
+    <preference name="android-launchMode" value="singleInstance" />
+    
     <gap:platform name="android" />
 
     <gap:plugin name="org.apache.cordova.camera" />
