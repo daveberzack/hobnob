@@ -47,9 +47,9 @@ var Media = function(){
 	}
 
   this.stopRecordingCharacterFact = function(){
-    //showAlert("RECORD STOP");
+    showAlert("RECORD STOP:"+mediaRec);
     if (isMediaEnabled() ){
-      mediaRec.stopRecord();
+      setTimeout(function(temp){ temp.stopRecord(); }, 1000, mediaRec );
     }
     //otherwise, do nothing; callback is handled on record for debugging
   }
