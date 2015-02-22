@@ -7,26 +7,26 @@ var Model = function(){
 	var players;
 	var initFacts=0;
 	var maxScore;
-	this.isGameInProgress=false;
 
   this.init = function(){
 		characters = new Characters();
 		players = new Players();
 		media = new Media(this);
 		view = new View(this);
+
 		//view.showMenu();
 		this.startGame(7,7,1,5,20,.7,4,"photo");
-		//view.showChallengePlayers(1);
   }
 
-	///////////////////// TURN MANAGEMENT 
+  //  ======================================== PRIMARY GAMEPLAY ========================================
+
 	this.startGame = function(numPlayers, maxS, initF, initChars, maxChars, chanceOfUnnamed, turnsBeforeRepeat, playerIconType){
-		this.isGameInProgress=true;
+		view.showContinueLinks();
 		this.maxScore=maxS;
 		players.setPlayers(numPlayers);
 		characters = new Characters();
-	  characters.setValues(initChars, 79, maxChars, chanceOfUnnamed, turnsBeforeRepeat);
-		view.startGame(players.all, this.maxScore, playerIconType);
+	  characters.setValues(initChars, maxChars, chanceOfUnnamed, turnsBeforeRepeat);
+		view.startGame(players.getNumberOfPlayers(), this.maxScore, playerIconType);
 		currentlyInChallenge = false;
 		initFacts=initF;
 		this.startTurn();
@@ -35,20 +35,22 @@ var Model = function(){
 	this.startTurn = function(){
 	  currentlyInChallenge = false;
 		players.changeCurrentPlayer();
-		if ( characters.stillInitialNaming() ) {
+		if ( characters.getIfStillInitialNaming() ) {
 			characters.changeCharacter(true);
-			view.showIntro(players.activePlayer.index, characters.currentCharacter.index, characters.getFactPrompt());
+			characters.updateFactIndex();
+			view.showIntro(players.getActivePlayerIndex(), characters.getCurrentCharacterIndex(), characters.getFactPrompt());
 		}
 		else {
 			characters.changeCharacter(false);
-			view.showGuess(players.activePlayer.index, characters.currentCharacter, false);
+			view.showGuess(players.getActivePlayerIndex(), characters.getCurrentCharacterIndex(), characters.getCurrentCharacterNumberOfFacts(), false);
 		}
 	}
 
 	this.introComplete = function(){
-		this.showAlert("introComplete:"+characters.getNumberOfFacts()+","+initFacts);
-		if (characters.getNumberOfFacts()<initFacts) {
-			view.showIntro(players.activePlayer.index, characters.currentCharacter.index, characters.getFactPrompt());
+		this.showAlert("introComplete:"+characters.getCurrentCharacterNumberOfFacts()+","+initFacts);
+		if (characters.getCurrentCharacterNumberOfFacts()<initFacts) {
+			characters.updateFactIndex();
+			view.showIntro(players.getActivePlayerIndex(), characters.getCurrentCharacterIndex(), characters.getFactPrompt());
 		}
 		else {
 			this.startTurn();
@@ -57,17 +59,19 @@ var Model = function(){
 
 	this.submitCorrect = function(){
 		players.giveActivePlayerAPoint();
-		view.updatePlayersScore(players.all);
+		view.updatePlayersScore( players.getPlayerScores() );
 		
-		this.isGameInProgress = !this.checkForWin();
-		if (this.isGameInProgress){	
-			if ( characters.showUnnamed() ){ //show unnamed
+		if ( players.getActivePlayerScore() < this.maxScore ){ 	
+			if ( characters.showUnnamed() ){
 				characters.changeCharacter(true);
 			}
-			view.showIntro(players.activePlayer.index, characters.currentCharacter.index, characters.getFactPrompt());
+			characters.updateFactIndex();
+			view.showIntro(players.getActivePlayerIndex(), characters.currentCharacter.index, characters.getFactPrompt());
+			view.hideContinueLinks();
 		}
 		else {
-			view.showWin(players.activePlayer.index);
+			view.showWin(players.getActivePlayerIndex());
+			view.showContinueLinks();
 		}
 	}
 
@@ -78,25 +82,23 @@ var Model = function(){
 		}
 		this.startTurn();
 	}
-	this.checkForWin = function(){
-		var out = players.activePlayer.score>=this.maxScore;
-		console.log("check:"+players.activePlayer.score+":"+out);
-		return out;
-	}
 
 	this.showChallengePlayers = function(){
-		view.showChallengePlayers(players.currentPlayer.index);
+		view.showChallengePlayers(players.getCurrentPlayerIndex());
 	}
 	this.submitChallenge = function(playerIndex){
 		players.setActivePlayer(playerIndex);
 		currentlyInChallenge = true;
-		view.showGuess(players.activePlayer.index, characters.currentCharacter, true);
+		view.showGuess(players.activePlayer.index, characters.getCurrentCharacterIndex(), getCurrentCharacterNumberOfFacts(), true);
 	}
 
+
+  //  ======================================== AUDIO ========================================
+
 	this.playCurrentFactForCurrentCharacter = function(){
-		var characterIndex = characters.currentCharacter.index;
+		var characterIndex = characters.getCurrentCharacterIndex();
 		var factIndex = characters.getCurrentFactIndex();
-		this.playFact(characterIndex, factIndex);
+		console.log("play audio for character fact "+characterIndex+"_"+factIndex);
 	}
 
 	var factIndexToPlay = 0;
@@ -108,23 +110,15 @@ var Model = function(){
 	this.playNextFactForCurrentCharacter = function(){
 		factIndexToPlay++;
 		var character = characters.currentCharacter;
-		if (factIndexToPlay>=characters.FACT_TYPES.length){
+		if (factIndexToPlay>=characters.getFactTypesLength() ){
 			return;
 		} 
-		else if (character.facts[factIndexToPlay] == ""){
-			this.playNextFactForCurrentCharacter
+		else if (!character.facts[factIndexToPlay] || character.facts[factIndexToPlay]==""){
+			this.playNextFactForCurrentCharacter();
 		}
 		else {
 			startPlayingCurrentCharacterFact(character.index, factIndexToPlay, this.playNextFactForCurrentCharacter);
 		}
-	}
-
-	this.playFact = function(characterIndex, factIndex){
-		console.log("play audio for character fact "+characterIndex+"_"+factIndex);
-	}
-
-	this.takePlayerPhoto = function(cameraPlayerIndex){
-		media.takePlayerPhoto(cameraPlayerIndex, view.setPlayerPicture);
 	}
 
 	this.startRecordingCharacterFact = function(){
@@ -132,39 +126,39 @@ var Model = function(){
 		var factIndex = characters.getCurrentFactIndex();
 		media.startRecordingCharacterFact(characterIndex, factIndex, this.characterFactCallback);
 	}
+
 	this.stopRecordingCharacterFact = function(){
 		media.stopRecordingCharacterFact();
 	}
+
 	this.characterFactCallback = function(filename){
 		characters.setFact(filename);
 	}
 
-	this.startPlayingCurrentCharacterFact = function(){
+	this.startPlayingCurrentCharacterFact = function(callback){
 		var characterIndex = characters.currentCharacter.index;
 		var factIndex = characters.getCurrentFactIndex();
-		media.startPlayingCharacterFact(characterIndex, factIndex);
+		media.startPlayingCharacterFact(characterIndex, factIndex, callback);
 	}
+
 	this.stopPlayingCharacterFact = function(){
 		media.stopPlayingCharacterFact();
 	}
 
-	var timeout;
+  //  ======================================== CAMERA ========================================
+
+	this.takePlayerPhoto = function(cameraPlayerIndex){
+		media.takePlayerPhoto(cameraPlayerIndex, view.setPlayerPicture);
+	}
+
+
+  //  ======================================== HELPERS ========================================
+
   this.showAlert = function(message, title) {
-    $("#debug").append("<br/>"+message);
-    if (timeout) clearTimeout(timeout);
-    timeout = setTimeout(function(){ $("#debug").html(""); }, 3000 );
-    //if (navigator.notification) navigator.notification.alert("*Native*:"+message, null, title, 'OK');
-    //else alert("*Alert*:"+title + " - " + message);
+    $("#debug").show().append("<br/>"+message);
   }
+  $("#debug").hide().click(function(){ $(this).hide() });
+
 }
 var model = new Model();
 model.init();
-
-
-function getParam(name, defaultVal) {
-    name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
-    var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
-        results = regex.exec(location.search);
-    return results === null ? defaultVal : decodeURIComponent(results[1].replace(/\+/g, " "));
-}
-

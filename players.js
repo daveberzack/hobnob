@@ -1,33 +1,63 @@
 var Players = function(){
 
 	////////////////// FOR NOW, JUST PREDEFINE THIS ...TODO: PLAYER SELECT SCREEN
-	this.all = [];
+	var all = [];
+	var activePlayer;
+	var currentPlayer;
 
 	this.setPlayers = function(numPlayers){
-		this.all=[];
+		all=[];
 		for (var p=0; p<numPlayers; p++){
-			this.all.push({index:p, score:0});
+			all.push({index:p, score:0});
 		};
-		this.currentPlayer = this.all[ this.all.length-1 ]; //the player whose turn it is (persists during a challenge)
-		this.activePlayer = this.currentPlayer; //the player with the device (changes for a challenge)
+		currentPlayer = all[ all.length-1 ]; //the player whose turn it is (persists during a challenge)
+		activePlayer = currentPlayer; //the player with the device (changes for a challenge)
 	}
 
 	this.changeCurrentPlayer = function(){
-		console.log("...."+this.all + "..."+this.all.length);
-		var newPlayerIndex = (this.currentPlayer.index+1) % this.all.length;
-		this.currentPlayer = this.all[newPlayerIndex];
-		this.activePlayer = this.currentPlayer;
+		var newPlayerIndex = (currentPlayer.index+1) % all.length;
+		currentPlayer = all[newPlayerIndex];
+		activePlayer = currentPlayer;
 	}
 
 	this.setActivePlayer = function(playerIndex){
-		this.activePlayer = this.all[playerIndex];
+		activePlayer = all[playerIndex];
 	}
 
-	this.giveActivePlayerAPoint= function(){
-		this.activePlayer.score= this.activePlayer.score+1;
+	this.giveActivePlayerAPoint = function(){
+		activePlayer.score = activePlayer.score+1;
 	}
-	this.giveCurrentPlayerAPoint= function(){
-		this.currentPlayer.score= this.currentPlayer.score+1;
+
+	this.giveCurrentPlayerAPoint = function(){
+		currentPlayer.score = currentPlayer.score+1;
 	}
+
+
+
+
+	this.getNumberOfPlayers = function(){
+		return all.length;
+	}
+
+	this.getCurrentPlayerIndex = function(){
+		return currentPlayer.index;
+	}
+
+	this.getActivePlayerIndex = function(){
+		return activePlayer.index;
+	}
+
+	this.getActivePlayerScore = function(){
+		return activePlayer.score;
+	}
+
+	this.getPlayerScores = function(){
+		var scores = [];
+		for (var p=0; p<all.length; p++){
+			scores.push(all[p].score);
+		};
+		return scores;
+	}
+
 
 }

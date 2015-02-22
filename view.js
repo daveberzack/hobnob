@@ -47,7 +47,7 @@ var View = function(model_in){
 			$(".score").html('<div class="scoreInner"><div class="scoreInner2">'+scoreHtml+'</div></div>');
 
 			var tabPictureWidth = tabInnerWidth*.7-gutter;
-	  	var tabPictureHeight = tabPictureWidth/.75;
+	  	var tabPictureHeight = tabPictureWidth/.75 - scoreGutter;
 			var tabScoreWidth = tabInnerWidth*.3;
 			var tabScoreHeight = tabPictureHeight;
 			var scoreMarginTop = gutter;
@@ -90,7 +90,7 @@ var View = function(model_in){
 		
 		$(".players").height(playersPaneHeight);
 		$(".playerTab").css({"width":tabWidth, "margin-left":gutter, "margin-top":gutter});  	
-		$(".playerTab .picture").css({"width":tabPictureWidth, "margin-top":gutter, "margin-left":gutter, "margin-bottom":gutter});
+		$(".playerTab .picture").css({"width":tabPictureWidth-scoreGutter*2, "border-width":scoreGutter, "margin-top":gutter, "margin-left":gutter, "margin-bottom":gutter});
 		$(".playerTab .score").css({"width":tabScoreWidth, "height":tabScoreHeight, "margin-top":scoreMarginTop, "margin-left":gutter, "margin-bottom":gutter});
 		$(".playerTab .scoreInner").css({"margin":scoreGutter, "height":tabScoreHeight-scoreGutter*2, "width":tabScoreWidth-scoreGutter*2});
 		$(".playerTab .scoreInner2").css({"width":scoreInner2Width, "height":scoreInner2Height});
@@ -130,8 +130,8 @@ var View = function(model_in){
   }
   $(window).resize(doResize);
 
-	this.startGame = function(players, maxPointsIn, playerIconTypeIn){
-		numPlayers = players.length;
+	this.startGame = function(numPlayers_in, maxPointsIn, playerIconTypeIn){
+		numPlayers = numPlayers_in;
 		maxPoints = maxPointsIn;
 		playerIconType = playerIconTypeIn;
 		
@@ -143,23 +143,19 @@ var View = function(model_in){
 		doResize();
 	}
 
-	this.updatePlayersScore = function(players){
-		for (var i=0; i<players.length; i++){
-			$("#gameScreen .playerTab"+i+" .score").removeClass().addClass("score s"+players[i].score);
+	this.updatePlayersScore = function(playerScores){
+		for (var i=0; i<playerScores.length; i++){
+			$("#gameScreen .playerTab"+i+" .score").removeClass().addClass("score s"+playerScores[i]);
 		}
 	}
 
-	this.showGuess = function(playerIndex, character, isChallenge){
+	this.showGuess = function(playerIndex, characterIndex, numFacts, isChallenge){
 		showScreen("game");
 		$("#challenge").hide();
 		$("#character").show();
 		$("#guess").show();
 		$("#addInfo").hide();
 
-		var numFacts=-1;//compensate for including name in array
-		for (var i=0; i<character.facts.length; i++){
-			if (character.facts[i]!="") numFacts++;
-		}
 		if (numFacts<1) $("#guess h3").html("Recall: Name");
 		else if (numFacts==1) $("#guess h3").html("Recall: Name & 1 fact");
 		else $("#guess h3").html("Recall: Name & "+numFacts+" facts");
@@ -167,7 +163,7 @@ var View = function(model_in){
 		$("#gameScreen").removeClass().addClass("screen player"+playerIndex);
 		$("#guessChallenge").toggle(!isChallenge);
 		highlightPlayer(playerIndex);
-		showCharacter(character.index);
+		showCharacter(characterIndex);
 	}
 
 
@@ -260,7 +256,6 @@ var View = function(model_in){
 		setPlayerHtml();
 	}
 	this.showMenu = function(){
-		toggleContinueLinks();
 		showScreen("menu");
 	}
 
@@ -268,7 +263,7 @@ var View = function(model_in){
 		model.takePlayerPhoto(playerIndex);
 	}
 	this.setPlayerPicture = function(playerIndex, imageReference){
-		model.debug("setPlayerPicture:"+playerIndex+":"+imageReference);
+		model.showAlert("setPlayerPicture:"+playerIndex+":"+imageReference);
 		$("#cameraOptions #pic"+playerIndex).attr("src", imageReference);
 	}
 
@@ -280,10 +275,11 @@ var View = function(model_in){
 		$(".challengePlayer"+currentPlayerIndex).hide();
 	}
 
-	function toggleContinueLinks(){
-		console.log("toggle:"+this.model.isGameInProgress, this.model);
-		if (this.model.isGameInProgress) $(".continueGameLink").show();
-		else $(".continueGameLink").hide();
+	this.showContinueLinks = function(){
+		$(".continueGameLink").show();
+	}
+	this.hideContinueLinks = function(){
+		$(".continueGameLink").hide();
 	}
 
 	function highlightPlayer(playerIndex){
@@ -355,7 +351,7 @@ var View = function(model_in){
 	$("#guessCheck").click( function(){ model.playAllFactsForCurrentCharacter() });
 	$("#guessCorrect").click( function(){ model.submitCorrect() });
 	$("#guessIncorrect").click( function(){ model.submitIncorrect() });
-	$("#guessChallenge").click( function(){ model.showChallengePlayers() });
+	$("#guessChallenge").click( function(){ view.showChallengePlayers() });
 	$("#optionsScreen a").click(function(){ optionClick( $(this) ) });
 	
 }

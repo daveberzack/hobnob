@@ -1,13 +1,11 @@
 
 var Characters = function(){
-	var numberOfCharacters=79;
-	var minimumTurnsBeforeRepeat = 4;
-	var maxCharacters=20;
-	var chanceOfUnnamed=.7;
-	var initialCharactersNamed=4;
-
-	//////// THE TYPES OF FACTS THAT CAN BE INTRODUCED
-	this.FACT_TYPES = [
+	var NUMBER_OF_CHARACTERS=79;
+	var minimumTurnsBeforeRepeat;
+	var maxCharacters;
+	var chanceOfUnnamed;
+	var initialCharactersNamed;
+	FACT_TYPES = [
 		{label:"Name",prompt:"Name"},
 		{label:"Job",prompt:"Job"},
 		{label:"Hobby",prompt:"Hobby"},
@@ -17,22 +15,22 @@ var Characters = function(){
 		{label:"Skill",prompt:"Special Skill"}
 	]
   currentFactIndex = 0;
-
 	this.unnamed = [];
-	for (var i=1; i<=numberOfCharacters; i++){ 
+	for (var i=1; i<=NUMBER_OF_CHARACTERS; i++){ 
 		this.unnamed.push({index:i, facts:["","","","",""]}); 
 	}
 	this.named = [];
 	this.currentCharacter;
 
-	this.setValues = function(initChars, totalChars, maxChars, chance, turnsBeforeRepeat){
+
+	this.setValues = function(initChars, maxChars, chance, turnsBeforeRepeat){
 		initialCharactersNamed = initChars;
-		numberOfCharacters = totalChars;
 		maxCharacters = maxChars;
 		chanceofUnnamed = chance;
 		minimumTurnsBeforeRepeat = turnsBeforeRepeat;
 	}
-  this.getCurrentFactIndex = function(){ return currentFactIndex; } //prob not needed except dev
+
+
 
   this.changeCharacter = function(getUnnamed){ //pull a character from 
 	  if (getUnnamed){
@@ -46,26 +44,7 @@ var Characters = function(){
 	  }
 		this.named.push(this.currentCharacter);
 	}
-  
-  this.getFactPrompt = function(){
-  	currentFactIndex=0;
-  	while (this.currentCharacter.facts[currentFactIndex]!=""){
-  		currentFactIndex = Math.floor( Math.random()*4 +1);
-  	}
-  	return this.FACT_TYPES[ currentFactIndex ].prompt;
-  }
 
-  this.getNumberOfFacts = function(){
-  	var factCount=0;
-  	for (var i=0; i<this.currentCharacter.facts.length; i++){
-  		if (this.currentCharacter.facts[i]!="") factCount++
-  	}
-  	return factCount;
-  }
-
-	this.setFact = function(val){
-		this.currentCharacter.facts[currentFactIndex] = val;
-	}
 
 	this.showUnnamed = function(){
 		var reduceProbability = 1 - (this.named.length/maxCharacters);
@@ -73,14 +52,44 @@ var Characters = function(){
 		var prob = chanceOfUnnamed*reduceProbability
 		return prob>rand;
 	}
+  
+  this.updateFactIndex = function(){
+  	currentFactIndex=0;
+  	while (this.currentCharacter.facts[currentFactIndex]!=""){
+  		currentFactIndex = Math.floor( Math.random()*4 +1);
+  	}
+  }
 
-	this.stillInitialNaming = function() {
-		return (this.named.length<initialCharactersNamed);
+	this.setFact = function(val){
+		this.currentCharacter.facts[currentFactIndex] = val;
 	}
 
-	//////////////////// HELPER FUNCTION TO RANDOMIZE AN ARRAY
-	function shuffle(o){
-	    for(var j, x, i=o.length; i; j=Math.floor(Math.random()*i), x = o[--i], o[i] = o[j], o[j] = x);
-	    return o;
-	};
+	this.getCurrentCharacterNumberOfFacts = function(){
+		var numFacts=-1;//compensate for including name in array
+		for (var i=0; i<this.currentCharacter.facts.length; i++){
+			if (this.currentCharacter.facts[i]!="") numFacts++;
+		}
+		return numFacts;
+	}
+
+  this.getFactPrompt = function(){
+  	return FACT_TYPES[ currentFactIndex ].prompt;
+  }
+
+  this.getCurrentFactIndex = function(){ 
+	  return currentFactIndex; 
+	}
+
+	this.getCurrentCharacterIndex = function(){
+		return this.currentCharacter.index;
+	}
+
+  this.getFactTypesLength = function(){
+  	return FACT_TYPES.length;
+  }
+
+	this.getIfStillInitialNaming = function() {
+		return this.named.length<initialCharactersNamed;
+	}
+
 }
