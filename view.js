@@ -1,5 +1,7 @@
 var View = function(model_in){
 
+  var playerPhotos = [];
+
 	var playerColors = [
 		{light:"#fdb765", dark:"#462600"},
 		{light:"#b993f7", dark:"#1b044f"},
@@ -218,10 +220,14 @@ var View = function(model_in){
 		var playersHtml="";
 		var challengeHtml="";
 		var cameraHtml="";
+		model.showAlert("PLAYER HTML:"+playerIconType);
 		for (var p=0; p<numPlayers; p++){
 			var img = "img/players_numbers/player"+p+".jpg";
 			if (playerIconType=="animal") img = "img/players_animals/player"+p+".jpg";
-			if (playerIconType=="photo") img = "img/players_temp/player"+p+".jpg";
+			if (playerIconType=="photo") {
+				if (playerPhotos[p]) img = playerPhotos[p];
+				else img = "img/players_numbers/player"+p+".jpg";
+			}
 			playersHtml+='<div class="playerTab playerTab'+p+'"><img class="picture" src="'+img+'"/><div class="score"></div></div>';
 			challengeHtml+='<a href="#" class="challengePlayer challengePlayer'+p+'" data-index="'+p+'"><img src="'+img+'"></a>';
   		cameraHtml += '<a href="#" class="pic" id="pic'+p+'" data-index="'+p+'"><img src="img/cameraTemp.jpg"/></a>';
@@ -265,6 +271,7 @@ var View = function(model_in){
 	this.setPlayerPicture = function(playerIndex, imageReference){
 		model.showAlert("setPlayerPicture:"+playerIndex+":"+imageReference);
 		$("#cameraOptions #pic"+playerIndex).attr("src", imageReference);
+		playerPhotos[playerIndex] = imageReference;
 	}
 
 	this.showChallengePlayers = function(currentPlayerIndex){
@@ -297,8 +304,8 @@ var View = function(model_in){
 
 	function startGameClicked(){
 		var numPlayers = $("#optionsPlayers .chosen").attr("data-value");
-		var maxScores = [0,13,9,8,6,5,4,3,3];
-		var maxScores = [0,2,2,2,2,2,2,2,2];
+		var iconType = $("#optionsIcons .chosen").attr("data-value");
+		var maxScores = [0,15,12,9,8,6,5,4,3,3];
 		var maxScore = maxScores[numPlayers];
 		
 		var initFacts = 1;
@@ -318,9 +325,10 @@ var View = function(model_in){
 			chanceOfUnnamed=.65;
 		}
 
+
 		var turnsBeforeRepeat = 4;
 
-		model.startGame(numPlayers, maxScore, initFacts, initChars, maxChars, chanceOfUnnamed, turnsBeforeRepeat);
+		model.startGame(numPlayers, maxScore, initFacts, initChars, maxChars, chanceOfUnnamed, turnsBeforeRepeat, iconType);
 	}
 
 	function optionClick(me){
@@ -362,10 +370,5 @@ function corner(target, val){
 			"-webkit-border-radius":val, "-moz-border-radius":val, "border-radius":val
 		});
 	}
-	/*
-	else {
-		target.css({ 
-			"-webkit-border-radius":val, "-moz-border-radius":val, "border-radius":val
-		});
-	}*/
+	//might later add option for array, for asymmetrical corners
 }

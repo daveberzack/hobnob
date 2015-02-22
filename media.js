@@ -80,14 +80,12 @@ var Media = function(model_in){
   }
 
   function isMediaEnabled(){
-    var out = ( typeof Media == "function" );
-    model.showAlert("MEDIA?"+(typeof Media)  );
+    var out = ( typeof navigator.camera != "undefined" );
     return out;
   }
 
   function isCameraEnabled(){
     var out = ( typeof navigator.camera != "undefined" );
-    model.showAlert("CAMERA?"+(typeof navigator.camera) +":"+ navigator.camera);
     return out;
   }
 }

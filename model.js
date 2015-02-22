@@ -95,32 +95,6 @@ var Model = function(){
 
   //  ======================================== AUDIO ========================================
 
-	this.playCurrentFactForCurrentCharacter = function(){
-		var characterIndex = characters.getCurrentCharacterIndex();
-		var factIndex = characters.getCurrentFactIndex();
-		console.log("play audio for character fact "+characterIndex+"_"+factIndex);
-	}
-
-	var factIndexToPlay = 0;
-	this.playAllFactsForCurrentCharacter = function(){
-		factIndexToPlay = -1;
-		playNextFactForCurrentCharacter();
-	}
-
-	this.playNextFactForCurrentCharacter = function(){
-		factIndexToPlay++;
-		var character = characters.currentCharacter;
-		if (factIndexToPlay>=characters.getFactTypesLength() ){
-			return;
-		} 
-		else if (!character.facts[factIndexToPlay] || character.facts[factIndexToPlay]==""){
-			this.playNextFactForCurrentCharacter();
-		}
-		else {
-			startPlayingCurrentCharacterFact(character.index, factIndexToPlay, this.playNextFactForCurrentCharacter);
-		}
-	}
-
 	this.startRecordingCharacterFact = function(){
 		var characterIndex = characters.currentCharacter.index;
 		var factIndex = characters.getCurrentFactIndex();
@@ -135,6 +109,9 @@ var Model = function(){
 		characters.setFact(filename);
 	}
 
+	this.startPlayingCharacterFact = function(characterIndex, factIndex, callback){
+		media.startPlayingCharacterFact(characterIndex, factIndex, callback);
+	}
 	this.startPlayingCurrentCharacterFact = function(callback){
 		var characterIndex = characters.currentCharacter.index;
 		var factIndex = characters.getCurrentFactIndex();
@@ -143,6 +120,33 @@ var Model = function(){
 
 	this.stopPlayingCharacterFact = function(){
 		media.stopPlayingCharacterFact();
+	}
+
+	/*
+	this.playCurrentFactForCurrentCharacter = function(){
+		var characterIndex = characters.getCurrentCharacterIndex();
+		var factIndex = characters.getCurrentFactIndex();
+		console.log("play audio for character fact "+characterIndex+"_"+factIndex);
+	}
+*/
+
+	var factIndexToPlay = 0;
+	this.playAllFactsForCurrentCharacter = function(){
+		factIndexToPlay = -1;
+		this.playNextFactForCurrentCharacter();
+	}
+	this.playNextFactForCurrentCharacter = function(){
+		factIndexToPlay++;
+		var character = characters.currentCharacter;
+		if (factIndexToPlay>=characters.getFactTypesLength() ){
+			return;
+		} 
+		else if (!character.facts[factIndexToPlay] || character.facts[factIndexToPlay]==""){
+			this.playNextFactForCurrentCharacter();
+		}
+		else {
+			this.startPlayingCurrentCharacterFact(character.index, factIndexToPlay, this.playNextFactForCurrentCharacter);
+		}
 	}
 
   //  ======================================== CAMERA ========================================
@@ -157,7 +161,7 @@ var Model = function(){
   this.showAlert = function(message, title) {
     $("#debug").show().append("<br/>"+message);
   }
-  $("#debug").hide().click(function(){ $(this).hide() });
+  $("#debug").hide().click(function(){ $(this).hide().html(""); });
 
 }
 var model = new Model();

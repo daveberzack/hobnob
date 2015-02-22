@@ -62,10 +62,11 @@ var Characters = function(){
 
 	this.setFact = function(val){
 		this.currentCharacter.facts[currentFactIndex] = val;
+		model.showAlert("ADD FACT:"+this.currentCharacter.facts);
 	}
 
-	this.getCurrentCharacterNumberOfFacts = function(){
-		var numFacts=-1;//compensate for including name in array
+	this.getCurrentCharacterNumberOfFacts = function(){ //including name
+		var numFacts=0;
 		for (var i=0; i<this.currentCharacter.facts.length; i++){
 			if (this.currentCharacter.facts[i]!="") numFacts++;
 		}
