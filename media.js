@@ -3,17 +3,17 @@ var Media = function(){
   //take a picture, then callback when complete
 	this.takePlayerPhoto = function(playerIndex, callback){
 
-    showAlert("TAKE PICTURE:"+playerIndex);
+    //debug("TAKE PICTURE:"+playerIndex);
     if (isCameraEnabled()){
       var options = { quality: 50, destinationType: Camera.DestinationType.FILE_URI, sourceType:1, encodingType:0, allowEdit:false, cameraDirection:1, saveToPhotoAlbum:false, correctOrientation:true };
       navigator.camera.getPicture(
         function(imageReference) {
-          showAlert('Success taking picture: '+playerIndex+" ... "+imageReference, 'Success'); 
+          //debug('Success taking picture: '+playerIndex+" ... "+imageReference, 'Success'); 
           $("#pic"+playerIndex+" img").attr('src', imageReference);
           callback(playerIndex, imageReference);
         },
         function() { 
-          showAlert('Error taking picture'); 
+          logError('Error taking picture'); 
         }, 
         options
       );
@@ -26,17 +26,17 @@ var Media = function(){
   var mediaRec;
 	this.startRecordingCharacterFact = function(characterIndex, factIndex, callback){
     var filename = "fact"+characterIndex+"_"+factIndex+".mp3";
-    //showAlert("RECORD START:"+filename);
+    //debug("RECORD START:"+filename);
 
     if ( isMediaEnabled() ){
       mediaRec = new Media(
         filename,
         function() { // success callback
-            showAlert("recordAudio():Audio Success:"+mediaRec.src);
+            //debug("recordAudio():Audio Success:"+mediaRec.src);
             if (callback) callback(filename);
         },
         function(err) { // error callback
-            showAlert("recordAudio():Audio Error: "+ err.code);
+            logError("recordAudio():Audio Error: "+ err.code);
         }
       );
       mediaRec.startRecord();
@@ -47,32 +47,32 @@ var Media = function(){
 	}
 
   this.stopRecordingCharacterFact = function(){
-    showAlert("RECORD STOP:"+mediaRec);
+    //debug("RECORD STOP:"+mediaRec);
     if (isMediaEnabled() ){
-      setTimeout(function(temp){ temp.stopRecord(); }, 1000, mediaRec );
+      setTimeout(function(temp){ temp.stopRecord(); }, 500, mediaRec );
     }
     //otherwise, do nothing; callback is handled on record for debugging
   }
 
   this.startPlayingCharacterFact = function(characterIndex, factIndex, callback){
     var filename = "fact"+characterIndex+"_"+factIndex+".mp3";
-    showAlert("PLAY:"+filename);
+    debug("PLAY:"+filename);
     if (isMediaEnabled()){
       var mediaPlay = new Media(
         filename,
         function() { // success callback
-          showAlert("Play Success: ");
+          //debug("Play Success: ");
           if (callback) callback(filename);
         },
         function(err) {  // error callback
-          showAlert("Play Error: "+ err.code);
+          logError("Play Error: "+ err.code);
         }
       );
       mediaPlay.play();
     }
   }
   this.stopPlayingCharacterFact = function(characterIndex, factIndex){
-    showAlert("STOP:"+filename);
+    debug("STOP:"+filename);
     if ( isMediaEnabled() ){
       mediaPlay.stop();
     }

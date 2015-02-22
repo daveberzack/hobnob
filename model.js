@@ -47,7 +47,7 @@ var Model = function(){
 	}
 
 	this.introComplete = function(){
-		showAlert("introComplete:"+characters.getCurrentCharacterNumberOfFacts()+","+initFacts);
+		debug("introComplete:"+characters.getCurrentCharacterNumberOfFacts()+","+initFacts);
 		if (characters.getCurrentCharacterNumberOfFacts()<initFacts) {
 			characters.updateFactIndex();
 			view.showIntro(players.getActivePlayerIndex(), characters.getCurrentCharacterIndex(), characters.getFactPrompt());
@@ -163,7 +163,26 @@ model.init();
 
 //  ======================================== HELPERS ========================================
 
-function showAlert(message, title) {
-  $("#debug").show().append("<br/>*"+message);
+function debug(message) {
+  $("#debug").show().append("<br/>"+message);
+}
+function logError(message) {
+  $("#debug").show().append("<br/><b style='color:#990000'>*** "+message+"</b>");
 }
 $("#debug").hide().click(function(){ $(this).hide().html(""); });
+
+if (auto){
+	//initial characters
+	var data = [
+		["#introRecord",.25], ["#introRecord",.5], ["#introNext",.25], 
+		["#introRecord",.25], ["#introRecord",.5], ["#introNext",.25], 
+		["#introRecord",.25], ["#introRecord",.5], ["#introNext",.25], 
+		["#introRecord",.25], ["#introRecord",.5], ["#introNext",.25], 
+		["#introRecord",.25], ["#introRecord",.5], ["#introNext",.25]
+	]
+	var delay=0;
+	for (var i=0; i<data.length; i++){
+		delay+=data[i][1]*1000;
+		setTimeout(function(d){ $(d).click() }, delay, data[i][0] );
+	}
+}

@@ -269,7 +269,7 @@ var View = function(model_in){
 		model.takePlayerPhoto(playerIndex);
 	}
 	this.setPlayerPicture = function(playerIndex, imageReference){
-		showAlert("setPlayerPicture:"+playerIndex+":"+imageReference);
+		debug("setPlayerPicture:"+playerIndex+":"+imageReference);
 		$("#cameraOptions #pic"+playerIndex).attr("src", imageReference);
 		playerPhotos[playerIndex] = imageReference;
 	}
