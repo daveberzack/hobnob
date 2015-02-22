@@ -6,7 +6,7 @@ var Media = function(model_in){
 
     model.showAlert("TAKE PICTURE:"+playerIndex);
     if (isCameraEnabled()){
-      var options = { quality: 50, destinationType: Camera.DestinationType.FILE_URI, sourceType: 1, encodingType: 0 };  // sournce: 0:Photo Library, 1=Camera, 2=Saved Photo Album  // encoding: 0=JPG 1=PNG
+      var options = { quality: 50, destinationType: Camera.DestinationType.FILE_URI, sourceType:1, encodingType:0, allowEdit:false, cameraDirection:1, saveToPhotoAlbum:false, correctOrientation:true };
       navigator.camera.getPicture(
         function(imageReference) {
           model.showAlert('Success taking picture: '+playerIndex+" ... "+imageReference, 'Success'); 
