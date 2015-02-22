@@ -80,8 +80,8 @@ var Media = function(model_in){
   }
 
   function isMediaEnabled(){
-    var out = ( typeof Media.startRecord != "undefined" );
-    model.showAlert("MEDIA?"+(typeof Media.startRecord) +":"+ Media.startRecord );
+    var out = ( typeof Media == "function" );
+    model.showAlert("MEDIA?"+(typeof Media)  );
     return out;
   }
 
