@@ -173,9 +173,9 @@ function logError(message) {
 }
 $("#debug").hide().click(function(){ $(this).hide().html(""); });
 
-if (false){
+if (true){
 	//initial characters
-	var factor = 100;
+	var factor = 50;
 	var data = [
 		["#introRecord",2], ["#introRecord",5], ["#introNext",2], 
 		["#introRecord",2], ["#introRecord",5], ["#introNext",2], 

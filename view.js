@@ -34,8 +34,13 @@ var View = function(model_in){
 
 	  $("#addInfo, #guess").css("height","");
 	  $("body").css("font-size",x1*5);
-	  $("#control .title").css({"top":(-7)*x1, "left":"15%", "width":winW*.7-x1*2, "border-width":x1, "padding-top":x1, "padding-bottom":x1});
-	  $("#control").css({"padding-top":6*x1});
+
+	  $("#control .title").width("auto");
+	  var titleW = $("#control .title").width()+x1*8;
+	  if (titleW<80) titleW = winW*.7;
+
+	  $("#control .title").css({"top":(-10)*x1, "left": (winW - titleW - x1*2)/2, "width":titleW, "border-width":x1, "padding-top":x1, "padding-bottom":x1});
+	  $("#control").css({"padding-top":4*x1});
 	  var controlButtonWidth = (winW-x1*2)/4-x1*2;
 
 		$("#control .labelBlock").css({"width":controlButtonWidth*2+x1*4, "padding-top":x1*3});
@@ -92,7 +97,7 @@ var View = function(model_in){
 			var scoreInner2Width = "150%";
 			var scoreInner2Height = "100%";
 		}
-		var characterHeight = winH - playersPaneHeight - x1*12 - controlHeight;
+		var characterHeight = winH - playersPaneHeight - x1*10 - controlHeight;
 		
 		var challengePlayerHeight = (winH - playersPaneHeight - x1*10) / (Math.ceil((numPlayers-1)/2)) - x1*6; 
 		$(".challengePlayer").css({"width":challengePlayerHeight*.75, "margin":x1*2});

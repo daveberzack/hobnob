@@ -64,7 +64,7 @@ h1,h2 {
 	font-size:3em;
 }
 h3,h4 {
-	font-size:1.3em;
+	font-size:1.7em;
 }
 h5,h6 {
 	font-size:1em;
@@ -255,6 +255,7 @@ background-repeat:no-repeat;
 #control .title {
 	display:block;
 	position:absolute;
+	overflow:hidden;
 	background:#FFFFFF;
 	border-style:solid;
 	border-color:#222222;
