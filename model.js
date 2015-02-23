@@ -173,7 +173,7 @@ function logError(message) {
 }
 $("#debug").hide().click(function(){ $(this).hide().html(""); });
 
-if (true){
+if (false){
 	//initial characters
 	var factor = 50;
 	var data = [
