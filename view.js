@@ -21,6 +21,10 @@ var View = function(model_in){
   var cameraPlayerIndex;
 
 	/////////// updating view
+	
+		$("#introRecord").show();
+		$("#introStop").hide();
+		$("#introPlay").hide();
 
   doResize = function(){
   	var winW = $(window).innerWidth();
