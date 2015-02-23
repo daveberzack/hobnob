@@ -21,10 +21,6 @@ var View = function(model_in){
   var cameraPlayerIndex;
 
 	/////////// updating view
-	
-		$("#introRecord").show();
-		$("#introStop").hide();
-		$("#introPlay").hide();
 
   doResize = function(){
   	var winW = $(window).innerWidth();
@@ -129,6 +125,7 @@ var View = function(model_in){
 		corner( $("#optionsScreen a"), x1*2);
 		corner( $(".challengePlayer"), x1*4);
   }
+
   $(window).resize(doResize);
 
 
@@ -143,6 +140,8 @@ var View = function(model_in){
 		showScreen("game");
 		$("#challenge").hide();
 
+		$("#guess").hide();
+		toggleIntro("Record");
 		doResize();
 	}
 
@@ -194,9 +193,7 @@ var View = function(model_in){
 		showCharacter(characterId);
   	$("#factLabel2").html(prompt+"?");
   	$("#introNext").addClass("disabled");
-			$("#introRecord").show();
-			$("#introStop").hide();
-			$("#introPlay").hide();
+		toggleIntro("Record");
 	}
 
 	function showCharacter(id){
@@ -204,24 +201,22 @@ var View = function(model_in){
 		$(".characterHolder img").attr("src", "img/characters/c"+id+".jpg");
 	}
 
+	function toggleIntro(which){
+		$("#introRecord, #introStop, #introPlay").addClass("hidden");
+		$("#intro"+which).removeClass("hidden");
+	}
 	function startRecording(){
-		$("#introRecord").hide();
-		$("#introStop").show();
-		$("#introPlay").hide();
+		toggleIntro("Stop");
 		model.stopPlayingCharacterFact();
 		model.startRecordingCharacterFact();
 	}
 	function stopRecording(){
-		$("#introRecord").hide();
-		$("#introStop").hide();
-		$("#introPlay").show();
+		toggleIntro("Play");
 		model.stopRecordingCharacterFact();
   	$("#introNext").removeClass("disabled");
 	}
 	function playRecording(){
-		$("#introRecord").show();
-		$("#introStop").hide();
-		$("#introPlay").hide();
+		toggleIntro("Record");
 		model.startPlayingCurrentCharacterFact();
 	}
 

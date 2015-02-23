@@ -400,7 +400,9 @@ background-repeat:no-repeat;
 	overflow:hidden;
 	margin:20px;
 }
-
+.hidden {
+	display:none !important;
+}
 
 #cameraScreen .pic {
 	display:inline-block;
