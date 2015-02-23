@@ -207,7 +207,6 @@ var View = function(model_in){
 	}
 	function startRecording(){
 		toggleIntro("Stop");
-		model.stopPlayingCharacterFact();
 		model.startRecordingCharacterFact();
 	}
 	function stopRecording(){
