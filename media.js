@@ -2,7 +2,6 @@ var Media = function(){
 
   //take a picture, then callback when complete
 	this.takePlayerPhoto = function(playerIndex, callback){
-
     //debug("TAKE PICTURE:"+playerIndex);
     if (isCameraEnabled()){
       var options = { quality: 50, destinationType: Camera.DestinationType.FILE_URI, sourceType:1, encodingType:0, allowEdit:false, cameraDirection:1, saveToPhotoAlbum:false, correctOrientation:true };
@@ -26,7 +25,7 @@ var Media = function(){
   var mediaRec;
 	this.startRecordingCharacterFact = function(characterIndex, factIndex, callback){
     var filename = "fact"+characterIndex+"_"+factIndex+".mp3";
-    //debug("RECORD START:"+filename);
+    debug("RECORD START:"+filename+" ..."+isMediaEnabled());
 
     if ( isMediaEnabled() ){
       mediaRec = new Media(
@@ -47,7 +46,7 @@ var Media = function(){
 	}
 
   this.stopRecordingCharacterFact = function(){
-    //debug("RECORD STOP:"+mediaRec);
+    debug("RECORD STOP:"+mediaRec);
     if (isMediaEnabled() ){
       setTimeout(function(temp){ temp.stopRecord(); }, 500, mediaRec );
     }
