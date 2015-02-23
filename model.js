@@ -15,7 +15,7 @@ var Model = function(){
 		view = new View(this);
 
 		//view.showMenu();
-		this.startGame(7,7,1,5,20,.7,4,"photo");
+		this.startGame(6,7,1,5,20,.7,4,"photo");
   }
 
   //  ======================================== PRIMARY GAMEPLAY ========================================
@@ -163,26 +163,29 @@ model.init();
 
 //  ======================================== HELPERS ========================================
 
+var debugMode = "";//popup, console, none
 function debug(message) {
-  $("#debug").show().append("<br/>"+message);
+  if (debugMode=="popup") $("#debug").show().append("<br/>"+message);
+  else console.log(message);
 }
 function logError(message) {
   $("#debug").show().append("<br/><b style='color:#990000'>*** "+message+"</b>");
 }
 $("#debug").hide().click(function(){ $(this).hide().html(""); });
 
-if (auto){
+if (false){
 	//initial characters
+	var factor = 100;
 	var data = [
-		["#introRecord",.25], ["#introRecord",.5], ["#introNext",.25], 
-		["#introRecord",.25], ["#introRecord",.5], ["#introNext",.25], 
-		["#introRecord",.25], ["#introRecord",.5], ["#introNext",.25], 
-		["#introRecord",.25], ["#introRecord",.5], ["#introNext",.25], 
-		["#introRecord",.25], ["#introRecord",.5], ["#introNext",.25]
+		["#introRecord",2], ["#introRecord",5], ["#introNext",2], 
+		["#introRecord",2], ["#introRecord",5], ["#introNext",2], 
+		["#introRecord",2], ["#introRecord",5], ["#introNext",2], 
+		["#introRecord",2], ["#introRecord",5], ["#introNext",2], 
+		["#introRecord",2], ["#introRecord",5], ["#introNext",2]
 	]
 	var delay=0;
 	for (var i=0; i<data.length; i++){
-		delay+=data[i][1]*1000;
+		delay+=data[i][1]*factor;
 		setTimeout(function(d){ $(d).click() }, delay, data[i][0] );
 	}
 }

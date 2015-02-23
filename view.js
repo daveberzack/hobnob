@@ -18,7 +18,6 @@ var View = function(model_in){
   var maxPoints;
   var numPlayers=4;
   var playerIconType="number";
-  var isRecording=false;
   var cameraPlayerIndex;
 
 	/////////// updating view
@@ -26,44 +25,52 @@ var View = function(model_in){
   doResize = function(){
   	var winW = $(window).innerWidth();
   	var winH = $(window).innerHeight();
-  	console.log("resize:"+winW+","+winH);
-
-  	var gutter = Math.round(winW/100);
-  	var scoreGutter = Math.round(gutter/2);
+  	var x1 = Math.round(winW/100);
+  	var x2 = Math.round(x1/2);
   	var widePlayerTabs = numPlayers<6;
-
-  	var tabWidth = (winW-gutter*10)/numPlayers - gutter;
-  	var tabInnerWidth = tabWidth - gutter*2;	  
-	  var topButtonWidth = winW - (tabWidth+gutter)*numPlayers - gutter*2;
+  	var tabWidth = (winW-x1*10)/numPlayers - x1;
+  	var tabInnerWidth = tabWidth - x1*2;	  
+	  var topButtonWidth = winW - (tabWidth+x1)*numPlayers - x1*2;
 
 	  $("#addInfo, #guess").css("height","");
-	  $("body").css("font-size",gutter*5);
+	  $("body").css("font-size",x1*5);
+	  $("#control .title").css({"top":(-7)*x1, "left":"15%", "width":winW*.7-x1*2, "border-width":x1, "padding-top":x1, "padding-bottom":x1});
+	  $("#control").css({"padding-top":6*x1});
+	  var controlButtonWidth = (winW-x1*2)/4-x1*2;
 
-	  $("#addInfo >.inner").css("padding-top", gutter*2 );
+		$("#control .labelBlock").css({"width":controlButtonWidth*2+x1*4, "padding-top":x1*3});
+		$("#factLabel2").css({"margin-top":x1*0, "margin-left":x1*4, "margin-top":x1});
+		$("#control a").css({"width":controlButtonWidth, "border-width":x1, "margin-left":x1*2});
+		$("#control a img").css({"margin-top":x1*4, "margin-bottom":x1*2, "width":controlButtonWidth-x1*8});
+		$("#control a h5").css({"margin-bottom":x1*2});
+		$("#control a h5").css({"margin-bottom":x1*2});
 	  var controlHeight = Math.max($("#addInfo").height(), $("#guess").height() )
 	  $("#addInfo, #guess").height(controlHeight);
+		corner( $("#control .title"), x1*3);
+		corner( $("#control a"), x1*4);
+
 
 		if (widePlayerTabs) {
 			scoreHtml = "";
 			for (var i=maxPoints; i>=1; i--){ scoreHtml += '<div class="point point'+i+' pointOf'+maxPoints+'"></div>'; }
 			$(".score").html('<div class="scoreInner"><div class="scoreInner2">'+scoreHtml+'</div></div>');
 
-			var tabPictureWidth = tabInnerWidth*.7-gutter;
-	  	var tabPictureHeight = tabPictureWidth/.75 - scoreGutter;
+			var tabPictureWidth = tabInnerWidth*.7-x1;
+	  	var tabPictureHeight = tabPictureWidth/.75 - x2;
 			var tabScoreWidth = tabInnerWidth*.3;
 			var tabScoreHeight = tabPictureHeight;
-			var scoreMarginTop = gutter;
-			var pointWidth = tabScoreWidth-scoreGutter*2;
-			var pointHeight = (tabScoreHeight-scoreGutter)/maxPoints - scoreGutter;
+			var scoreMarginTop = x1;
+			var pointWidth = tabScoreWidth-x2*2;
+			var pointHeight = (tabScoreHeight-x2)/maxPoints - x2;
 			var lastPointWidth = pointWidth;
 			var lastPointHeight = pointHeight*2;
-			var pointMarginBottom = scoreGutter;
+			var pointMarginBottom = x2;
 			var pointMarginRight = 0;
-			var playersPaneHeight = tabPictureHeight+gutter*4;
+			var playersPaneHeight = tabPictureHeight+x1*4;
 			var scoreInner2Width = "100%";
 			var scoreInner2Height = "150%";
 
-	  	topButtonWidth = Math.min( topButtonWidth, (tabPictureHeight+gutter)/2 );
+	  	topButtonWidth = Math.min( topButtonWidth, (tabPictureHeight+x1)/2 );
 		}
 		else  {
 			scoreHtml = "";
@@ -73,64 +80,54 @@ var View = function(model_in){
 			var tabPictureWidth = tabInnerWidth;
 	  	var tabPictureHeight = tabPictureWidth/.75;	
 			var tabScoreWidth = tabInnerWidth;
-			var tabScoreHeight = gutter*5;
+			var tabScoreHeight = x1*5;
 			var scoreMarginTop = 0;
-			var pointWidth = (tabScoreWidth-scoreGutter)/maxPoints - scoreGutter;
-			var pointHeight = tabScoreHeight-scoreGutter*2;
+			var pointWidth = (tabScoreWidth-x2)/maxPoints - x2;
+			var pointHeight = tabScoreHeight-x2*2;
 			var lastPointWidth = pointWidth*2;
 			var lastPointHeight = pointHeight;
 			var pointMarginBottom = 0;
-			var pointMarginRight = scoreGutter;
-			var playersPaneHeight = tabPictureHeight+tabScoreHeight+ gutter*5;
+			var pointMarginRight = x2;
+			var playersPaneHeight = tabPictureHeight+tabScoreHeight+ x1*5;
 			var scoreInner2Width = "150%";
 			var scoreInner2Height = "100%";
 		}
-		var characterHeight = winH - playersPaneHeight - gutter*12 - controlHeight;
+		var characterHeight = winH - playersPaneHeight - x1*12 - controlHeight;
 		
-		var challengePlayerHeight = (winH - playersPaneHeight - gutter*10) / (Math.ceil((numPlayers-1)/2)) - gutter*6; 
-		$(".challengePlayer").css({"width":challengePlayerHeight*.75, "margin":gutter*2});
+		var challengePlayerHeight = (winH - playersPaneHeight - x1*10) / (Math.ceil((numPlayers-1)/2)) - x1*6; 
+		$(".challengePlayer").css({"width":challengePlayerHeight*.75, "margin":x1*2});
 		
 		$(".players").height(playersPaneHeight);
-		$(".playerTab").css({"width":tabWidth, "margin-left":gutter, "margin-top":gutter});  	
-		$(".playerTab .picture").css({"width":tabPictureWidth-scoreGutter*2, "border-width":scoreGutter, "margin-top":gutter, "margin-left":gutter, "margin-bottom":gutter});
-		$(".playerTab .score").css({"width":tabScoreWidth, "height":tabScoreHeight, "margin-top":scoreMarginTop, "margin-left":gutter, "margin-bottom":gutter});
-		$(".playerTab .scoreInner").css({"margin":scoreGutter, "height":tabScoreHeight-scoreGutter*2, "width":tabScoreWidth-scoreGutter*2});
+		$(".playerTab").css({"width":tabWidth, "margin-left":x1, "margin-top":x1});  	
+		$(".playerTab .picture").css({"width":tabPictureWidth-x2*2, "border-width":x2, "margin-top":x1, "margin-left":x1, "margin-bottom":x1});
+		$(".playerTab .score").css({"width":tabScoreWidth, "height":tabScoreHeight, "margin-top":scoreMarginTop, "margin-left":x1, "margin-bottom":x1});
+		$(".playerTab .scoreInner").css({"margin":x2, "height":tabScoreHeight-x2*2, "width":tabScoreWidth-x2*2});
 		$(".playerTab .scoreInner2").css({"width":scoreInner2Width, "height":scoreInner2Height});
 		
 		$(".playerTab .point").css({"width":pointWidth, "height":pointHeight, "margin-bottom":pointMarginBottom, "margin-right":pointMarginRight});
 		$(".playerTab .point:last-child").css({"width":lastPointWidth, "height":lastPointHeight});
-		corner( $(".playerTab"), gutter*2);
-		corner( $(".playerTab .picture, .playerTab .score"), gutter*1.5);
-		corner( $(".playerTab .scoreInner"), gutter);
+		corner( $(".playerTab"), x1*2);
+		corner( $(".playerTab .picture, .playerTab .score"), x1*1.5);
+		corner( $(".playerTab .scoreInner"), x1);
 
-		$("#topButtons").width(topButtonWidth+gutter);
-		$("#topButtons >img").css({"margin-top":gutter, "height":topButtonWidth, "width":topButtonWidth});
-		corner( $("#topButtons img"), gutter*1.5);
+		$("#topButtons").width(topButtonWidth+x1);
+		$("#topButtons >img").css({"margin-top":x1, "height":topButtonWidth, "width":topButtonWidth});
+		corner( $("#topButtons img"), x1*1.5);
 
-		$(".characterHolder").css({"margin-top":gutter*2, "margin-bottom":gutter*4, "border-width":gutter, "height":characterHeight, "margin-left":gutter*2, "margin-right":gutter*2});
-		corner( $(".characterHolder"), gutter*4);
+		$(".characterHolder").css({"margin-top":x1*2, "border-width":x1, "height":characterHeight, "margin-left":x1*2, "margin-right":x1*2});
+		corner( $(".characterHolder"), x1*4);
 
-    var cameraPicWidth = (winW-gutter*6)/2;
-    var cameraPicHeight = (winH - gutter*20) / Math.ceil(numPlayers/2) - gutter*2;
-		$("#cameraScreen .pic").css({"margin-left":gutter*2, "margin-top":gutter*2, "width": Math.min(cameraPicWidth, cameraPicHeight), "height": Math.min(cameraPicWidth, cameraPicHeight) })
+    var cameraPicWidth = (winW-x1*6)/2;
+    var cameraPicHeight = (winH - x1*20) / Math.ceil(numPlayers/2) - x1*2;
+		$("#cameraScreen .pic").css({"margin-left":x1*2, "margin-top":x1*2, "width": Math.min(cameraPicWidth, cameraPicHeight), "height": Math.min(cameraPicWidth, cameraPicHeight) })
+		
 
-		$("#control").css({"border-width":gutter, "margin-left":gutter*2, "margin-right":gutter*2});		
-		corner( $("#control .title"), gutter*2);
-		corner( $("#control"), gutter*4);
-	  $("#addInfo >.inner").css("padding-top", (controlHeight-$("#addInfo >.inner"))/2  );
-	  $("#control .title").css({"top":(-3)*gutter, "left":gutter});
-	  /*
-	  $("p").css("font-size",gutter*4);
-	  $("h3").css("font-size",gutter*11);
-	  $("h5").css("font-size",gutter*4);
-	  $("h6").css("font-size",gutter*3);
-	  */
-
-
-		corner( $("#optionsScreen a"), gutter*2);
-		corner( $(".challengePlayer"), gutter*4);
+		corner( $("#optionsScreen a"), x1*2);
+		corner( $(".challengePlayer"), x1*4);
   }
   $(window).resize(doResize);
+
+
 
 	this.startGame = function(numPlayers_in, maxPointsIn, playerIconTypeIn){
 		numPlayers = numPlayers_in;
@@ -157,10 +154,6 @@ var View = function(model_in){
 		$("#character").show();
 		$("#guess").show();
 		$("#addInfo").hide();
-
-		if (numFacts<1) $("#guess .prompt").html("Recall: Name");
-		else if (numFacts==1) $("#guess .prompt").html("Recall: Name & 1 fact");
-		else $("#guess .prompt").html("Recall: Name & "+numFacts+" facts");
 
 		$("#gameScreen").removeClass().addClass("screen player"+playerIndex);
 		$("#guessChallenge").toggle(!isChallenge);
@@ -195,7 +188,11 @@ var View = function(model_in){
 
 		highlightPlayer(playerIndex);
 		showCharacter(characterId);
-  	$("#factLabel2").html(prompt+"?");	
+  	$("#factLabel2").html(prompt+"?");
+  	$("#introNext").addClass("disabled");
+			$("#introRecord").show();
+			$("#introStop").hide();
+			$("#introPlay").hide();
 	}
 
 	function showCharacter(id){
@@ -203,17 +200,25 @@ var View = function(model_in){
 		$(".characterHolder img").attr("src", "img/characters/c"+id+".jpg");
 	}
 
-	function toggleRecording(){
-		if (isRecording){
-			model.stopRecordingCharacterFact();
-			$("#introRecord img").attr("src","img/record.jpg");
-			isRecording=false;
-		}
-		else  {
-			$("#introRecord img").attr("src","img/stop.jpg");
-			isRecording=true;
-			model.startRecordingCharacterFact();
-		}
+	function startRecording(){
+		$("#introRecord").hide();
+		$("#introStop").show();
+		$("#introPlay").hide();
+		model.stopPlayingCharacterFact();
+		model.startRecordingCharacterFact();
+	}
+	function stopRecording(){
+		$("#introRecord").hide();
+		$("#introStop").hide();
+		$("#introPlay").show();
+		model.stopRecordingCharacterFact();
+  	$("#introNext").removeClass("disabled");
+	}
+	function playRecording(){
+		$("#introRecord").show();
+		$("#introStop").hide();
+		$("#introPlay").hide();
+		model.startPlayingCurrentCharacterFact();
 	}
 
 	function setPlayerHtml(){
@@ -305,7 +310,7 @@ var View = function(model_in){
 	function startGameClicked(){
 		var numPlayers = $("#optionsPlayers .chosen").attr("data-value");
 		var iconType = $("#optionsIcons .chosen").attr("data-value");
-		var maxScores = [0,15,12,9,8,6,5,4,3,3];
+		var maxScores = [0,18,13,9,8,6,5,4,3,3];
 		var maxScore = maxScores[numPlayers];
 		
 		var initFacts = 1;
@@ -352,9 +357,11 @@ var View = function(model_in){
 	$(".menuLink").click( function(){ view.showMenu() });
 	$(".instructionsLink").click( function(){ view.showInstructions() });
 	$(".cameraLink").click( function(){ view.showCamera() });
-	$(".hintsLink").click( function(){ view.showHints() });
-	$("#introRecord").click( function(){ toggleRecording() });
-	$("#introPlay").click( function(){ model.startPlayingCurrentCharacterFact() });
+
+	//$(".hintsLink").click( function(){ view.showHints() });
+	$("#introRecord").click( function(){ startRecording() });
+	$("#introStop").click( function(){ stopRecording() });
+	$("#introPlay").click( function(){ playRecording() });
 	$("#introNext").click( function(){ model.introComplete(); });
 	$("#guessCheck").click( function(){ model.playAllFactsForCurrentCharacter() });
 	$("#guessCorrect").click( function(){ model.submitCorrect() });

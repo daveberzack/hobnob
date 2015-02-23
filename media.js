@@ -72,7 +72,7 @@ var Media = function(){
     }
   }
   this.stopPlayingCharacterFact = function(characterIndex, factIndex){
-    debug("STOP:"+filename);
+    debug("STOP:"+characterIndex+","+factIndex);
     if ( isMediaEnabled() ){
       mediaPlay.stop();
     }
