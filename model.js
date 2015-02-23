@@ -163,7 +163,7 @@ model.init();
 
 //  ======================================== HELPERS ========================================
 
-var debugMode = "";//popup, console, none
+var debugMode = "popup";//popup, console, none
 function debug(message) {
   if (debugMode=="popup") $("#debug").show().append("<br/>"+message);
   else console.log(message);
