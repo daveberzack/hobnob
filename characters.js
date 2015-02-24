@@ -72,6 +72,13 @@ var Characters = function(){
 		}
 		return numFacts;
 	}
+	this.getFactIndexesForCurrentCharacter = function(){ //including name
+		var facts = [];
+		for (var i=0; i<this.currentCharacter.facts.length; i++){
+			if (this.currentCharacter.facts[i]!="") facts.push(i);
+		}
+		return facts;
+	}
 
   this.getFactPrompt = function(){
   	return FACT_TYPES[ currentFactIndex ].prompt;

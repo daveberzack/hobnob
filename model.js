@@ -110,43 +110,30 @@ var Model = function(){
 	}
 
 	this.startPlayingCharacterFact = function(characterIndex, factIndex, callback){
-		media.startPlayingCharacterFact(characterIndex, factIndex, callback);
+		media.startPlayingCharacterFact(characterIndex, factIndex, callback, this);
 	}
 	this.startPlayingCurrentCharacterFact = function(callback){
 		var characterIndex = characters.currentCharacter.index;
 		var factIndex = characters.getCurrentFactIndex();
-		media.startPlayingCharacterFact(characterIndex, factIndex, callback);
+		media.startPlayingCharacterFact(characterIndex, factIndex, callback, this);
 	}
 
 	this.stopPlayingCharacterFact = function(){
 		media.stopPlayingCharacterFact();
 	}
 
-	/*
-	this.playCurrentFactForCurrentCharacter = function(){
-		var characterIndex = characters.getCurrentCharacterIndex();
-		var factIndex = characters.getCurrentFactIndex();
-		console.log("play audio for character fact "+characterIndex+"_"+factIndex);
-	}
-*/
 
-	var factIndexToPlay = 0;
+	var factIndexesToPlay = [];
 	this.playAllFactsForCurrentCharacter = function(){
-		factIndexToPlay = -1;
+		factIndexesToPlay = characters.getFactIndexesForCurrentCharacter();
 		this.playNextFactForCurrentCharacter();
 	}
 	this.playNextFactForCurrentCharacter = function(){
-		factIndexToPlay++;
-		var character = characters.currentCharacter;
-		if (factIndexToPlay>=characters.getFactTypesLength() ){
-			return;
-		} 
-		else if (!character.facts[factIndexToPlay] || character.facts[factIndexToPlay]==""){
-			this.playNextFactForCurrentCharacter();
-		}
-		else {
-			this.startPlayingCurrentCharacterFact(character.index, factIndexToPlay, this.playNextFactForCurrentCharacter);
-		}
+		if (factIndexesToPlay.length<1) return;
+		var ind = factIndexesToPlay.shift();
+		debug("play Fact iterate:"+characters.getCurrentCharacterIndex()+"_"+ind);
+		console.log("play Fact iterate:"+characters.getCurrentCharacterIndex()+"_"+ind+":",this.playNextFactForCurrentCharacter);
+		media.startPlayingCharacterFact( characters.getCurrentCharacterIndex(), ind, this.playNextFactForCurrentCharacter, this );
 	}
 
   //  ======================================== CAMERA ========================================
@@ -175,13 +162,21 @@ $("#debug").hide().click(function(){ $(this).hide().html(""); });
 
 if (false){
 	//initial characters
-	var factor = 50;
+	var factor = 20;
 	var data = [
 		["#introRecord",2], ["#introRecord",5], ["#introNext",2], 
 		["#introRecord",2], ["#introRecord",5], ["#introNext",2], 
 		["#introRecord",2], ["#introRecord",5], ["#introNext",2], 
 		["#introRecord",2], ["#introRecord",5], ["#introNext",2], 
-		["#introRecord",2], ["#introRecord",5], ["#introNext",2]
+		["#introRecord",2], ["#introRecord",5], ["#introNext",2], 
+		["#guessCorrect",2], ["#introRecord",2], ["#introRecord",5], ["#introNext",2],
+		["#guessCorrect",2], ["#introRecord",2], ["#introRecord",5], ["#introNext",2],
+		["#guessCorrect",2], ["#introRecord",2], ["#introRecord",5], ["#introNext",2],
+		["#guessCorrect",2], ["#introRecord",2], ["#introRecord",5], ["#introNext",2],
+		["#guessCorrect",2], ["#introRecord",2], ["#introRecord",5], ["#introNext",2],
+		["#guessCorrect",2], ["#introRecord",2], ["#introRecord",5], ["#introNext",2],
+		["#guessCorrect",2], ["#introRecord",2], ["#introRecord",5], ["#introNext",2],
+		["#guessCorrect",2], ["#introRecord",2], ["#introRecord",5], ["#introNext",2]
 	]
 	var delay=0;
 	for (var i=0; i<data.length; i++){

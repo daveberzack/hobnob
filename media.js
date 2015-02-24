@@ -53,7 +53,7 @@ var Media = function(){
     //otherwise, do nothing; callback is handled on record for debugging
   }
 
-  this.startPlayingCharacterFact = function(characterIndex, factIndex, callback){
+  this.startPlayingCharacterFact = function(characterIndex, factIndex, callback, scope){
     var filename = "fact"+characterIndex+"_"+factIndex+".mp3";
     debug("PLAY:"+filename);
     if (isMediaEnabled()){
@@ -61,13 +61,16 @@ var Media = function(){
         filename,
         function() { // success callback
           //debug("Play Success: ");
-          if (callback) callback(filename);
+          if (callback) callback.call(scope, filename);
         },
         function(err) {  // error callback
           logError("Play Error: "+ err.code);
         }
       );
       mediaPlay.play();
+    }
+    else {
+      callback.call(scope, filename);
     }
   }
   this.stopPlayingCharacterFact = function(characterIndex, factIndex){
