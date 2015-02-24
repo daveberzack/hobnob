@@ -61,7 +61,7 @@ var Media = function(){
         filename,
         function() { // success callback
           //debug("Play Success: ");
-          if (callback) callback.call(scope, filename);
+          if (typeof callback=="function") callback.call(scope, filename);
         },
         function(err) {  // error callback
           logError("Play Error: "+ err.code);
@@ -70,7 +70,7 @@ var Media = function(){
       mediaPlay.play();
     }
     else {
-      callback.call(scope, filename);
+      if (typeof callback=="function") callback.call(scope, filename);
     }
   }
   this.stopPlayingCharacterFact = function(characterIndex, factIndex){

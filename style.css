@@ -255,11 +255,9 @@ background-repeat:no-repeat;
 	border:#222222 4px solid !important;
 	display:inline-block;
 }
-.challengePlayer img {
-	width:100%;
-}
+
 #challengeOptions {
-	margin-bottom:50px;
+	margin-bottom:100px;
 	text-align:center;
 }
 

@@ -102,8 +102,9 @@ var View = function(model_in){
 		}
 		var characterHeight = winH - playersPaneHeight - x1*10 - controlHeight;
 		
-		var challengePlayerHeight = (winH - playersPaneHeight - x1*10) / (Math.ceil((numPlayers-1)/2)) - x1*6; 
-		$(".challengePlayer").css({"width":challengePlayerHeight*.75, "margin":x1*2});
+		var challengePlayerHeight = (winH - playersPaneHeight - x1*10) / (Math.ceil((numPlayers-1)/2)) - x1*16; 
+		$(".challengePlayer").css({"margin":x1*2});
+		$(".challengePlayer >img").css({"max-width":winW/2-x1*14, "max-height":challengePlayerHeight});
 		
 		$(".players").height(playersPaneHeight);
 		$(".playerTab").css({"width":tabWidth, "margin-left":x1, "margin-top":x1});  	
@@ -144,13 +145,10 @@ var View = function(model_in){
 		playerIconType = playerIconTypeIn;
 		
 		setPlayerHtml();
-
-		showScreen("game");
 		$("#challenge").hide();
-
 		$("#guess").hide();
 		toggleIntro("Record");
-		doResize();
+		showScreen("game");
 	}
 
 	this.updatePlayersScore = function(playerScores){
@@ -272,7 +270,6 @@ var View = function(model_in){
 	}
 	this.showMenu = function(){
 		showScreen("menu");
-		doResize();
 	}
 
 	function takePlayerPhoto(playerIndex){
@@ -310,6 +307,7 @@ var View = function(model_in){
 	function showScreen(label){
 		$(".screen").hide();
 		$("#"+label+"Screen").show();
+		doResize();
 	}
 
 	function startGameClicked(){

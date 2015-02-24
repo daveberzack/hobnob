@@ -14,8 +14,8 @@ var Model = function(){
 		media = new Media();
 		view = new View(this);
 		view.hideContinueLinks();
-		view.showMenu();
-		//this.startGame(6,7,1,5,20,.7,4,"photo");
+		//view.showMenu();
+		this.startGame(6,7,1,5,20,.7,4,"photo");
   }
 
   //  ======================================== PRIMARY GAMEPLAY ========================================
@@ -89,7 +89,7 @@ var Model = function(){
 	this.submitChallenge = function(playerIndex){
 		players.setActivePlayer(playerIndex);
 		currentlyInChallenge = true;
-		view.showGuess(players.activePlayer.index, characters.getCurrentCharacterIndex(), getCurrentCharacterNumberOfFacts(), true);
+		view.showGuess(players.getActivePlayerIndex(), characters.getCurrentCharacterIndex(), characters.getCurrentCharacterNumberOfFacts(), true);
 	}
 
 
@@ -158,7 +158,7 @@ function logError(message) {
 }
 $("#debug").hide().click(function(){ $(this).hide().html(""); });
 
-if (false){
+if (true){
 	//initial characters
 	var factor = 20;
 	var data = [
