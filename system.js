@@ -1,6 +1,21 @@
 var System = function(){
 
-  //take a picture, then callback when complete
+
+  // ========================= PERSISTENT DATA STORAGE ========================= 
+
+  this.storeData = function(key, val){
+    debug("STORE DATA:"+key+">"+val);
+    window.localStorage.setItem(key, val);
+  }
+  this.retrieveData = function(key){
+    var val = window.localStorage.getItem(key);
+    debug("RETRIEVE DATA:"+key+">"+val);
+    return val;
+  }
+
+
+  // ========================= CAMERA / IMAGE CAPTURE ========================= 
+
 	this.takePlayerPhoto = function(playerIndex, callback){
     //debug("TAKE PICTURE:"+playerIndex);
     if (isCameraEnabled()){
@@ -21,6 +36,8 @@ var System = function(){
       callback(playerIndex, "playerImage"+playerIndex+".jpg");
     }
   }
+
+  // ========================= AUDIO RECORDING AND PLAYBACK ========================= 
 
   var mediaRec;
 	this.startRecordingCharacterFact = function(characterIndex, factIndex, callback){

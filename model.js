@@ -3,7 +3,7 @@ var Model = function(){
 	var currentlyInChallenge;
 	var characters;
 	var view;
-	var media;
+	var system;
 	var players;
 	var initFacts=0;
 	var maxScore;
@@ -11,7 +11,7 @@ var Model = function(){
   this.init = function(){
 		characters = new Characters();
 		players = new Players();
-		media = new Media();
+		system = new System();
 		view = new View(this);
 		view.hideContinueLinks();
 		view.showMenu();
@@ -98,11 +98,11 @@ var Model = function(){
 	this.startRecordingCharacterFact = function(){
 		var characterIndex = characters.currentCharacter.index;
 		var factIndex = characters.getCurrentFactIndex();
-		media.startRecordingCharacterFact(characterIndex, factIndex, this.characterFactCallback);
+		system.startRecordingCharacterFact(characterIndex, factIndex, this.characterFactCallback);
 	}
 
 	this.stopRecordingCharacterFact = function(){
-		media.stopRecordingCharacterFact();
+		system.stopRecordingCharacterFact();
 	}
 
 	this.characterFactCallback = function(filename){
@@ -110,16 +110,16 @@ var Model = function(){
 	}
 
 	this.startPlayingCharacterFact = function(characterIndex, factIndex, callback){
-		media.startPlayingCharacterFact(characterIndex, factIndex, callback, this);
+		system.startPlayingCharacterFact(characterIndex, factIndex, callback, this);
 	}
 	this.startPlayingCurrentCharacterFact = function(callback){
 		var characterIndex = characters.currentCharacter.index;
 		var factIndex = characters.getCurrentFactIndex();
-		media.startPlayingCharacterFact(characterIndex, factIndex, callback, this);
+		system.startPlayingCharacterFact(characterIndex, factIndex, callback, this);
 	}
 
 	this.stopPlayingCharacterFact = function(){
-		media.stopPlayingCharacterFact();
+		system.stopPlayingCharacterFact();
 	}
 
 
@@ -131,13 +131,22 @@ var Model = function(){
 	this.playNextFactForCurrentCharacter = function(){
 		if (factIndexesToPlay.length<1) return;
 		var ind = factIndexesToPlay.shift();
-		media.startPlayingCharacterFact( characters.getCurrentCharacterIndex(), ind, this.playNextFactForCurrentCharacter, this );
+		system.startPlayingCharacterFact( characters.getCurrentCharacterIndex(), ind, this.playNextFactForCurrentCharacter, this );
 	}
 
   //  ======================================== CAMERA ========================================
 
 	this.takePlayerPhoto = function(cameraPlayerIndex){
-		media.takePlayerPhoto(cameraPlayerIndex, view.setPlayerPicture);
+		system.takePlayerPhoto(cameraPlayerIndex, view.setPlayerPicture);
+	}
+
+	var tempVal=0;
+	this.testStoreData = function(){
+		tempVal++;
+		system.storeData("testkey", tempVal);
+	}
+	this.testRetrieveData = function(){
+		tempVal = system.retrieveData("testkey");
 	}
 
 }

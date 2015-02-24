@@ -54,9 +54,15 @@ var View = function(model_in){
 		corner( $("#control .title"), x1*3);
 		corner( $("#control a"), x1*4);
 
-		$("#menuScreen a").css({"margin-bottom":x1*2, "width":"80%", "margin-left":"10%" , "padding":x1*2 });
+		$("#menuScreen a").css({"margin-bottom":x1*2, "padding":x1*2 });
+		var menuW = winW-x1*12;
+		$("#menuScreen a").css({"width":menuW, "margin-left":x1*2, "margin-right":x1*2 });
+		$("#menuScreen a.narrow.left").css({"width":menuW/2-x1*3, "margin-right":x1 });
+		$("#menuScreen a.narrow.right").css({"width":menuW/2-x1*3, "margin-left":x1 });
+
+
 		var splashH = winH - $("#menuLinks").height();
-		$("#menuSplash").css({"max-width":winW, "max-height":splashH });
+		$("#menuSplash").css({"max-width":winW*1.16, "max-height":splashH });
 
 		if (widePlayerTabs) {
 			scoreHtml = "";
@@ -291,9 +297,11 @@ var View = function(model_in){
 
 	this.showContinueLinks = function(){
 		$(".continueGameLink").show();
+		$(".newGameLink").addClass("narrow right");
 	}
 	this.hideContinueLinks = function(){
 		$(".continueGameLink").hide();
+		$(".newGameLink").removeClass("narrow right");
 	}
 
 	function highlightPlayer(playerIndex){
@@ -372,6 +380,8 @@ var View = function(model_in){
 	$("#guessChallenge").click( function(){ view.showChallengePlayers() });
 	$("#optionsScreen a").click(function(){ optionClick( $(this) ) });
 	
+	$("#menuSplash").click( function(){ model.testStoreData() });
+	$("#splashTagline").click( function(){ model.testRetrieveData() });
 }
 
 function corner(target, val){
