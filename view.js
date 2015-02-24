@@ -54,6 +54,9 @@ var View = function(model_in){
 		corner( $("#control .title"), x1*3);
 		corner( $("#control a"), x1*4);
 
+		$("#menuScreen a").css({"margin-bottom":x1*2, "width":"80%", "margin-left":"10%" , "padding":x1*2 });
+		var splashH = winH - $("#menuLinks").height();
+		$("#menuSplash").css({"max-width":winW, "max-height":splashH });
 
 		if (widePlayerTabs) {
 			scoreHtml = "";
@@ -247,8 +250,6 @@ var View = function(model_in){
 
 		$("#challenge .challengePlayer").click(function(){ model.submitChallenge( $(this).attr("data-index") ); });
 		$("#cameraScreen .pic").click( function(){ takePlayerPhoto( $(this).data("index") ) });
-
-		this.doResize();
 	}
 
 	this.showGame = function(){
@@ -271,6 +272,7 @@ var View = function(model_in){
 	}
 	this.showMenu = function(){
 		showScreen("menu");
+		doResize();
 	}
 
 	function takePlayerPhoto(playerIndex){

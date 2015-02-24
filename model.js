@@ -13,9 +13,9 @@ var Model = function(){
 		players = new Players();
 		media = new Media();
 		view = new View(this);
-
-		//view.showMenu();
-		this.startGame(6,7,1,5,20,.7,4,"photo");
+		view.hideContinueLinks();
+		view.showMenu();
+		//this.startGame(6,7,1,5,20,.7,4,"photo");
   }
 
   //  ======================================== PRIMARY GAMEPLAY ========================================
@@ -131,8 +131,6 @@ var Model = function(){
 	this.playNextFactForCurrentCharacter = function(){
 		if (factIndexesToPlay.length<1) return;
 		var ind = factIndexesToPlay.shift();
-		debug("play Fact iterate:"+characters.getCurrentCharacterIndex()+"_"+ind);
-		console.log("play Fact iterate:"+characters.getCurrentCharacterIndex()+"_"+ind+":",this.playNextFactForCurrentCharacter);
 		media.startPlayingCharacterFact( characters.getCurrentCharacterIndex(), ind, this.playNextFactForCurrentCharacter, this );
 	}
 

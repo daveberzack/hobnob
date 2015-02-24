@@ -49,22 +49,23 @@ a {
     outline:none;
 }
 
-em {
-  font-weight:bold;
-}
-
 p {
   font-family: 'Cabin', Helvetica, Arial, sans-serif;
   font-size:1em;
 }
 h1,h2,h3,h4,h5,h6 {
   font-family: 'Lobster', Georgia, Times, serif;
+  font-weight:normal;
 }
 h1,h2 {
 	font-size:3em;
 }
-h3,h4 {
+h3 {
 	font-size:1.7em;
+}
+h4 {
+	font-size:1.2em;
+	font-weight:normal;
 }
 h5,h6 {
 	font-size:1em;
@@ -93,7 +94,26 @@ h5,h6 {
 /* ////////////////////////////////////////////////// MENU SCREEN */
 
 #menuScreen {
-	background:#FFFFCC;
+	background:#c09d49;
+	text-align:center;
+}
+#menuSplash {
+	display:inline-block;
+}
+#menuScreen #menuLinks {
+	overflow:hidden;
+	position:absolute;
+	bottom:0px;
+	width:100%;
+}
+#menuScreen a {
+	display:block;
+	width:80%;
+	margin-left:10%;
+	background:#062f37;
+	color:#FFFFFF;
+	border-radius:999;
+	text-align:center;
 }
 
 /* ////////////////////////////////////////////////// TOP BUTTONS */
