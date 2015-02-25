@@ -54,15 +54,34 @@ var View = function(model_in){
 		corner( $("#control .title"), x1*3);
 		corner( $("#control a"), x1*4);
 
+
+// menu
+
 		$("#menuScreen a").css({"margin-bottom":x1*2, "padding":x1*2 });
 		var menuW = winW-x1*12;
-		$("#menuScreen a").css({"width":menuW, "margin-left":x1*2, "margin-right":x1*2 });
-		$("#menuScreen a.narrow.left").css({"width":menuW/2-x1*3, "margin-right":x1 });
-		$("#menuScreen a.narrow.right").css({"width":menuW/2-x1*3, "margin-left":x1 });
+		$("#menuScreen a").css({"width":menuW-x1*2, "margin-left":x1*2, "margin-right":x1*2, "border-width":x1 });
+		$("#menuScreen a.narrow.left").css({"width":menuW/2-x1*5, "margin-right":x1 });
+		$("#menuScreen a.narrow.right").css({"width":menuW/2-x1*5, "margin-left":x1 });
+		var splashH = winH - $("#menuLinks").height() - x1*10;
+		var splashAspect = 882/1122;
+		var splashW = Math.min( winW*1.16, splashH*splashAspect );
+		$("#menuSplash").css({"width":splashW ,"margin-bottom":splashH*-.18 });
+
+//options 
+		var optionLinkW = winW/7;
+		var optionLinkW2 = (optionLinkW*3+x1)/8-x1*2;
+		$("#optionsTitle").css({"margin-top":x1*8, "margin-left":x1*2, "margin-bottom":x1*8 });
+		$(".optionGroup").css({"margin":x1*2, "padding-top":x1*2, "padding-bottom":x1*2, "border-width":x1 });
+		$(".optionGroup a").css({"width":optionLinkW, "margin-right":x1*2, "border-width":x1/2 });
+		$("#optionsPlayers a").css({"width":optionLinkW2, "height":optionLinkW*1.33, "margin-right":x1*2 });
+		corner( $("#optionsScreen >div"), x1*4);
+		corner( $(".optionGroup a"), x1*2);
+		$("#optionsScreen >a").css({"border-width":x1, "margin-top":x1*6, "padding":x1*2 });
 
 
-		var splashH = winH - $("#menuLinks").height();
-		$("#menuSplash").css({"max-width":winW*1.16, "max-height":splashH });
+
+
+
 
 		if (widePlayerTabs) {
 			scoreHtml = "";
@@ -136,8 +155,6 @@ var View = function(model_in){
     var cameraPicHeight = (winH - x1*20) / Math.ceil(numPlayers/2) - x1*2;
 		$("#cameraScreen .pic").css({"margin-left":x1*2, "margin-top":x1*2, "width": Math.min(cameraPicWidth, cameraPicHeight), "height": Math.min(cameraPicWidth, cameraPicHeight) })
 		
-
-		corner( $("#optionsScreen a"), x1*2);
 		corner( $(".challengePlayer"), x1*4);
   }
 
@@ -380,8 +397,8 @@ var View = function(model_in){
 	$("#guessChallenge").click( function(){ view.showChallengePlayers() });
 	$("#optionsScreen a").click(function(){ optionClick( $(this) ) });
 	
-	$("#menuSplash").click( function(){ model.testStoreData() });
-	$("#splashTagline").click( function(){ model.testRetrieveData() });
+	/*$("#menuSplash").click( function(){ model.testStoreData() });
+	$("#splashTagline").click( function(){ model.testRetrieveData() });*/
 }
 
 function corner(target, val){

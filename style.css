@@ -43,6 +43,7 @@ a {
   text-decoration:none;
   -webkit-tap-highlight-color: rgba(0,0,0,0);
   -webkit-tap-highlight-color: transparent;
+  color:inherit;
 }
 
 *:focus {
@@ -67,10 +68,12 @@ h4 {
 	font-size:1.2em;
 	font-weight:normal;
 }
-h5,h6 {
+h5 {
 	font-size:1em;
 }
-
+h6 {
+	
+}
 .screen {
 	position:absolute;
 	width:100%;
@@ -99,6 +102,7 @@ h5,h6 {
 }
 #menuSplash {
 	display:inline-block;
+	width:999px;
 }
 #splashHolder {
 	width:120%;
@@ -107,15 +111,13 @@ h5,h6 {
 	top:-3%;
 }
 #splashTagline {
-	position:absolute;
-	bottom:0;
-	overflow:hidden;
-	width:100%;
+	position:relative;
+	z-index:999;
 }
-#splashTagline h5 {
+#splashTagline * {
 	text-align:center;
-	color:#b55600;
-	line-height:1.2;
+	color:#062f37;
+	line-height:1.3;
 }
 #menuScreen #menuLinks {
 	overflow:hidden;
@@ -125,16 +127,94 @@ h5,h6 {
 }
 #menuScreen a {
 	display:inline-block;
-	background:#062f37;
-	color:#FFFFFF;
+	background:#FFFFFF;
+	color:#062f37;
 	border-radius:999;
+	border-color:#b55600;
+	border-style:solid;
 	text-align:center;
 }
 #menuScreen a.small {
 	display:inline-block;
-	background:#b28a2b;
+	background:#edd28e;
 	color:#b55600;
 	text-align:center;
+}
+
+
+/* ////////////////////////////////////////////////// OPTIONS SCREEN */
+
+#optionsScreen {
+	background:#c09d49;
+	color:#062f37;
+	text-align:center;
+}
+#optionsTitle {
+	text-align:center;
+}
+
+.optionGroup {
+	background:#edd28e;
+	overflow:hidden;
+}
+.optionLabel {
+	width:36%;
+	float:left;
+	margin-right:3.5%;
+}
+.optionLabel >* {
+	text-align:right;
+}
+.optionLabel h6 {
+	margin-right:6%;
+	font-family: 'Cabin', Helvetica, Arial, sans-serif;
+	color:#b55600;
+	line-height:1.4;
+}
+.optionGroup a {
+	float:left;
+	overflow:hidden;
+	border-color:#b55600;
+	border-style:solid;
+	background:#b55600;
+	color:#b55600;
+}
+#optionsPlayers a {
+	display:inline-block;
+	text-align:center;
+	line-height:3;
+  font-family: 'Lobster', Georgia, Times, serif;
+}
+.optionGroup a.chosen {
+	border-color:#062f37;
+	color:#062f37;
+	background-color:#062f37;
+}
+.optionGroup a img{
+	width:100%;
+}
+#optionsScreen >a {
+	display:inline-block;
+	background:#FFFFFF;
+	color:#062f37;
+	border-radius:999;
+	border-color:#b55600;
+	border-style:solid;
+	text-align:center;
+	width:60%;
+}
+
+/* ////////////////////////////////////////////////// CAMERA SCREEN */
+
+#cameraScreen .pic {
+	display:inline-block;
+	overflow:hidden;
+}
+#cameraOptions {
+	text-align:center;
+}
+#cameraScreen .pic img {
+	width:100%;
 }
 
 /* ////////////////////////////////////////////////// TOP BUTTONS */
@@ -340,41 +420,4 @@ background-repeat:no-repeat;
 #addInfo .disabled {
 	opacity:.25;
 	pointer-events:none;
-}
-
-
-/* ////////////////////////////////////////////////// OPTIONS */
-
-#optionsScreen a {
-	display:block;
-	padding:5px;
-	margin:0px 5px;
-	float:left;
-	background:#CCCCCC;
-}
-#optionsScreen a.chosen {
-	background:#999999;
-}
-#optionsScreen h3 {
-	padding:5px;
-	margin:0px 10px;
-	float:left;
-}
-#optionsScreen .optionGroup {
-	overflow:hidden;
-	margin:20px;
-}
-.hidden {
-	display:none !important;
-}
-
-#cameraScreen .pic {
-	display:inline-block;
-	overflow:hidden;
-}
-#cameraOptions {
-	text-align:center;
-}
-#cameraScreen .pic img {
-	width:100%;
 }

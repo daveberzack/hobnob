@@ -56,15 +56,15 @@
 <div id="menuScreen" class="screen">
 	<div id="splashHolder">
 		<img src="img/splash.jpg" id="menuSplash"/>
-		<div id="splashTagline">
-			<h5>The game of Making Friends</h5>
-			<h5>...and Remembering Them</h5>
-		</div>
+	</div>
+	<div id="splashTagline">
+		<h4>The Game of Making Friends</h4>
+		<h4>...And Remembering Them</h4>
 	</div>
 	<div id="menuLinks">
 		<a href="#" class="continueGameLink narrow left"><h4>Back To Game</h4></a><a href="#" class="newGameLink"><h4>New Game</h4></a>
 		<a href="#" class="instructionsLink narrow left"><h4>How to Play</h4></a><a href="#" class="hintsLink narrow right"><h4>Tips & Tricks</h4></a>
-		<a href="#" class="aboutLink small"><h5>About This Game</h5></a>
+		<a href="#" class="aboutLink small"><h4>About This Game</h4></a>
 	</div>
 </div>
 
@@ -86,41 +86,42 @@
 </div>
 
 <div id="optionsScreen" class="screen">
-
+	<h2 id="optionsTitle">Game Options</h2>
   <div id="optionsPlayers" class="optionGroup">
-	  <h3>players:</h3>
-	  <a href="#" id="optionsPlayers1" data-value="1">1</a>
-	  <a href="#" id="optionsPlayers2" data-value="2">2</a>
-	  <a href="#" id="optionsPlayers3" data-value="3">3</a>
-	  <a href="#" id="optionsPlayers4" data-value="4" class="chosen">4</a>
-	  <a href="#" id="optionsPlayers5" data-value="5">5</a>
-	  <a href="#" id="optionsPlayers6" data-value="6">6</a>
-	  <a href="#" id="optionsPlayers7" data-value="7">7</a>
-	  <a href="#" id="optionsPlayers8" data-value="8">8</a>
-  </div>
-  <div id="optionsIcons" class="optionGroup">
-	  <h3>Icons:</h3>
-	  <a href="#" id="optionsIcons1" data-value="photo" class="chosen">Pic</a>
-	  <a href="#" id="optionsIcons2" data-value="number">#</a>
-	  <a href="#" id="optionsIcons3" data-value="animal">Anml</a>
-	  <a href="#" id="optionsIcons4" data-value="object">Obj</a>
+	  <div class="optionLabel"><h3>Players:</h3><h6>4</h6></div>
+	  <a href="#" id="optionsPlayers1" data-value="1"></a>
+	  <a href="#" id="optionsPlayers2" data-value="2"></a>
+	  <a href="#" id="optionsPlayers3" data-value="3"></a>
+	  <a href="#" id="optionsPlayers4" data-value="4" class="chosen"></a>
+	  <a href="#" id="optionsPlayers5" data-value="5"></a>
+	  <a href="#" id="optionsPlayers6" data-value="6"></a>
+	  <a href="#" id="optionsPlayers7" data-value="7"></a>
+	  <a href="#" id="optionsPlayers8" data-value="8"></a>
   </div>
 
   <div id="optionsDifficulty" class="optionGroup">
-	  <h3>Difficulty:</h3>
-	  <a href="#" id="optionsDifficulty1" data-value="1" class="chosen">Easy</a>
-	  <a href="#" id="optionsDifficulty2" data-value="2">Hard</a>
+	  <div class="optionLabel"><h3>Level:</h3><h6>Easy</h6></div>
+	  <a href="#" id="optionsDifficulty1" data-value="1" class="chosen"><img src="img/players_numbers/player0.jpg"/></a>
+	  <a href="#" id="optionsDifficulty2" data-value="2"><img src="img/players_numbers/player1.jpg"/></a>
+	  <a href="#" id="optionsDifficulty3" data-value="3"><img src="img/players_numbers/player2.jpg"/></a>
   </div>
 
   <div id="optionsDepth" class="optionGroup">
-	  <h3>Character Depth:</h3>
-	  <a href="#" id="optionsPlayers1" data-value="1">1</a>
-	  <a href="#" id="optionsPlayers2" data-value="2" class="chosen">2</a>
-	  <a href="#" id="optionsPlayers3" data-value="3">3</a>
+	  <div class="optionLabel"><h3>Depth:</h3><h6>Medium</h6></div>
+	  <a href="#" id="optionsDepth1" data-value="1"><img src="img/players_numbers/player0.jpg"/></a>
+	  <a href="#" id="optionsDepth2" data-value="2" class="chosen"><img src="img/players_numbers/player1.jpg"/></a>
+	  <a href="#" id="optionsDepth3" data-value="3"><img src="img/players_numbers/player2.jpg"/></a>
   </div>
 
-	<a href="#" class="startGameLink">Start Game</a>
-	<a href="#" class="cameraLink">Take Photos</a>
+  <div id="optionsIcons" class="optionGroup">
+	  <div class="optionLabel"><h3>Tokens:</h3><h6>Selfies</h6></div>
+	  <a href="#" id="optionsIcons1" data-value="photo" class="chosen"><img src="img/players_temp/player1.jpg"/></a>
+	  <a href="#" id="optionsIcons2" data-value="number"><img src="img/players_numbers/player0.jpg"/></a>
+	  <a href="#" id="optionsIcons3" data-value="animal"><img src="img/players_animals/player0.jpg"/></a>
+  </div>
+
+	<a href="#" class="startGameLink"><h4>Start the Game</h4></a>
+	<a href="#" class="cameraLink"><h4>Snap Badge Photos</h4></a>
 </div>
 
 <div id="cameraScreen" class="screen">

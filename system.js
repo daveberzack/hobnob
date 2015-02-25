@@ -2,17 +2,47 @@ var System = function(){
 
 
   // ========================= PERSISTENT DATA STORAGE ========================= 
-
-  this.storeData = function(key, val){
-    debug("STORE DATA:"+key+">"+val);
-    window.localStorage.setItem(key, val);
+  /*
+  this.db;
+  this.confirmData = function(){
+    debug("INIT DATA: new?"+ !(this.db) );
+    if (!this.db) {
+      this.db = window.openDatabase("Database", "1.0", "HobnobDatabase", 200000);
+      db.transaction(initDatabase, this.errorCallback, this.successCallback);
+    }
   }
+  this.initDatabase = function(tx){
+    tx.executeSql('CREATE TABLE IF NOT EXISTS data(key unique, val)');
+  }
+
+  var valTemp;
+  var keyTemp;
+  this.storeData = function(key, val){
+    this.confirmData();
+    valTemp=val;
+    keyTemp=key;
+    debug("STORE DATA:"+key+">"+val);
+    db.transaction(updateDatabase, this.errorCallback, this.successCallback);
+  }
+  this.updateDatabase = function(tx){
+    tx.executeSql('UPDATE data SET val="'+valTemp+'" WHERE key="'+keyTemp+'";');
+  }
+
   this.retrieveData = function(key){
-    var val = window.localStorage.getItem(key);
-    debug("RETRIEVE DATA:"+key+">"+val);
+    this.confirmData();
+    keyTemp=key;
+    db.transaction(selectDatabase, this.errorCallback, this.selectCallback);
     return val;
   }
-
+  this.selectDatabase = function(tx){
+    tx.executeSql('SELECT val FROM data WHERE key="'+keyTemp+'";');
+  }
+  this.selectCallback = function(tx){
+    $.each(result.rows,function(index){
+      debug("RETRIEVE DATA:"+keyTemp+">"+result.rows.item(index) );
+    });
+  }
+  */
 
   // ========================= CAMERA / IMAGE CAPTURE ========================= 
 

@@ -140,6 +140,7 @@ var Model = function(){
 		system.takePlayerPhoto(cameraPlayerIndex, view.setPlayerPicture);
 	}
 
+/*
 	var tempVal=0;
 	this.testStoreData = function(){
 		tempVal++;
@@ -148,7 +149,7 @@ var Model = function(){
 	this.testRetrieveData = function(){
 		tempVal = system.retrieveData("testkey");
 	}
-
+*/
 }
 var model = new Model();
 model.init();
@@ -167,10 +168,14 @@ function logError(message) {
 }
 $("#debug").hide().click(function(){ $(this).hide().html(""); });
 
-if (false){
-	//initial characters
-	var factor = 20;
-	var data = [
+
+	var factor = 100;
+	var data = []; //no automation
+	data = [ //options screen
+		["#menuLinks .newGameLink",2]
+	]
+	/*
+	data = [ //gameplay
 		["#introRecord",2], ["#introRecord",5], ["#introNext",2], 
 		["#introRecord",2], ["#introRecord",5], ["#introNext",2], 
 		["#introRecord",2], ["#introRecord",5], ["#introNext",2], 
@@ -184,10 +189,11 @@ if (false){
 		["#guessCorrect",2], ["#introRecord",2], ["#introRecord",5], ["#introNext",2],
 		["#guessCorrect",2], ["#introRecord",2], ["#introRecord",5], ["#introNext",2],
 		["#guessCorrect",2], ["#introRecord",2], ["#introRecord",5], ["#introNext",2]
-	]
+	]*/
+
+
 	var delay=0;
 	for (var i=0; i<data.length; i++){
 		delay+=data[i][1]*factor;
 		setTimeout(function(d){ $(d).click() }, delay, data[i][0] );
 	}
-}
