@@ -24,10 +24,10 @@
 			<div id="guess">
 				<h3 class="title">Remember Me?</h3>
 				<div class="inner">
-					<a href="#" id="guessCheck"><img src="img/play.gif"/><h5>Check</h5></a>
-					<a href="#" id="guessCorrect"><img src="img/right.gif"/><h5>Right</h5></a>
-					<a href="#" id="guessIncorrect"><img src="img/wrong.gif"/><h5>Wrong</h5></a>
-					<a href="#" id="guessChallenge"><img src="img/target.gif"/><h5>Defer</h5></a>
+					<a href="#" id="guessCheck" class="controlButton"><img src="img/play.gif"/><h5>Check</h5></a>
+					<a href="#" id="guessCorrect" class="controlButton"><img src="img/right.gif"/><h5>Right</h5></a>
+					<a href="#" id="guessIncorrect" class="controlButton"><img src="img/wrong.gif"/><h5>Wrong</h5></a>
+					<a href="#" id="guessChallenge" class="controlButton"><img src="img/target.gif"/><h5>Defer</h5></a>
 				</div>
 			</div>
 			<div id="addInfo">
@@ -36,10 +36,10 @@
 					  <h5 id="factLabel1">What is my</h5>
 					  <h1 id="factLabel2">Name?</h1>
 				  </div>
-				  <a href="#" id="introRecord"><img src="img/record.gif"/><h5>Record</h5></a>
-				  <a href="#" id="introStop" class="hidden"><img src="img/stop.gif"/><h5>Stop</h5></a>
-				  <a href="#" id="introPlay" class="hidden"><img src="img/play.gif"/><h5>Play</h5></a>
-					<a href="#" id="introNext"><img src="img/next.gif"/><h5>Next</h5></a>
+				  <a href="#" id="introRecord" class="controlButton"><img src="img/record.gif"/><h5>Record</h5></a>
+				  <a href="#" id="introStop" class="controlButton hidden"><img src="img/stop.gif"/><h5>Stop</h5></a>
+				  <a href="#" id="introPlay" class="controlButton hidden"><img src="img/play.gif"/><h5>Play</h5></a>
+					<a href="#" id="introNext" class="controlButton"><img src="img/next.gif"/><h5>Next</h5></a>
 					<div class="clearfix"></div>
 				</div>
 			</div>
@@ -121,7 +121,7 @@
   </div>
 
 	<a href="#" class="startGameLink"><h4>Start the Game</h4></a>
-	<a href="#" class="cameraLink"><h4>Snap Badge Photos</h4></a>
+	<a href="#" class="cameraLink"><h4>Take Token Photos</h4></a>
 </div>
 
 <div id="cameraScreen" class="screen">
@@ -133,9 +133,12 @@
 
 
 <div id="winScreen" class="screen">
- <h3>Player # Won!</h3>
-	<a href="#" class="newGameLink">Start a New Game</a><br/>
-	<a href="#" class="menuLink">Back to Main Screen</a><br/>
+  <img id="winImage" src="img/players_numbers/player2.jpg"/>
+  <h2>You Won!</h2>
+  <div id="winLinks">
+		<a href="#" class="startGameLink"><h4>Play a Rematch</h4></a>
+		<a href="#" class="menuLink"><h4>Back to Main Menu</h4></a>
+	</div>
 </div>
 
 <div id="debug"></div>

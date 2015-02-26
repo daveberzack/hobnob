@@ -15,7 +15,7 @@ var Model = function(){
 		view = new View(this);
 		view.hideContinueLinks();
 		view.showMenu();
-		//this.startGame(6,7,1,5,20,.7,4,"photo");
+		//this.startGame(6,3,1,5,20,.7,4,"photo");
   }
 
   //  ======================================== PRIMARY GAMEPLAY ========================================
@@ -169,18 +169,31 @@ function logError(message) {
 $("#debug").hide().click(function(){ $(this).hide().html(""); });
 
 
-	var factor = 100;
+	var factor = 20;
 	var data = []; //no automation
+	/*
 	data = [ //options screen
 		["#menuLinks .newGameLink",2]
 	]
+	
+	data = [ //gameplay to init
+		["#introRecord",2], ["#introRecord",5], ["#introNext",2], 
+		["#introRecord",2], ["#introRecord",5], ["#introNext",2], 
+		["#introRecord",2], ["#introRecord",5], ["#introNext",2], 
+		["#introRecord",2], ["#introRecord",5], ["#introNext",2], 
+		["#introRecord",2], ["#introRecord",5], ["#introNext",2]
+	]
 	/*
-	data = [ //gameplay
+	data = [ //gameplay to end
 		["#introRecord",2], ["#introRecord",5], ["#introNext",2], 
 		["#introRecord",2], ["#introRecord",5], ["#introNext",2], 
 		["#introRecord",2], ["#introRecord",5], ["#introNext",2], 
 		["#introRecord",2], ["#introRecord",5], ["#introNext",2], 
 		["#introRecord",2], ["#introRecord",5], ["#introNext",2], 
+		["#guessCorrect",2], ["#introRecord",2], ["#introRecord",5], ["#introNext",2],
+		["#guessCorrect",2], ["#introRecord",2], ["#introRecord",5], ["#introNext",2],
+		["#guessCorrect",2], ["#introRecord",2], ["#introRecord",5], ["#introNext",2],
+		["#guessCorrect",2], ["#introRecord",2], ["#introRecord",5], ["#introNext",2],
 		["#guessCorrect",2], ["#introRecord",2], ["#introRecord",5], ["#introNext",2],
 		["#guessCorrect",2], ["#introRecord",2], ["#introRecord",5], ["#introNext",2],
 		["#guessCorrect",2], ["#introRecord",2], ["#introRecord",5], ["#introNext",2],
@@ -189,8 +202,8 @@ $("#debug").hide().click(function(){ $(this).hide().html(""); });
 		["#guessCorrect",2], ["#introRecord",2], ["#introRecord",5], ["#introNext",2],
 		["#guessCorrect",2], ["#introRecord",2], ["#introRecord",5], ["#introNext",2],
 		["#guessCorrect",2], ["#introRecord",2], ["#introRecord",5], ["#introNext",2]
-	]*/
-
+	]
+/* */
 
 	var delay=0;
 	for (var i=0; i<data.length; i++){

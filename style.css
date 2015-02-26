@@ -191,9 +191,9 @@ h6 {
 	background-color:#062f37;
 }
 .optionGroup a img{
-	width:100%;
+	max-width:80%;
 }
-#optionsScreen >a {
+#optionsScreen >a, #winScreen a {
 	display:inline-block;
 	background:#FFFFFF;
 	color:#062f37;
@@ -202,6 +202,28 @@ h6 {
 	border-style:solid;
 	text-align:center;
 	width:60%;
+}
+
+/* ////////////////////////////////////////////////// WIN SCREEN */
+
+#winScreen {
+	text-align:center;
+}
+#winScreen a {
+	border-radius:999;
+}
+#winImage {
+	border-style:solid;
+}
+#winLinks {
+	position:absolute;
+	bottom:0;
+	text-align:center;
+	border-style:solid;
+	border-color:#222222;
+	background:#c09d49;
+	padding-bottom:200px;
+	width:100%;
 }
 
 /* ////////////////////////////////////////////////// CAMERA SCREEN */
@@ -291,38 +313,40 @@ h6 {
 .player0 .playerTab0, .player1 .playerTab1, .player2 .playerTab2, .player3 .playerTab3, .player4 .playerTab4, .player5 .playerTab5,.player6 .playerTab6, .player7 .playerTab7 { 
 	padding-bottom:50px;
 }
-.player0 .mainPane, .playerTab0, .playerTab0 .point { background-color:#fdb765}
+
+/* remove extra border colors ...others? */
+.player0 .mainPane, .playerTab0, .playerTab0 .point, #winScreen.player0 { background-color:#fdb765}
 .player0 .playerTab0 { border-color:#fdb765;}
-.player0 #factLabel2 {color:#462600;}
-.player0 .characterHolder, .playerTab0 .picture, .playerTab0 .score { background-color:#462600; border-color:#462600;}
-.player1 .mainPane, .playerTab1, .playerTab1 .point { background-color:#b993f7}
+.player0 #factLabel2, .player0 .controlButton h5, .player0 #control .title {color:#462600;}
+.player0 .characterHolder, .playerTab0 .picture, .playerTab0 .score, #winScreen.player0 #winImage, .player0 .controlButton img { background-color:#462600; border-color:#462600;}
+.player1 .mainPane, .playerTab1, .playerTab1 .point, #winScreen.player1 { background-color:#b993f7}
 .player1 .playerTab1 { border-color:#b993f7;}
-.player1 #factLabel2 {color:#1b044f;}
-.player1 .characterHolder, .playerTab1 .picture, .playerTab1 .score { background-color:#1b044f;border-color:#1b044f;}
-.player2 .mainPane, .playerTab2, .playerTab2 .point { background-color:#a8e3a9}
+.player1 #factLabel2, .player1 .controlButton h5, .player1 #control .title {color:#1b044f;}
+.player1 .characterHolder, .playerTab1 .picture, .playerTab1 .score, #winScreen.player1 #winImage, .player1 .controlButton img { background-color:#1b044f;border-color:#1b044f;}
+.player2 .mainPane, .playerTab2, .playerTab2 .point, #winScreen.player2 { background-color:#a8e3a9}
 .player2 .playerTab2 { border-color:#a8e3a9;}
-.player2 #factLabel2 {color:#124313;}
-.player2 .characterHolder, .playerTab2 .picture, .playerTab2 .score { background-color:#124313;border-color:#124313;}
-.player3 .mainPane, .playerTab3, .playerTab3 .point { background-color:#fca9b5}
+.player2 #factLabel2, .player2 .controlButton h5, .player2 #control .title {color:#124313;}
+.player2 .characterHolder, .playerTab2 .picture, .playerTab2 .score, #winScreen.player2 #winImage, .player2 .controlButton img { background-color:#124313;border-color:#124313;}
+.player3 .mainPane, .playerTab3, .playerTab3 .point, #winScreen.player3 { background-color:#fca9b5}
 .player3 .playerTab3 { border-color:#fca9b5;}
-.player3 #factLabel2 {color:#58000c;}
-.player3 .characterHolder, .playerTab3 .picture, .playerTab3 .score { background-color:#58000c;border-color:#58000c;}
-.player4 .mainPane, .playerTab4, .playerTab4 .point { background-color:#deeb86}
+.player3 #factLabel2, .player3 .controlButton h5, .player3 #control .title {color:#58000c;}
+.player3 .characterHolder, .playerTab3 .picture, .playerTab3 .score, #winScreen.player3 #winImage, .player3 .controlButton img { background-color:#58000c;border-color:#58000c;}
+.player4 .mainPane, .playerTab4, .playerTab4 .point, #winScreen.player4 { background-color:#deeb86}
 .player4 .playerTab4 { border-color:#deeb86;}
-.player4 #factLabel2 {color:#5c4100;}
-.player4 .characterHolder, .playerTab4 .picture, .playerTab4 .score { background-color:#5c4100; border-color:#5c4100;}
-.player5 .mainPane, .playerTab5, .playerTab5 .point { background-color:#b7e6f4}
+.player4 #factLabel2, .player4 .controlButton h5, .player4 #control .title {color:#5c4100;}
+.player4 .characterHolder, .playerTab4 .picture, .playerTab4 .score, #winScreen.player4 #winImage, .player4 .controlButton img { background-color:#5c4100; border-color:#5c4100;}
+.player5 .mainPane, .playerTab5, .playerTab5 .point, #winScreen.player5 { background-color:#b7e6f4}
 .player5 .playerTab5 { border-color:#b7e6f4;}
-.player5 #factLabel2 {color:#043543;}
-.player5 .characterHolder, .playerTab5 .picture, .playerTab5 .score { background-color:#043543; border-color:#043543;}
-.player6 .mainPane, .playerTab6, .playerTab6 .point { background-color:#b7b7b7}
+.player5 #factLabel2, .player5 .controlButton h5, .player5 #control .title {color:#043543;}
+.player5 .characterHolder, .playerTab5 .picture, .playerTab5 .score, #winScreen.player5 #winImage, .player5 .controlButton img { background-color:#043543; border-color:#043543;}
+.player6 .mainPane, .playerTab6, .playerTab6 .point, #winScreen.player6 { background-color:#b7b7b7}
 .player6 .playerTab6 { border-color:#b7b7b7;}
-.player6 #factLabel2 {color:#3d3d3d;}
-.player6 .characterHolder, .playerTab6 .picture, .playerTab6 .score { background-color:#3d3d3d; border-color:#3d3d3d;}
-.player7 .mainPane, .playerTab7, .playerTab7 .point { background-color:#f0f1d7}
+.player6 #factLabel2, .player6 .controlButton h5, .player6 #control .title {color:#3d3d3d;}
+.player6 .characterHolder, .playerTab6 .picture, .playerTab6 .score, #winScreen.player6 #winImage, .player6 .controlButton img { background-color:#3d3d3d; border-color:#3d3d3d;}
+.player7 .mainPane, .playerTab7, .playerTab7 .point, #winScreen.player7 { background-color:#f0f1d7}
 .player7 .playerTab7 { border-color:#f0f1d7;}
-.player7 #factLabel2 {color:#353119;}
-.player7 .characterHolder, .playerTab7 .picture, .playerTab7 .score { background-color:#353119; border-color:#353119;}
+.player7 #factLabel2, .player7 .controlButton h5, .player7 #control .title {color:#353119;}
+.player7 .characterHolder, .playerTab7 .picture, .playerTab7 .score, #winScreen.player7 #winImage, .player7 .controlButton img { background-color:#353119; border-color:#353119;}
 
 
 
@@ -331,15 +355,14 @@ h6 {
 /* ////////////////////////////////////////////////// CHARACTER */
 
 .characterHolder {
-
-	border-color:#222222 !important;
 	border-style:solid;
+	border-color:#222222 !important;
 	position:relative;
 	text-align:center;
 	overflow:hidden;
 	background-image:url("img/characterShadow.png");
-background-size:cover; 
-background-repeat:no-repeat;
+	background-size:cover; 
+	background-repeat:no-repeat;
 }
 .characterHolder img {
 	height:100%;
@@ -377,9 +400,12 @@ background-repeat:no-repeat;
 	overflow:hidden;
 	background:#FFFFFF;
 	border-style:solid;
-	border-color:#222222;
-	color:#222222;
 	text-align:center;
+
+	border-color:#222222 !important;
+	color:#FFFFFF !important;
+	background:#222222 !important;
+
 }
 #control #factLabel1 {
 	font-family: 'Cabin', Helvetica, Arial, sans-serif;
@@ -391,9 +417,11 @@ background-repeat:no-repeat;
 
 #control a {
 	display:block;
-	background:#222222;
+	background:#FFFFFF;
 	float:left;
 	text-align:center;
+	border-style:solid;
+	border-color:#222222 !important;
 }
 #control a img{
 	display:inline-block;
@@ -401,9 +429,11 @@ background-repeat:no-repeat;
 #control a h5 {
 	text-align:center;
 	font-family: 'Cabin', Helvetica, Arial, sans-serif;
-	color:#FFFFFF;
-
 }
+.hidden {
+	display:none !important;
+}
+
 .clearfix {
 	clear:both;
 }
