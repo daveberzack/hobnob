@@ -173,6 +173,8 @@ var System = function(){
       
     }
   }
+  
+  document.addEventListener("pause", this.stopPlayingTheme, false);
 
   function isMediaEnabled(){
     var out = ( typeof navigator.camera != "undefined" );

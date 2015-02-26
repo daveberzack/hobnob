@@ -191,7 +191,7 @@ h6 {
 	background-color:#062f37;
 }
 .optionGroup a img{
-	max-width:80%;
+	width:100%;
 }
 #optionsScreen >a, #winScreen a {
 	display:inline-block;
