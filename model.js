@@ -9,6 +9,7 @@ var Model = function(){
 	var maxScore;
 
   this.init = function(){
+  	debug("INIT");
 		characters = new Characters();
 		players = new Players();
 		system = new System();
@@ -17,18 +18,14 @@ var Model = function(){
 		view.showMenu();
 		//this.startGame(6,3,1,5,20,.7,4,"photo");
 
-		setTimeout(function(){
-		  system.startPlayingTheme("theme.mp3");
-		},1000);
-		setTimeout(function(){
-		  system.startPlayingTheme(window.location.pathname+"theme.mp3");
-		},4000);
-		setTimeout(function(){
-		  system.startPlayingTheme("/android_asset/www/theme.mp3");
-		},7000);
-
   }
 
+  this.startPlayingTheme = function(){
+  	system.startPlayingTheme();
+  }
+  this.stopPlayingTheme = function(duration){
+  	system.stopPlayingTheme(duration);
+  }
   //  ======================================== PRIMARY GAMEPLAY ========================================
 
 	this.startGame = function(numPlayers, maxS, initF, initChars, maxChars, chanceOfUnnamed, playerIconType){
@@ -83,7 +80,7 @@ var Model = function(){
 			view.hideContinueLinks();
 		}
 		else {
-			view.showWin(players.getActivePlayerIndex());
+			view.showWinScreen(players.getActivePlayerIndex());
 			view.showContinueLinks();
 		}
 	}

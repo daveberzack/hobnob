@@ -219,13 +219,6 @@ var View = function(model_in){
   	$("#factLabel2").html(prompt+"?");	
 	}
 
-	this.showWin = function(playerIndex){
-		$("#winScreen h3").html("Player "+(playerIndex+1)+" won!");
-		showScreen("win");
-		$("#winScreen").removeClass().addClass("screen player"+playerIndex);
-		$("#winImage").attr("src","img/players_numbers/player"+playerIndex+".jpg");
-	}
-
 	this.showIntro = function(playerIndex, characterId, prompt){
 		showScreen("game");
 		$("#challenge").hide();
@@ -290,6 +283,7 @@ var View = function(model_in){
 
 	this.showGame = function(){
 		showScreen("game");
+  	model.stopPlayingTheme(2000);
 	}
 	this.showOptions = function(){
 		optionClick( $() );
@@ -307,7 +301,16 @@ var View = function(model_in){
 		setPlayerHtml();
 	}
 	this.showMenu = function(){
+  	model.startPlayingTheme();
 		showScreen("menu");
+	}
+
+	this.showWinScren = function(playerIndex){
+		$("#winScreen h3").html("Player "+(playerIndex+1)+" won!");
+		$("#winScreen").removeClass().addClass("screen player"+playerIndex);
+		$("#winImage").attr("src","img/players_numbers/player"+playerIndex+".jpg");
+		showScreen("win");
+  	model.startPlayingTheme();
 	}
 
 	function takePlayerPhoto(playerIndex){

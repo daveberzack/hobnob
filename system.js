@@ -128,10 +128,16 @@ var System = function(){
     }
   }
 */
-  this.startPlayingTheme = function(filename){
-    debug("PLAY THEME:"+filename);
+  this.startPlayingTheme = function(){
+    if (isThemePlaying) {
+      debug("THEME ALREADY PLAYING");
+      return;
+    }
+    isThemePlaying=true;
+    var path = window.location.pathname;
+    var filename = path.substring(0, path.lastIndexOf('/'))+"/theme.mp3";
+    debug("START THEME:"+filename);
     if (isMediaEnabled()){
-      //var filename = "theme.mp3";
       themePlay = new Media(
         filename,
         function() { // success callback
@@ -153,6 +159,7 @@ var System = function(){
 
   this.stopPlayingTheme = function(duration){
     debug("STOP THEME");
+    isThemePlaying=false;
     if ( isMediaEnabled() ){
 
       themeStopInterval = setInterval(function(){
@@ -178,6 +185,7 @@ var System = function(){
   }
 }
 
+  var isThemePlaying;
   var themeStopInterval;
   var themePlay;
   var themeVolume;
