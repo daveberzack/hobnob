@@ -72,7 +72,7 @@ var System = function(){
   var mediaRec;
 	this.startRecordingCharacterFact = function(characterIndex, factIndex, callback){
     var filename = "fact"+characterIndex+"_"+factIndex+".mp3";
-    debug("RECORD START:"+filename+" ..."+isMediaEnabled());
+    //debug("RECORD START:"+filename+" ..."+isMediaEnabled());
 
     if ( isMediaEnabled() ){
       mediaRec = new Media(
@@ -93,7 +93,7 @@ var System = function(){
 	}
 
   this.stopRecordingCharacterFact = function(){
-    debug("RECORD STOP:"+mediaRec);
+    //debug("RECORD STOP:"+mediaRec);
     if (isMediaEnabled() ){
       setTimeout(function(temp){ temp.stopRecord(); }, 500, mediaRec );
     }
@@ -102,7 +102,7 @@ var System = function(){
 
   this.startPlayingCharacterFact = function(characterIndex, factIndex, callback, scope){
     var filename = "fact"+characterIndex+"_"+factIndex+".mp3";
-    debug("PLAY:"+filename);
+    //debug("PLAY:"+filename);
     if (isMediaEnabled()){
       var mediaPlay = new Media(
         filename,
@@ -120,10 +120,50 @@ var System = function(){
       if (typeof callback=="function") callback.call(scope, filename);
     }
   }
+  /*
   this.stopPlayingCharacterFact = function(characterIndex, factIndex){
-    debug("STOP:"+characterIndex+","+factIndex);
+    //debug("STOP:"+characterIndex+","+factIndex);
     if ( isMediaEnabled() ){
       mediaPlay.stop();
+    }
+  }
+*/
+  this.startPlayingTheme = function(filename){
+    debug("PLAY THEME:"+filename);
+    if (isMediaEnabled()){
+      //var filename = "theme.mp3";
+      themePlay = new Media(
+        filename,
+        function() { // success callback
+          //do nothing
+        },
+        function(err) {  // error callback
+          logError("Theme Error: "+ err.code);
+        }
+      );
+      themeVolume=.5;
+      themePlay.setVolume(themeVolume);
+      themePlay.play();
+    }
+    else {
+      if (typeof callback=="function") callback.call(scope, filename);
+    }
+  }
+
+
+  this.stopPlayingTheme = function(duration){
+    debug("STOP THEME");
+    if ( isMediaEnabled() ){
+
+      themeStopInterval = setInterval(function(){
+        themeVolume = themeVolume-.01;
+        themePlay.setVolume(themeVolume);
+        if (themeVolume<.05) {
+          themePlay.stop();
+          clearInterval(themeStopInterval);
+        }
+      }, duration/( 50 ) );
+      
     }
   }
 
@@ -137,3 +177,7 @@ var System = function(){
     return out;
   }
 }
+
+  var themeStopInterval;
+  var themePlay;
+  var themeVolume;

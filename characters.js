@@ -60,7 +60,6 @@ var Characters = function(){
 
 	this.setFact = function(val){
 		this.currentCharacter.facts[currentFactIndex] = val;
-		debug("ADD FACT:"+this.currentCharacter.facts);
 	}
 
 	this.getCurrentCharacterNumberOfFacts = function(){ //including name

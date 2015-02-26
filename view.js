@@ -314,7 +314,6 @@ var View = function(model_in){
 		model.takePlayerPhoto(playerIndex);
 	}
 	this.setPlayerPicture = function(playerIndex, imageReference){
-		debug("setPlayerPicture:"+playerIndex+":"+imageReference);
 		$("#cameraOptions #pic"+playerIndex).attr("src", imageReference);
 		playerPhotos[playerIndex] = imageReference;
 	}
@@ -356,7 +355,7 @@ var View = function(model_in){
 		["More Faces","Medium","More Detail"],
 		["Selfies","Numbers","Animals"]
 	];
-	var optionValues = [3,1,1,0];
+	var optionValues = [3,0,1,0];
 
 
 	function updateOptions(){
@@ -396,11 +395,11 @@ var View = function(model_in){
 
 		var initFactsByLevel = [1,2,2];
 		var initCharsByLevel = [5,5,7];
-		var maxScores = [0,18,13,9,8,6,5,4,3,3];
+		var maxScoresByPlayer = [18,13,9,8,6,5,4,3,3];
 		var maxCharsByDepth=[26,20,15];
 		var chanceOfUnnamedByDepth=[.75,.7,.65];
 
-		model.startGame(npl, maxScores[npl]+lvl, initFactsByLevel[lvl], initCharsByLevel[lvl], maxCharsByDepth[dep], chanceOfUnnamedByDepth[dep], tkn);
+		model.startGame(npl+1, maxScoresByPlayer[npl]+lvl, initFactsByLevel[lvl], initCharsByLevel[lvl], maxCharsByDepth[dep], chanceOfUnnamedByDepth[dep], tkn);
 	}
 	
 

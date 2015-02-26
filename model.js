@@ -16,6 +16,17 @@ var Model = function(){
 		view.hideContinueLinks();
 		view.showMenu();
 		//this.startGame(6,3,1,5,20,.7,4,"photo");
+
+		setTimeout(function(){
+		  system.startPlayingTheme("theme.mp3");
+		},1000);
+		setTimeout(function(){
+		  system.startPlayingTheme(window.location.pathname+"theme.mp3");
+		},4000);
+		setTimeout(function(){
+		  system.startPlayingTheme("/android_asset/www/theme.mp3");
+		},7000);
+
   }
 
   //  ======================================== PRIMARY GAMEPLAY ========================================
@@ -50,7 +61,6 @@ var Model = function(){
 	}
 
 	this.introComplete = function(){
-		debug("introComplete:"+characters.getCurrentCharacterNumberOfFacts()+","+initFacts);
 		if (characters.getCurrentCharacterNumberOfFacts()<initFacts) {
 			characters.updateFactIndex();
 			view.showIntro(players.getActivePlayerIndex(), characters.getCurrentCharacterIndex(), characters.getFactPrompt());
@@ -121,10 +131,6 @@ var Model = function(){
 		system.startPlayingCharacterFact(characterIndex, factIndex, callback, this);
 	}
 
-	this.stopPlayingCharacterFact = function(){
-		system.stopPlayingCharacterFact();
-	}
-
 
 	var factIndexesToPlay = [];
 	this.playAllFactsForCurrentCharacter = function(){
@@ -161,7 +167,7 @@ model.init();
 
 //  ======================================== HELPERS ========================================
 
-var debugMode = "console";//popup, console, none
+var debugMode = "popup";//popup, console, none
 function debug(message) {
   if (debugMode=="popup") $("#debug").show().append("<br/>"+message);
   else console.log(message);
