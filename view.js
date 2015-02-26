@@ -38,7 +38,7 @@ var View = function(model_in){
 
 	  $("#control .title").width("auto");
 	  var titleW = $("#control .title").width()+x1*8;
-	  if (titleW<80) titleW = winW*.7;
+	  if (titleW<120) titleW = winW*.7;
 	  $("#control .title").css({"top":(-8)*x1, "left": (winW - titleW - x1*2)/2, "width":titleW, "border-width":x1, "padding-top":x1, "padding-bottom":x1});
 	  $("#control").css({"padding-top":6*x1, "padding-bottom":2*x1});
 	  var controlButtonWidth = (winW-x1*4)/4-x1*5;
