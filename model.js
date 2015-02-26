@@ -158,7 +158,8 @@ var Model = function(){
 */
 }
 var model = new Model();
-model.init();
+document.addEventListener("deviceready", model.init, false);
+//model.init();
 
 
 
