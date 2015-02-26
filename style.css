@@ -130,7 +130,7 @@ h6 {
 	background:#FFFFFF;
 	color:#062f37;
 	border-radius:999;
-	border-color:#b55600;
+	border-color:#062f37;
 	border-style:solid;
 	text-align:center;
 }
@@ -139,6 +139,7 @@ h6 {
 	background:#edd28e;
 	color:#b55600;
 	text-align:center;
+	border-color: #b55600;
 }
 
 
@@ -198,7 +199,7 @@ h6 {
 	background:#FFFFFF;
 	color:#062f37;
 	border-radius:999;
-	border-color:#b55600;
+	border-color:#062f37;
 	border-style:solid;
 	text-align:center;
 	width:60%;

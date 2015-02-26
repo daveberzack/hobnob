@@ -1,7 +1,7 @@
 
 var Characters = function(){
 	var NUMBER_OF_CHARACTERS=79;
-	var minimumTurnsBeforeRepeat;
+	var minimumTurnsBeforeRepeat=4;
 	var maxCharacters;
 	var chanceOfUnnamed;
 	var initialCharactersNamed;
@@ -9,10 +9,9 @@ var Characters = function(){
 		{label:"Name",prompt:"Name"},
 		{label:"Job",prompt:"Job"},
 		{label:"Hobby",prompt:"Hobby"},
-		{label:"Peeve",prompt:"Pet Peeve"},
+		{label:"Peeve",prompt:"Peeve"},
 		{label:"Goal",prompt:"Goal"},
-		{label:"Thing",prompt:"Favorite Thing"},
-		{label:"Skill",prompt:"Special Skill"}
+		{label:"Skill",prompt:"Skill"}
 	]
   currentFactIndex = 0;
 	this.unnamed = [];
@@ -23,11 +22,10 @@ var Characters = function(){
 	this.currentCharacter;
 
 
-	this.setValues = function(initChars, maxChars, chance, turnsBeforeRepeat){
+	this.setValues = function(initChars, maxChars, chance){
 		initialCharactersNamed = initChars;
 		maxCharacters = maxChars;
 		chanceofUnnamed = chance;
-		minimumTurnsBeforeRepeat = turnsBeforeRepeat;
 	}
 
 

@@ -20,12 +20,12 @@ var Model = function(){
 
   //  ======================================== PRIMARY GAMEPLAY ========================================
 
-	this.startGame = function(numPlayers, maxS, initF, initChars, maxChars, chanceOfUnnamed, turnsBeforeRepeat, playerIconType){
+	this.startGame = function(numPlayers, maxS, initF, initChars, maxChars, chanceOfUnnamed, playerIconType){
 		view.showContinueLinks();
 		this.maxScore=maxS;
 		players.setPlayers(numPlayers);
 		characters = new Characters();
-	  characters.setValues(initChars, maxChars, chanceOfUnnamed, turnsBeforeRepeat);
+	  characters.setValues(initChars, maxChars, chanceOfUnnamed);
 		view.startGame(players.getNumberOfPlayers(), this.maxScore, playerIconType);
 		currentlyInChallenge = false;
 		initFacts=initF;
@@ -35,6 +35,7 @@ var Model = function(){
 	this.startTurn = function(){
 	  currentlyInChallenge = false;
 		players.changeCurrentPlayer();
+
 		if ( characters.getIfStillInitialNaming() ) {
 			characters.changeCharacter(true);
 			characters.updateFactIndex();
@@ -44,6 +45,8 @@ var Model = function(){
 			characters.changeCharacter(false);
 			view.showGuess(players.getActivePlayerIndex(), characters.getCurrentCharacterIndex(), characters.getCurrentCharacterNumberOfFacts(), false);
 		}
+
+
 	}
 
 	this.introComplete = function(){

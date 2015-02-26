@@ -350,40 +350,29 @@ var View = function(model_in){
 		doResize();
 	}
 
-	function startGameClicked(){
-		var numPlayers = $("#optionsPlayers .chosen").attr("data-value");
-		var iconType = $("#optionsIcons .chosen").attr("data-value");
-		var maxScores = [0,18,13,9,8,6,5,4,3,3];
-		var maxScore = maxScores[numPlayers];
-		
-		var initFacts = 1;
-		if ( $("#optionsDifficulty .chosen").attr("data-value")>1) initFacts=2;
+	var optionLabels = [
+		["One","Two","Three","Four","Five","Six","Seven","Eight"],
+		["Easy","Medium","Hard"],
+		["More Faces","Medium","More Detail"],
+		["Selfies","Numbers","Animals"]
+	];
+	var optionValues = [3,1,1,0];
 
-		var initChars = 5;
-		if ( $("#optionsDifficulty .chosen").attr("data-value")>1) initChars=7;
 
-		var maxChars=26;
-		var chanceOfUnnamed=.75;
-		if ( $("#optionsDepth .chosen").attr("data-value")==2){
-			maxChars=20;
-			chanceOfUnnamed=.7;
+	function updateOptions(){
+		$("#optionsScreen .option").removeClass("chosen");
+
+		for (var i=0; i<optionValues.length;i++){
+			if (i==0){
+				for(var j=0; j<=optionValues[0]; j++){  $("#options0_"+j).addClass("chosen");  }
+			}
+			else {
+				$("#options"+i+"_"+optionValues[i]).addClass("chosen");	
+			}
+			$("#optionValue"+i).html( optionLabels[i][ optionValues[i] ] );
 		}
-		else if ( $("#optionsDepth .chosen").attr("data-value")==3){
-			maxChars=15;
-			chanceOfUnnamed=.65;
-		}
 
-
-		var turnsBeforeRepeat = 4;
-
-		model.startGame(numPlayers, maxScore, initFacts, initChars, maxChars, chanceOfUnnamed, turnsBeforeRepeat, iconType);
-	}
-
-	function optionClick(me){
-		me.siblings().removeClass("chosen");
-		me.addClass("chosen");
-
-		if ( $("#optionsIcons1").hasClass("chosen") ){
+		if ( optionValues[3]==0 ){//OMG, selfie
 			$("#optionsScreen .startGameLink").hide();
 			$("#optionsScreen .cameraLink").show();
 		}
@@ -392,7 +381,29 @@ var View = function(model_in){
 			$("#optionsScreen .cameraLink").hide();
 		}
 	}
+
+	function optionClick(me){
+		optionValues[me.data("set")] = me.data("value");
+		updateOptions();
+	}
+	updateOptions();
   
+	function startGameClicked(){
+		var npl = optionValues[0];
+		var lvl = optionValues[1];
+		var dep = optionValues[2];
+		var tkn = optionValues[3];
+
+		var initFactsByLevel = [1,2,2];
+		var initCharsByLevel = [5,5,7];
+		var maxScores = [0,18,13,9,8,6,5,4,3,3];
+		var maxCharsByDepth=[26,20,15];
+		var chanceOfUnnamedByDepth=[.75,.7,.65];
+
+		model.startGame(npl, maxScores[npl]+lvl, initFactsByLevel[lvl], initCharsByLevel[lvl], maxCharsByDepth[dep], chanceOfUnnamedByDepth[dep], tkn);
+	}
+	
+
 	///////////////////// click handlers
 	$(".newGameLink").click( function(){ view.showOptions() });
 	$(".continueGameLink").click( function(){ view.showGame() });
