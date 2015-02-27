@@ -177,7 +177,7 @@ $("#debug").hide().click(function(){ $(this).hide().html(""); });
 
 	var factor = 20;
 	var data = []; //no automation
-	
+	/*
 	data = [ //options screen
 		["#menuLinks .newGameLink",2]
 	]
