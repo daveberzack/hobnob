@@ -15,8 +15,8 @@ var Model = function(){
 		system = new System();
 		view = new View(this);
 		view.hideContinueLinks();
-		//view.showMenu();
-		this.startGame(6,3,1,5,20,.7,4,"photo");
+		view.showMenu();
+		//this.startGame(6,3,1,5,20,.7,4,"photo");
   }
 
   this.startPlayingTheme = function(){
