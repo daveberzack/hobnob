@@ -9,7 +9,6 @@ var Model = function(){
 	var maxScore;
 
   this.init = function(){
-  	logError("INIT:"+isInitialized);
   	if (isInitialized) return;
   	isInitialized=true;
 		characters = new Characters();
@@ -162,7 +161,7 @@ var Model = function(){
 
 var model;
 
-logError("MAIN SCRIPT")
+logError("Start")
 
 if (typeof model == "undefined") model = new Model();
 document.addEventListener("deviceready", function(){ model.init() }, false);

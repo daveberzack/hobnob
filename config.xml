@@ -10,24 +10,22 @@
     <author email="hobnob@daveberzack.com" href="http://daveberzack.com">Dave Berzack</author>
     <icon src="img/icon.png" />
 
+    <gap:platform name="android" />
+    <gap:platform name="ios" />
+
     <preference name="android-minSdkVersion" value="14" />
     <preference name="orientation" value="portrait" />
     <preference name="fullscreen" value="true" />
     <preference name="phonegap-version" value="3.6.3" />
-    <preference name="android-launchMode" value="singleInstance" />
+    <preference name="android-launchMode" value="singleTask" />
+    <preference name="exit-on-suspend" value="false" />
     <preference name="DisallowOverscroll" value="true"/>
     
     <feature name="http://api.phonegap.com/1.0/camera"/>
     <feature name="http://api.phonegap.com/1.0/media"/>
 
-    <gap:platform name="android" />
-    <gap:platform name="ios" />
-
     <gap:plugin name="org.apache.cordova.camera" />
     <gap:plugin name="org.apache.cordova.media" />
     <gap:plugin name="org.apache.cordova.media-capture" />
 
-    <!--
-        <gap:platform name="ios" />
-    -->
 </widget>
