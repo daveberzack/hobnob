@@ -184,6 +184,8 @@ var View = function(model_in){
 		$("#guess").hide();
 		toggleIntro("Record");
 		showScreen("game");
+		
+  	model.stopPlayingTheme(1000);
 	}
 
 	this.updatePlayersScore = function(playerScores){
@@ -283,7 +285,7 @@ var View = function(model_in){
 
 	this.showGame = function(){
 		showScreen("game");
-  	model.stopPlayingTheme(1000);
+		debug("SHOW GAME");
 	}
 	this.showOptions = function(){
 		optionClick( $() );
