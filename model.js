@@ -1,5 +1,5 @@
 var Model = function(){
-
+	var isInitialized;
 	var currentlyInChallenge;
 	var characters;
 	var view;
@@ -9,7 +9,9 @@ var Model = function(){
 	var maxScore;
 
   this.init = function(){
-  	logError("INIT");
+  	logError("INIT:"+isInitialized);
+  	if (isInitialized) return;
+  	isInitialized=true;
 		characters = new Characters();
 		players = new Players();
 		system = new System();
