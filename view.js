@@ -423,7 +423,7 @@ var View = function(model_in){
 	$("#guessCheck").click( function(){ model.playAllFactsForCurrentCharacter() });
 	$("#guessCorrect").click( function(){ model.submitCorrect() });
 	$("#guessIncorrect").click( function(){ model.submitIncorrect() });
-	$("#guessChallenge").click( function(){ view.showChallengePlayers() });
+	$("#guessChallenge").click( function(){ model.showChallengePlayers() });
 	$("#optionsScreen a").click(function(){ optionClick( $(this) ) });
 	
 	/*$("#menuSplash").on("touchstart", function(){ model.testStoreData() });

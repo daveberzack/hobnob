@@ -9,7 +9,7 @@ var Model = function(){
 	var maxScore;
 
   this.init = function(){
-  	debug("INIT");
+  	logError("INIT");
 		characters = new Characters();
 		players = new Players();
 		system = new System();
@@ -88,7 +88,7 @@ var Model = function(){
 	this.submitIncorrect = function(){
 		if (currentlyInChallenge) {
 			players.giveCurrentPlayerAPoint();
-		  view.updatePlayersScore(players.all);
+		  view.updatePlayersScore( players.getPlayerScores() );
 		}
 		this.startTurn();
 	}
