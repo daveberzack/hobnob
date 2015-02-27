@@ -158,7 +158,7 @@ var System = function(){
 
 
   this.stopPlayingTheme = function(duration){
-    debug("STOP THEME");
+    //debug("STOP THEME");
     if (!isThemePlaying) {
       return;
     }

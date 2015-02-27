@@ -32,6 +32,7 @@ var Model = function(){
 		this.maxScore=maxS;
 		players.setPlayers(numPlayers);
 		characters = new Characters();
+		console.log("Chance:"+chanceOfUnnamed);
 	  characters.setValues(initChars, maxChars, chanceOfUnnamed);
 		view.startGame(players.getNumberOfPlayers(), this.maxScore, playerIconType);
 		currentlyInChallenge = false;
@@ -166,8 +167,8 @@ document.addEventListener("deviceready", function(){ model.init() }, false);
 
 //  ======================================== HELPERS ========================================
 
-var inBrowser = false;
-var autoMode = "";//empty,start,init,win
+var inBrowser = true;
+var autoMode = "init";//empty,start,init,win
 var debugMode = "console";//popup, console, none
 
 

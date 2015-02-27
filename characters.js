@@ -26,7 +26,7 @@ var Characters = function(){
 	this.setValues = function(initChars, maxChars, chance){
 		initialCharactersNamed = initChars;
 		maxCharacters = maxChars;
-		chanceofUnnamed = chance;
+		chanceOfUnnamed = chance;
 	}
 
 
@@ -49,6 +49,7 @@ var Characters = function(){
 		var reduceProbability = 1 - (this.named.length/maxCharacters);
 		var rand = Math.random();
 		var prob = chanceOfUnnamed*reduceProbability
+		console.log("UNNAMED? "+(prob>rand)+" named:"+this.named.length+" chance:"+chanceOfUnnamed+" reduce:"+reduceProbability +" rand:"+rand );
 		return prob>rand;
 	}
   
