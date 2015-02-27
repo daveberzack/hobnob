@@ -160,7 +160,11 @@ var Model = function(){
 */
 }
 
-var model = new Model();
+var model;
+
+logError("MAIN SCRIPT")
+
+if (typeof model == "undefined") model = new Model();
 document.addEventListener("deviceready", function(){ model.init() }, false);
 
 
