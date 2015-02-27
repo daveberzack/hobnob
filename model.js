@@ -165,7 +165,7 @@ document.addEventListener("deviceready", function(){ model.init() }, false);
 
 //  ======================================== HELPERS ========================================
 
-var autoMode = "win";//empty,start,init,win
+var autoMode = "";//empty,start,init,win
 var debugMode = "console";//popup, console, none
 
 
