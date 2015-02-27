@@ -159,6 +159,9 @@ var System = function(){
 
   this.stopPlayingTheme = function(duration){
     debug("STOP THEME");
+    if (!isThemePlaying) {
+      return;
+    }
     isThemePlaying=false;
     if ( isMediaEnabled() ){
 
@@ -173,7 +176,7 @@ var System = function(){
       
     }
   }
-  
+
   document.addEventListener("pause", this.stopPlayingTheme, false);
 
   function isMediaEnabled(){
