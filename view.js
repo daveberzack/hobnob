@@ -183,7 +183,7 @@ var View = function(model_in){
 		$("#challenge").hide();
 		$("#guess").hide();
 		toggleIntro("Record");
-		showGame();
+		this.showGame();
 
   	model.stopPlayingTheme(1000);
 	}
@@ -195,7 +195,7 @@ var View = function(model_in){
 	}
 
 	this.showGuess = function(playerIndex, characterIndex, numFacts, isChallenge){
-		showGame();
+		this.showGame();
 		$("#challenge").hide();
 		$("#character").show();
 		$("#guess").show();
@@ -207,21 +207,8 @@ var View = function(model_in){
 		showCharacter(characterIndex);
 	}
 
-/*
 	this.showIntro = function(playerIndex, characterId, fact){
-		showScreen("game");
-		$("#challenge").hide();
-		$("#character").show();
-		$("#guess").hide();
-		$("#addInfo").show();
-
-		highlightPlayer(playerIndex);
-		showCharacter(characterId);
-  	$("#factLabel2").html(fact.prompt).css({"font-size":fact.size+"em"});	
-	}*/
-
-	this.showIntro = function(playerIndex, characterId, fact){
-		showGame();
+		this.showGame();
 		$("#challenge").hide();
 		$("#character").show();
 		$("#guess").hide();
@@ -324,7 +311,7 @@ var View = function(model_in){
 	}
 
 	this.showChallengePlayers = function(currentPlayerIndex){
-		showGame();
+		this.showGame();
 		$("#challenge").show();
 		$("#character").hide();
 		$(".challengePlayer").show();

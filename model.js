@@ -16,7 +16,6 @@ var Model = function(){
 		view = new View(this);
 		view.hideContinueLinks();
 		view.showMenu();
-		//this.startGame(6,3,1,5,20,.7,4,"photo");
   }
 
   this.startPlayingTheme = function(){
@@ -80,7 +79,7 @@ var Model = function(){
 		}
 		else {
 			view.showWinScreen(players.getActivePlayerIndex());
-			view.showContinueLinks();
+			view.hideContinueLinks();
 		}
 	}
 
@@ -156,15 +155,22 @@ var Model = function(){
 	}
 */
 }
+
 var model = new Model();
 document.addEventListener("deviceready", function(){ model.init() }, false);
-//setTimeout(function(){ model.init() },500);
+
+
 
 
 
 //  ======================================== HELPERS ========================================
 
-var debugMode = "popup";//popup, console, none
+var autoMode = "win";//empty,start,init,win
+var debugMode = "console";//popup, console, none
+
+
+if (autoMode!="") model.init();
+
 function debug(message) {
   if (debugMode=="popup") $("#debug").show().append("<br/>"+message);
   else console.log(message);
@@ -174,45 +180,48 @@ function logError(message) {
 }
 $("#debug").hide().click(function(){ $(this).hide().html(""); });
 
+//AUTOMATION
 
 	var factor = 20;
-	var data = []; //no automation
-	/*
-	data = [ //options screen
-		["#menuLinks .newGameLink",2]
-	]
-	
-	data = [ //gameplay to init
-		["#introRecord",2], ["#introRecord",5], ["#introNext",2], 
-		["#introRecord",2], ["#introRecord",5], ["#introNext",2], 
-		["#introRecord",2], ["#introRecord",5], ["#introNext",2], 
-		["#introRecord",2], ["#introRecord",5], ["#introNext",2], 
-		["#introRecord",2], ["#introRecord",5], ["#introNext",2]
-	]
-	
-	data = [ //gameplay to end
-		["#introRecord",22], ["#introRecord",5], ["#introNext",2], 
-		["#introRecord",2], ["#introRecord",5], ["#introNext",2], 
-		["#introRecord",2], ["#introRecord",5], ["#introNext",2], 
-		["#introRecord",2], ["#introRecord",5], ["#introNext",2], 
-		["#introRecord",2], ["#introRecord",5], ["#introNext",2], 
-		["#guessCorrect",2], ["#introRecord",2], ["#introRecord",5], ["#introNext",2],
-		["#guessCorrect",2], ["#introRecord",2], ["#introRecord",5], ["#introNext",2],
-		["#guessCorrect",2], ["#introRecord",2], ["#introRecord",5], ["#introNext",2],
-		["#guessCorrect",2], ["#introRecord",2], ["#introRecord",5], ["#introNext",2],
-		["#guessCorrect",2], ["#introRecord",2], ["#introRecord",5], ["#introNext",2],
-		["#guessCorrect",2], ["#introRecord",2], ["#introRecord",5], ["#introNext",2],
-		["#guessCorrect",2], ["#introRecord",2], ["#introRecord",5], ["#introNext",2],
-		["#guessCorrect",2], ["#introRecord",2], ["#introRecord",5], ["#introNext",2],
-		["#guessCorrect",2], ["#introRecord",2], ["#introRecord",5], ["#introNext",2],
-		["#guessCorrect",2], ["#introRecord",2], ["#introRecord",5], ["#introNext",2],
-		["#guessCorrect",2], ["#introRecord",2], ["#introRecord",5], ["#introNext",2],
-		["#guessCorrect",2], ["#introRecord",2], ["#introRecord",5], ["#introNext",2]
-	]
-/* */
-
 	var delay=0;
+	var data = []; //no automation
+
+	if (autoMode!="") model.startGame(6,3,1,5,20,.7,4,"photo");
+
+	if (autoMode=="init"){
+		data = [ //gameplay to init
+			["#introRecord",2], ["#introRecord",5], ["#introNext",2], 
+			["#introRecord",2], ["#introRecord",5], ["#introNext",2], 
+			["#introRecord",2], ["#introRecord",5], ["#introNext",2], 
+			["#introRecord",2], ["#introRecord",5], ["#introNext",2], 
+			["#introRecord",2], ["#introRecord",5], ["#introNext",2]
+		]
+	}
+	else if (autoMode=="win"){
+		data = [ //gameplay to end
+			["#introRecord",22], ["#introRecord",5], ["#introNext",2], 
+			["#introRecord",2], ["#introRecord",5], ["#introNext",2], 
+			["#introRecord",2], ["#introRecord",5], ["#introNext",2], 
+			["#introRecord",2], ["#introRecord",5], ["#introNext",2], 
+			["#introRecord",2], ["#introRecord",5], ["#introNext",2], 
+			["#guessCorrect",2], ["#introRecord",2], ["#introRecord",5], ["#introNext",2],
+			["#guessCorrect",2], ["#introRecord",2], ["#introRecord",5], ["#introNext",2],
+			["#guessCorrect",2], ["#introRecord",2], ["#introRecord",5], ["#introNext",2],
+			["#guessCorrect",2], ["#introRecord",2], ["#introRecord",5], ["#introNext",2],
+			["#guessCorrect",2], ["#introRecord",2], ["#introRecord",5], ["#introNext",2],
+			["#guessCorrect",2], ["#introRecord",2], ["#introRecord",5], ["#introNext",2],
+			["#guessCorrect",2], ["#introRecord",2], ["#introRecord",5], ["#introNext",2],
+			["#guessCorrect",2], ["#introRecord",2], ["#introRecord",5], ["#introNext",2],
+			["#guessCorrect",2], ["#introRecord",2], ["#introRecord",5], ["#introNext",2],
+			["#guessCorrect",2], ["#introRecord",2], ["#introRecord",5], ["#introNext",2],
+			["#guessCorrect",2], ["#introRecord",2], ["#introRecord",5], ["#introNext",2],
+			["#guessCorrect",2], ["#introRecord",2], ["#introRecord",5], ["#introNext",2]
+		]
+	}
+
 	for (var i=0; i<data.length; i++){
 		delay+=data[i][1]*factor;
 		setTimeout(function(d){ $(d).click() }, delay, data[i][0] );
 	}
+
+///// START IT UP
