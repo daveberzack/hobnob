@@ -27,7 +27,7 @@ var View = function(model_in){
   	var winH = $(window).innerHeight();
   	var x1 = Math.round(winW/100);
   	var x2 = Math.round(x1/2);
-  	var widePlayerTabs = numPlayers<6;
+  	var widePlayerTabs = numPlayers<6 && numPlayers>1;
   	var tabWidth = (winW-x1*10)/numPlayers - x1;
   	var tabInnerWidth = tabWidth - x1*2;	  
 	  var topButtonWidth = winW - (tabWidth+x1)*numPlayers - x1*2;
@@ -37,8 +37,7 @@ var View = function(model_in){
 
 
 	  $("#control .title").width("auto");
-	  var titleW = $("#control .title").width()+x1*8;
-	  if (titleW<200) titleW = winW*.7;
+	  var titleW = winW*.7;
 	  $("#control .title").css({"top":(-8)*x1, "left": (winW - titleW - x1*2)/2, "width":titleW, "border-width":x1, "padding-top":x1, "padding-bottom":x1});
 	  $("#control").css({"padding-top":6*x1, "padding-bottom":2*x1});
 	  var controlButtonWidth = (winW-x1*4)/4-x1*5;
@@ -50,8 +49,6 @@ var View = function(model_in){
 		$("#control a img").css({"margin-top":x1, "width":controlButtonWidth-x1*4});
 		$("#control a h5").css({"margin-bottom":x1*2});
 		$("#control a h5").css({"margin-bottom":x1*2});
-	  var controlHeight = Math.max($("#addInfo").height(), $("#guess").height() )
-	  $("#addInfo, #guess").height(controlHeight);
 		corner( $("#control .title"), x1*3);
 		corner( $("#control a"), x1*4);
 
@@ -62,7 +59,7 @@ var View = function(model_in){
 		$("#menuScreen a").css({"width":menuW-x1*2, "margin-left":x1*2, "margin-right":x1*2, "border-width":x1 });
 		$("#menuScreen a.narrow.left").css({"width":menuW/2-x1*5, "margin-right":x1 });
 		$("#menuScreen a.narrow.right").css({"width":menuW/2-x1*5, "margin-left":x1 });
-		var splashH = winH - $("#menuLinks").height() - x1*10;
+		var splashH = winH - x1*52;
 		var splashAspect = 882/1122;
 		var splashW = Math.min( winW*1.16, splashH*splashAspect );
 		$("#menuSplash").css({"width":splashW ,"margin-bottom":splashH*-.18 });
@@ -89,8 +86,9 @@ var View = function(model_in){
 		$("#winScreen a").css({"border-width":x1, "margin-top":x1*2, "padding":x1*2 });
 		$("#winLinks").css({"border-top-width":x1, "padding-top":x1*4, "padding-bottom":x1*4 });
 		corner( $("#winImage"), x1*8);
-		var winImageH = winH - $("#winLinks").height() - $("#winScreen h2").height() - x1*32;
+		var winImageH = winH - x1*75;
 		$("#winScreen img").css({"border-width":x1*2, "margin-top":x1*8, "margin-bottom":x1*6, "width":winImageH*.75 });
+
 
 //player tabs
 		if (widePlayerTabs) {
@@ -98,7 +96,7 @@ var View = function(model_in){
 			for (var i=maxPoints; i>=1; i--){ scoreHtml += '<div class="point point'+i+' pointOf'+maxPoints+'"></div>'; }
 			$(".score").html('<div class="scoreInner"><div class="scoreInner2">'+scoreHtml+'</div></div>');
 
-			var tabPictureWidth = tabInnerWidth*.7-x1;
+			var tabPictureWidth = Math.min( tabInnerWidth*.7-x1, x1*15);
 	  	var tabPictureHeight = tabPictureWidth/.75 - x2;
 			var tabScoreWidth = tabInnerWidth*.3;
 			var tabScoreHeight = tabPictureHeight;
@@ -136,6 +134,17 @@ var View = function(model_in){
 			var scoreInner2Height = "100%";
 		}
 
+		if (numPlayers==1){
+			scoreMarginTop=x1*2;
+			tabScoreHeight=x1*12;
+			var pointHeight = tabScoreHeight-x2*2;
+			var lastPointHeight = pointHeight*2;
+			$(".playerTab .picture").hide();
+		}
+		else {
+			$(".playerTab .picture").show();
+		}
+		
 		$(".players").height(playersPaneHeight);
 		$(".playerTab").css({"width":tabWidth, "margin-left":x1, "margin-top":x1});  	
 		$(".playerTab .picture").css({"width":tabPictureWidth-x2*2, "border-width":x2, "margin-top":x1, "margin-left":x1, "margin-bottom":x1});
@@ -154,9 +163,7 @@ var View = function(model_in){
 		corner( $("#topButtons img"), x1*1.5);
 
 
-
-
-		var characterHeight = winH - playersPaneHeight - x1*10 - controlHeight;
+		var characterHeight = winH - playersPaneHeight - x1*37;
 		
 		var challengePlayerHeight = (winH - playersPaneHeight - x1*10) / (Math.ceil((numPlayers-1)/2)) - x1*16; 
 		$(".challengePlayer").css({"margin":x1*2});
@@ -172,7 +179,9 @@ var View = function(model_in){
 
   $(window).resize(doResize);
 
-
+  this.init = function(){
+  	doResize();
+	}
 
 	this.startGame = function(numPlayers_in, maxPointsIn, playerIconTypeIn){
 		numPlayers = numPlayers_in;
@@ -184,7 +193,7 @@ var View = function(model_in){
 		$("#guess").hide();
 		toggleIntro("Record");
 		this.showGame();
-
+	  doResize();
   	model.stopPlayingTheme(1000);
 	}
 
@@ -200,9 +209,13 @@ var View = function(model_in){
 		$("#character").show();
 		$("#guess").show();
 		$("#addInfo").hide();
-
 		$("#gameScreen").removeClass().addClass("screen player"+playerIndex);
-		$("#guessChallenge").toggle(!isChallenge);
+		if (isChallenge){
+			$("#guessChallenge").addClass("disabled");
+		}
+		else {
+			$("#guessChallenge").removeClass("disabled");
+		}
 		highlightPlayer(playerIndex);
 		showCharacter(characterIndex);
 	}
@@ -338,7 +351,6 @@ var View = function(model_in){
 	function showScreen(label){
 		$(".screen").hide();
 		$("#"+label+"Screen").show();
-		doResize();
 	}
 
 	var optionLabels = [

@@ -16,6 +16,7 @@ var Model = function(){
 		view = new View(this);
 		view.hideContinueLinks();
 		view.showMenu();
+		view.init();
   }
 
   this.startPlayingTheme = function(){
@@ -165,11 +166,12 @@ document.addEventListener("deviceready", function(){ model.init() }, false);
 
 //  ======================================== HELPERS ========================================
 
+var inBrowser = false;
 var autoMode = "";//empty,start,init,win
 var debugMode = "console";//popup, console, none
 
 
-if (autoMode!="") model.init();
+if (inBrowser) model.init();
 
 function debug(message) {
   if (debugMode=="popup") $("#debug").show().append("<br/>"+message);

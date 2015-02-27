@@ -8,11 +8,11 @@ var Characters = function(){
 	FACT_TYPES = [
 		{prompt:"Name", size:"3"},
 		{prompt:"Job", size:"3"},
-		{prompt:"Goal", size:"3"},
 		{prompt:"Skill", size:"2.5"},
 		{prompt:"Hobby", size:"2.5"},
+		{prompt:"Pet Peeve", size:"2"},
 		{prompt:"Secret", size:"2.5"},
-		{prompt:"Pet Peeve", size:"2"}
+		{prompt:"Goal", size:"3"}
 	]
   currentFactIndex = 0;
 	this.unnamed = [];
@@ -55,7 +55,7 @@ var Characters = function(){
   this.updateFactIndex = function(){
   	currentFactIndex=0;
   	while (this.currentCharacter.facts[currentFactIndex]!=""){
-  		currentFactIndex = Math.floor( Math.random()*4 +1);
+  		currentFactIndex = Math.floor( Math.random()*FACT_TYPES.length);
   	}
   }
 

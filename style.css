@@ -447,7 +447,7 @@ h6 {
 #addInfo #factLabel1{
 	text-align:center;
 }
-#addInfo .disabled {
+.disabled {
 	opacity:.25;
 	pointer-events:none;
 }
