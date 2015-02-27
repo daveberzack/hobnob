@@ -9,6 +9,7 @@
     <description>The Game of Making Friends</description>
     <author email="hobnob@daveberzack.com" href="http://daveberzack.com">Dave Berzack</author>
     <icon src="img/icon.png" />
+    <icon src="img/splash.png" />
 
     <gap:platform name="android" />
     <gap:platform name="ios" />
