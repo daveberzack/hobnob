@@ -89,7 +89,6 @@ var View = function(model_in){
 		$("#winScreen a").css({"border-width":x1, "margin-top":x1*2, "padding":x1*2 });
 		$("#winLinks").css({"border-top-width":x1, "padding-top":x1*4, "padding-bottom":x1*4 });
 		corner( $("#winImage"), x1*8);
-		console.log(":"+$("#winLinks").height() +"-"+ $("#winScreen h2").height() );
 		var winImageH = winH - $("#winLinks").height() - $("#winScreen h2").height() - x1*32;
 		$("#winScreen img").css({"border-width":x1*2, "margin-top":x1*8, "margin-bottom":x1*6, "width":winImageH*.75 });
 
@@ -206,8 +205,8 @@ var View = function(model_in){
 		showCharacter(characterIndex);
 	}
 
-
-	this.showIntro = function(playerIndex, characterId, prompt){
+/*
+	this.showIntro = function(playerIndex, characterId, fact){
 		showScreen("game");
 		$("#challenge").hide();
 		$("#character").show();
@@ -216,10 +215,10 @@ var View = function(model_in){
 
 		highlightPlayer(playerIndex);
 		showCharacter(characterId);
-  	$("#factLabel2").html(prompt+"?");	
-	}
+  	$("#factLabel2").html(fact.prompt).css({"font-size":fact.size+"em"});	
+	}*/
 
-	this.showIntro = function(playerIndex, characterId, prompt){
+	this.showIntro = function(playerIndex, characterId, fact){
 		showScreen("game");
 		$("#challenge").hide();
 		$("#character").show();
@@ -228,7 +227,7 @@ var View = function(model_in){
 
 		highlightPlayer(playerIndex);
 		showCharacter(characterId);
-  	$("#factLabel2").html(prompt+"?");
+  	$("#factLabel2").html(fact.prompt+"?").css({"font-size":fact.size+"em"});
   	$("#introNext").addClass("disabled");
 		toggleIntro("Record");
 	}
@@ -284,7 +283,7 @@ var View = function(model_in){
 
 	this.showGame = function(){
 		showScreen("game");
-  	model.stopPlayingTheme(2000);
+  	model.stopPlayingTheme(1000);
 	}
 	this.showOptions = function(){
 		optionClick( $() );
@@ -306,7 +305,7 @@ var View = function(model_in){
 		showScreen("menu");
 	}
 
-	this.showWinScren = function(playerIndex){
+	this.showWinScreen = function(playerIndex){
 		$("#winScreen h3").html("Player "+(playerIndex+1)+" won!");
 		$("#winScreen").removeClass().addClass("screen player"+playerIndex);
 		$("#winImage").attr("src","img/players_numbers/player"+playerIndex+".jpg");
@@ -407,8 +406,8 @@ var View = function(model_in){
 	}
 	
 
-	///////////////////// click handlers
-	$(".newGameLink").click( function(){ view.showOptions() });
+	///////////////////// click handlers SHOULD BE ON TOUCH START
+	$(".newGameLink").click(  function(){ view.showOptions() });
 	$(".continueGameLink").click( function(){ view.showGame() });
 	$(".startGameLink").click( function(){ startGameClicked() });
 	$(".menuLink").click( function(){ view.showMenu() });
@@ -426,8 +425,8 @@ var View = function(model_in){
 	$("#guessChallenge").click( function(){ view.showChallengePlayers() });
 	$("#optionsScreen a").click(function(){ optionClick( $(this) ) });
 	
-	/*$("#menuSplash").click( function(){ model.testStoreData() });
-	$("#splashTagline").click( function(){ model.testRetrieveData() });*/
+	/*$("#menuSplash").on("touchstart", function(){ model.testStoreData() });
+	$("#splashTagline").on("touchstart", function(){ model.testRetrieveData() });*/
 }
 
 function corner(target, val){

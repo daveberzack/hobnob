@@ -15,9 +15,8 @@ var Model = function(){
 		system = new System();
 		view = new View(this);
 		view.hideContinueLinks();
-		view.showMenu();
-		//this.startGame(6,3,1,5,20,.7,4,"photo");
-
+		//view.showMenu();
+		this.startGame(6,3,1,5,20,.7,4,"photo");
   }
 
   this.startPlayingTheme = function(){
@@ -159,7 +158,7 @@ var Model = function(){
 }
 var model = new Model();
 document.addEventListener("deviceready", function(){ model.init() }, false);
-//setTimeout(function(){ model.init() },1000);
+//setTimeout(function(){ model.init() },500);
 
 
 
@@ -178,7 +177,7 @@ $("#debug").hide().click(function(){ $(this).hide().html(""); });
 
 	var factor = 20;
 	var data = []; //no automation
-	/*
+	
 	data = [ //options screen
 		["#menuLinks .newGameLink",2]
 	]
@@ -190,9 +189,9 @@ $("#debug").hide().click(function(){ $(this).hide().html(""); });
 		["#introRecord",2], ["#introRecord",5], ["#introNext",2], 
 		["#introRecord",2], ["#introRecord",5], ["#introNext",2]
 	]
-	/*
+	
 	data = [ //gameplay to end
-		["#introRecord",2], ["#introRecord",5], ["#introNext",2], 
+		["#introRecord",22], ["#introRecord",5], ["#introNext",2], 
 		["#introRecord",2], ["#introRecord",5], ["#introNext",2], 
 		["#introRecord",2], ["#introRecord",5], ["#introNext",2], 
 		["#introRecord",2], ["#introRecord",5], ["#introNext",2], 

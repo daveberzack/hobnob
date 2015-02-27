@@ -6,12 +6,13 @@ var Characters = function(){
 	var chanceOfUnnamed;
 	var initialCharactersNamed;
 	FACT_TYPES = [
-		{label:"Name",prompt:"Name"},
-		{label:"Job",prompt:"Job"},
-		{label:"Hobby",prompt:"Hobby"},
-		{label:"Peeve",prompt:"Peeve"},
-		{label:"Goal",prompt:"Goal"},
-		{label:"Skill",prompt:"Skill"}
+		{prompt:"Name", size:"3"},
+		{prompt:"Job", size:"3"},
+		{prompt:"Goal", size:"3"},
+		{prompt:"Skill", size:"2.5"},
+		{prompt:"Hobby", size:"2.5"},
+		{prompt:"Secret", size:"2.5"},
+		{prompt:"Pet Peeve", size:"2"}
 	]
   currentFactIndex = 0;
 	this.unnamed = [];
@@ -78,7 +79,7 @@ var Characters = function(){
 	}
 
   this.getFactPrompt = function(){
-  	return FACT_TYPES[ currentFactIndex ].prompt;
+  	return FACT_TYPES[ currentFactIndex ];
   }
 
   this.getCurrentFactIndex = function(){ 
