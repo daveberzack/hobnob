@@ -10,7 +10,7 @@
     <description>The Game of Making Friends</description>
     <author email="hobnob@daveberzack.com" href="http://daveberzack.com">Dave Berzack</author>
     <icon src="img/icon.png" />
-    <icon src="img/splash.png" />
+    <splash src="img/splash.png" />
 	
 	<gap:config-file platform="android" parent="/manifest/application"> <activity android:launchMode="singleTask" /> </gap:config-file>
 	
