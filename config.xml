@@ -11,6 +11,7 @@
     <author email="hobnob@daveberzack.com" href="http://daveberzack.com">Dave Berzack</author>
     <icon src="img/icon.png" />
     <splash src="img/splash.png" />
+    <preference name="SplashScreen" value="screen" />
 	
 	<gap:config-file platform="android" parent="/manifest/application"> <activity android:launchMode="singleTask" /> </gap:config-file>
 	
@@ -31,5 +32,25 @@
     <gap:plugin name="org.apache.cordova.camera" />
     <gap:plugin name="org.apache.cordova.media" />
     <gap:plugin name="org.apache.cordova.media-capture" />
+
+
+    <platform name="android">
+        <splash src="res/screen/android/splash-port-hdpi.png" density="port-hdpi"/>
+        <splash src="res/screen/android/splash-port-ldpi.png" density="port-ldpi"/>
+        <splash src="res/screen/android/splash-port-mdpi.png" density="port-mdpi"/>
+        <splash src="res/screen/android/splash-port-xhdpi.png" density="port-xhdpi"/>
+    </platform>
+    <platform name="ios">
+        <splash src="res/screen/ios/Default~iphone.png" width="320" height="480"/>
+        <splash src="res/screen/ios/Default@2x~iphone.png" width="640" height="960"/>
+        <splash src="res/screen/ios/Default-Portrait~ipad.png" width="768" height="1024"/>
+        <splash src="res/screen/ios/Default-Portrait@2x~ipad.png" width="1536" height="2048"/>
+        <splash src="res/screen/ios/Default-Landscape~ipad.png" width="1024" height="768"/>
+        <splash src="res/screen/ios/Default-Landscape@2x~ipad.png" width="2048" height="1536"/>
+        <splash src="res/screen/ios/Default-568h@2x~iphone.png" width="640" height="1136"/>
+        <splash src="res/screen/ios/Default-667h.png" width="750" height="1334"/>
+        <splash src="res/screen/ios/Default-736h.png" width="1242" height="2208"/>
+        <splash src="res/screen/ios/Default-Landscape-736h.png" width="2208" height="1242"/>
+    </platform>
 
 </widget>
