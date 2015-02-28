@@ -401,7 +401,7 @@ var View = function(model_in){
 		var initCharsByLevel = [5,5,7];
 		var maxScoresByPlayer = [18,13,9,8,6,5,4,3,3];
 		var maxCharsByDepth=[26,20,15];
-		var chanceOfUnnamedByDepth=[.75,.7,.65];
+		var chanceOfUnnamedByDepth=[.85,.75,.65];
 
 		model.startGame(npl+1, maxScoresByPlayer[npl]+lvl, initFactsByLevel[lvl], initCharsByLevel[lvl], maxCharsByDepth[dep], chanceOfUnnamedByDepth[dep], tkn);
 	}
