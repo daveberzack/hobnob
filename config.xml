@@ -10,8 +10,7 @@
     <description>The Game of Making Friends</description>
     <author email="hobnob@daveberzack.com" href="http://daveberzack.com">Dave Berzack</author>
     <icon src="img/icon.png" />
-    <splash src="img/splash.png" />
-    <preference name="SplashScreen" value="screen" />
+    <icon src="img/splash.png" />
 	
 	<gap:config-file platform="android" parent="/manifest/application"> <activity android:launchMode="singleTask" /> </gap:config-file>
 	
@@ -25,32 +24,22 @@
     <preference name="android-launchMode" value="singleTask" />
     <preference name="exit-on-suspend" value="false" />
     <preference name="DisallowOverscroll" value="true"/>
-    
+    <preference name="splash-screen-duration" value="10000"/>
+	
     <feature name="http://api.phonegap.com/1.0/camera"/>
     <feature name="http://api.phonegap.com/1.0/media"/>
+	
+	<gap:splash src="splash.png" />
+	<gap:splash src="ldpi.png" gap:platform="android" gap:qualifier="ldpi" />
+	<gap:splash src="mdpi.png" gap:platform="android" gap:qualifier="mdpi" />
+	<gap:splash src="hdpi.png" gap:platform="android" gap:qualifier="hdpi" />
+	<gap:splash src="xhdpi.png" gap:platform="android" gap:qualifier="xhdpi" />
+	<gap:splash src="fr-xhdpi.png" gap:platform="android" gap:qualifier="fr-xhdpi" />
+	<gap:splash src="portrait-xxhdpi.png" gap:platform="android" gap:qualifier="port-xxhdpi" />
+	<gap:splash src="landscape-xxhdpi.png" gap:platform="android" gap:qualifier="land-xxhdpi" />
 
     <gap:plugin name="org.apache.cordova.camera" />
     <gap:plugin name="org.apache.cordova.media" />
     <gap:plugin name="org.apache.cordova.media-capture" />
-
-
-    <platform name="android">
-        <splash src="res/screen/android/splash-port-hdpi.png" density="port-hdpi"/>
-        <splash src="res/screen/android/splash-port-ldpi.png" density="port-ldpi"/>
-        <splash src="res/screen/android/splash-port-mdpi.png" density="port-mdpi"/>
-        <splash src="res/screen/android/splash-port-xhdpi.png" density="port-xhdpi"/>
-    </platform>
-    <platform name="ios">
-        <splash src="res/screen/ios/Default~iphone.png" width="320" height="480"/>
-        <splash src="res/screen/ios/Default@2x~iphone.png" width="640" height="960"/>
-        <splash src="res/screen/ios/Default-Portrait~ipad.png" width="768" height="1024"/>
-        <splash src="res/screen/ios/Default-Portrait@2x~ipad.png" width="1536" height="2048"/>
-        <splash src="res/screen/ios/Default-Landscape~ipad.png" width="1024" height="768"/>
-        <splash src="res/screen/ios/Default-Landscape@2x~ipad.png" width="2048" height="1536"/>
-        <splash src="res/screen/ios/Default-568h@2x~iphone.png" width="640" height="1136"/>
-        <splash src="res/screen/ios/Default-667h.png" width="750" height="1334"/>
-        <splash src="res/screen/ios/Default-736h.png" width="1242" height="2208"/>
-        <splash src="res/screen/ios/Default-Landscape-736h.png" width="2208" height="1242"/>
-    </platform>
 
 </widget>
