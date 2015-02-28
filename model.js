@@ -16,8 +16,8 @@ var Model = function(){
 		system = new System();
 		view = new View(this);
 		view.hideContinueLinks();
-		view.showMenu();
 		view.init();
+  	setTimeout(function(){ navigator.splashscreen.hide(); model.startPlayingTheme(); },1000);
   }
 
   this.startPlayingTheme = function(){

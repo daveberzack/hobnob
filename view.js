@@ -306,6 +306,9 @@ var View = function(model_in){
   	model.startPlayingTheme();
 		showScreen("menu");
 	}
+	this.showMenuNoTheme = function(){
+		showScreen("menu");
+	}
 
 	this.showWinScreen = function(playerIndex){
 		$("#winScreen h3").html("Player "+(playerIndex+1)+" won!");
