@@ -24,8 +24,7 @@
     <preference name="android-launchMode" value="singleTask" />
     <preference name="exit-on-suspend" value="false" />
     <preference name="DisallowOverscroll" value="true"/>
-    <preference name="splash-screen-duration" value="10000"/>
-	<preference name="SplashScreenDelay" value="5000" />
+	<preference name="SplashScreenDelay" value="1000" />
 
     <feature name="http://api.phonegap.com/1.0/camera"/>
     <feature name="http://api.phonegap.com/1.0/media"/>
