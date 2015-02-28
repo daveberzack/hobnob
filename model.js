@@ -18,7 +18,7 @@ var Model = function(){
 		view.hideContinueLinks();
 		view.showMenu();
 		view.init();
-		setTimeout( function(){ navigator.splashscreen.hide(); }, 1500 );
+		setTimeout(function(){ $("#splash").hide()},3500);
   }
 
   this.startPlayingTheme = function(){
@@ -173,7 +173,7 @@ document.addEventListener("deviceready", function(){ model.init() }, false);
 
 //  ======================================== HELPERS ========================================
 
-var inBrowser = false;
+var inBrowser = true;
 var autoMode = "";//empty,start,init,win
 var debugMode = "console";//popup, console, none
 

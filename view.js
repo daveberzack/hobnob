@@ -59,10 +59,10 @@ var View = function(model_in){
 		$("#menuScreen a").css({"width":menuW-x1*2, "margin-left":x1*2, "margin-right":x1*2, "border-width":x1 });
 		$("#menuScreen a.narrow.left").css({"width":menuW/2-x1*5, "margin-right":x1 });
 		$("#menuScreen a.narrow.right").css({"width":menuW/2-x1*5, "margin-left":x1 });
-		var splashH = winH - x1*52;
-		var splashAspect = 882/1122;
-		var splashW = Math.min( winW*1.16, splashH*splashAspect );
-		$("#menuSplash").css({"width":splashW ,"margin-bottom":splashH*-.18 });
+		var logoH = winH - x1*52;
+		var logoAspect = 882/1122;
+		var logoW = Math.min( winW*1.16, logoH*logoAspect );
+		$("#menuLogo").css({"width":logoW ,"margin-bottom":logoH*-.18 });
 
 
 //options 
@@ -304,9 +304,6 @@ var View = function(model_in){
 	}
 	this.showMenu = function(){
   	model.startPlayingTheme();
-		showScreen("menu");
-	}
-	this.showMenuNoTheme = function(){
 		showScreen("menu");
 	}
 
