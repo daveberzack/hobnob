@@ -163,15 +163,18 @@ h6 {
 /* ////////////////////////////////////////////////// INSTRUCTIONS SCREEN */
 
 #instructionsScreen {
+	background:#c09d49;
 	overflow-y:scroll;
 }
 
-#instructionsScreen h3 {
-	margin:10px;
+#instructionsScreen h2 {
+	color:#062f37;
+	margin:25px 5%;
 }
 #instructionsScreen p {
-	margin:10px 20px;
-	font-size:.7em;
+	margin:25px 5%;
+	color:#062f37;
+	font-size:.8em;
 }
 
 /* ////////////////////////////////////////////////// OPTIONS SCREEN */
