@@ -8,7 +8,6 @@ var Characters = function(){
 	FACT_TYPES = [
 		{prompt:"Name", size:"3"},
 		{prompt:"Job", size:"3"},
-		{prompt:"Skill", size:"2.5"},
 		{prompt:"Hobby", size:"2.5"},
 		{prompt:"Pet Peeve", size:"2"},
 		{prompt:"Secret", size:"2.5"},

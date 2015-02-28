@@ -160,6 +160,20 @@ h6 {
 }
 
 
+/* ////////////////////////////////////////////////// INSTRUCTIONS SCREEN */
+
+#instructionsScreen {
+	overflow-y:scroll;
+}
+
+#instructionsScreen h3 {
+	margin:10px;
+}
+#instructionsScreen p {
+	margin:10px 20px;
+	font-size:.7em;
+}
+
 /* ////////////////////////////////////////////////// OPTIONS SCREEN */
 
 #optionsScreen {
