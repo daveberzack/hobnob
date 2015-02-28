@@ -18,7 +18,8 @@ var Model = function(){
 		view.hideContinueLinks();
 		view.showMenu();
 		view.init();
-		setTimeout(function(){ $("#splash").hide()},3500);
+		setTimeout(function(){ $("#splash img").attr("src","img/splash2.jpg")},1200);
+		setTimeout(function(){ $("#splash").hide()},4000);
   }
 
   this.startPlayingTheme = function(){
