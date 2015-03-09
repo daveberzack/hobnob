@@ -1,59 +1,17 @@
 var View = function(model_in){
-
-  var playerPhotos = [];
-
-	var playerColors = [
-		{light:"#fdb765", dark:"#462600"},
-		{light:"#b993f7", dark:"#1b044f"},
-		{light:"#a8e3a9", dark:"#124313"},
-		{light:"#fca9b5", dark:"#58000c"},
-		{light:"#deeb86", dark:"#5c4100"},
-		{light:"#b7e6f4", dark:"#043543"},
-		{light:"#b7b7b7", dark:"#3d3d3d"},
-		{light:"#f0f1d7", dark:"#353119"}
-	];
-
 	var model = model_in;
 	var view = this;
+	var MAX_PLAYERS = 8;
   var maxPoints;
   var numPlayers=4;
+  
+
   var playerIconType="number";
   var cameraPlayerIndex;
 
-	/////////// updating view
+  var winW,winH,x1,x2,playersPaneHeight;
 
-  doResize = function(){
-  	var winW = $(window).innerWidth();
-  	var winH = $(window).innerHeight();
-  	var x1 = Math.round(winW/100);
-  	var x2 = Math.round(x1/2);
-  	var widePlayerTabs = numPlayers<6 && numPlayers>1;
-  	var tabWidth = (winW-x1*10)/numPlayers - x1;
-  	var tabInnerWidth = tabWidth - x1*2;	  
-	  var topButtonWidth = winW - (tabWidth+x1)*numPlayers - x1*2;
-
-	  $("#addInfo, #guess").css("height","");
-	  $("body").css("font-size",x1*5);
-
-
-	  $("#control .title").width("auto");
-	  var titleW = winW*.7;
-	  $("#control .title").css({"top":(-8)*x1, "left": (winW - titleW - x1*2)/2, "width":titleW, "border-width":x1, "padding-top":x1, "padding-bottom":x1});
-	  $("#control").css({"padding-top":6*x1, "padding-bottom":2*x1});
-	  var controlButtonWidth = (winW-x1*4)/4-x1*5;
-
-		$("#control .labelBlock").css({"width":controlButtonWidth*2+x1*12, "padding-top":x1*3});
-		$("#factLabel2").css({"margin-top":x1*0, "margin-left":x1*4, "margin-top":x1});
-		$("#control a").css({"width":controlButtonWidth, "border-width":x1, "margin-bottom":x1*2, "margin-left":x1*2, "margin-right":x1*2});
-		$("#control a:last-child").css({"margin-right":0});
-		$("#control a img").css({"margin-top":x1, "width":controlButtonWidth-x1*4});
-		$("#control a h5").css({"margin-bottom":x1*2});
-		$("#control a h5").css({"margin-bottom":x1*2});
-		corner( $("#control .title"), x1*3);
-		corner( $("#control a"), x1*4);
-
-
-// menu
+	resizeMenu = function(){
 		$("#menuScreen a").css({"margin-bottom":x1*2, "padding":x1*2 });
 		var menuW = winW-x1*12;
 		$("#menuScreen a").css({"width":menuW-x1*2, "margin-left":x1*2, "margin-right":x1*2, "border-width":x1 });
@@ -63,9 +21,8 @@ var View = function(model_in){
 		var logoAspect = 882/1122;
 		var logoW = Math.min( winW*1.16, logoH*logoAspect );
 		$("#menuLogo").css({"width":logoW ,"margin-bottom":logoH*-.18 });
-
-
-//options 
+	}
+	resizeOptions = function(){
 		var optionLinkW = winW/7;
 		var optionLinkW2 = ( (optionLinkW+x1*2)*3 +x1*6)/8-x1*2;
 		$("#optionsTitle").css({"margin-top":x1*8, "margin-left":x1*2, "margin-bottom":x1*8 });
@@ -75,20 +32,75 @@ var View = function(model_in){
 		corner( $("#optionsScreen >div"), x1*4);
 		corner( $(".optionGroup a"), x1*2);
 		$("#optionsScreen >a").css({"border-width":x1, "margin-top":x1*6, "padding":x1*2 });
-
-//camera
-    var cameraPicWidth = (winW-x1*6)/2;
-    var cameraPicHeight = (winH - x1*20) / Math.ceil(numPlayers/2) - x1*2;
-		$("#cameraScreen .pic").css({"margin-left":x1*2, "margin-top":x1*2, "width": Math.min(cameraPicWidth, cameraPicHeight), "height": Math.min(cameraPicWidth, cameraPicHeight) })
-		
-
-//winScreen 
+	}
+	resizeNext = function(){
+		$(".nextPlayerPhoto").css({"margin-top":x1*20, "border-width":x1*2});
+		$("#nextPlayerLabel").css({"margin-top":x1*2});
+		$("#nextPlayerLabel2").css({"margin-top":x1*2});
+		$("#nextPlayerPrompt").css({"top":playersPaneHeight, "height":winH-playersPaneHeight+x1*10})
+		corner( $(".nextPlayerPhoto"), x1*8);
+	}
+	resizeWin = function(){
 		$("#winScreen a").css({"border-width":x1, "margin-top":x1*2, "padding":x1*2 });
 		$("#winLinks").css({"border-top-width":x1, "padding-top":x1*4, "padding-bottom":x1*4 });
 		corner( $("#winImage"), x1*8);
 		var winImageH = winH - x1*75;
 		$("#winScreen img").css({"border-width":x1*2, "margin-top":x1*8, "margin-bottom":x1*6, "width":winImageH*.75 });
 
+	}
+	resizeCamera = function(){
+    var cameraPicWidth = (winW-x1*6)/2;
+    var cameraPicHeight = (winH - x1*20) / Math.ceil(numPlayers/2) - x1*2;
+		$("#cameraScreen .pic").css({"margin-left":x1*2, "margin-top":x1*2, "width": Math.min(cameraPicWidth, cameraPicHeight), "height": Math.min(cameraPicWidth, cameraPicHeight) })
+	}
+	resizeChallenge = function(){
+		var challengePlayerHeight = (winH - playersPaneHeight - x1*10) / (Math.ceil((numPlayers-1)/2)) - x1*16; 
+		var challengePlayerWidth = winW/2-x1*14;
+		var cph = Math.min(challengePlayerWidth, challengePlayerHeight);
+		$(".challengePlayer").css({"margin":x1*2});
+		$(".challengePlayer .photoHolder").css({"width":cph, "height":cph});
+		corner( $(".challengePlayer"), x1*4);
+	}
+	resizeMain = function(){
+
+	  $(".guessPrompt").css({"top":(-4)*x1, "left": winW/2, "width":0});
+		$("#guessPrompt1").css({"width":winW*.36, "right":0, "padding-right":x1*7, "padding-top":x1*2, "padding-bottom":x1*2});
+		$("#guessPrompt2").css({"width":x1*8, "top":-x1*6, "right":-x1*6, "padding":x1*2});
+		$("#guessPrompt3").css({"width":winW*.36, "left":0, "padding-left":x1*7, "padding-top":x1*2, "padding-bottom":x1*2});
+	  $("#guessCheck").css({"width":x1*6, "margin-bottom":x1});
+	  $("#guessBlock, #challengeBlock").css({"width":winW*.37, "margin":x1*3});
+	  $("#undoBlock, #nextBlock").css({"width":winW*.2, "margin":x1*4});
+	  $("#undoBlock").css({"margin-left":winW*.15});
+	  $("#nextBlock").css({"margin-right":winW*.15});
+	  $("#guessOr").css({"bottom":x1*7});
+		corner( $("#guessBlock, #challengeBlock, #undoBlock, #nextBlock"), x1*4);
+		corner( $("#guessBlock a, #challengeBlock a, #undoBlock a, #nextBlock a"), x1*3);
+
+	  $("#control").css({"padding-top":3*x1, "padding-bottom":2*x1});
+	  var controlButtonWidth = x1*15;
+		$("#factLabel2").css({"margin-top":x1*0, "margin-left":x1*4, "margin-top":x1});
+		$(".controlButton").css({ "margin-top":x1*2, "margin-left":x1*2});
+		$(".controlButton:last-child").css({"margin-right":0});
+		$(".controlButton img").css({"width":controlButtonWidth-x1*3});
+		$(".controlButton h5").css({"margin-bottom":x1*2});
+		$(".controlLabel").css({ "margin-bottom":x1*2});
+		corner( $(".controlButton"), x1*4);
+
+	  $(".introPrompt").css({"top":(-5)*x1, "left": winW/2, "width":0});
+		$("#introPrompt1").css({"width":winW*.85, "left":-winW*.4, "padding-top":x1*2, "padding-bottom":x1*2});
+		$("#introButton").css({"width":x1*22, "left":-x1*11, "padding-top":x1*13, "padding-bottom":x1*4});
+		$("#introButton a img").css({"width":x1*16});
+
+		var characterHeight = winH - playersPaneHeight - x1*37;
+		$(".characterHolder").css({"margin-top":x1*2, "border-width":x1, "height":characterHeight, "margin-left":x1*2, "margin-right":x1*2});
+		corner( $(".characterHolder"), x1*4);
+
+	}
+	resizeTabs = function(){
+  	var widePlayerTabs = numPlayers<6 && numPlayers>1;
+  	var tabWidth = (winW-x1*10)/numPlayers - x1;
+  	var tabInnerWidth = tabWidth - x1*2;	  
+	  var topButtonWidth = winW - (tabWidth+x1)*numPlayers - x1*2;
 
 //player tabs
 		if (widePlayerTabs) {
@@ -97,7 +109,7 @@ var View = function(model_in){
 			$(".score").html('<div class="scoreInner"><div class="scoreInner2">'+scoreHtml+'</div></div>');
 
 			var tabPictureWidth = Math.min( tabInnerWidth*.7-x1, x1*15);
-	  	var tabPictureHeight = tabPictureWidth/.75 - x2;
+	  	var tabPictureHeight = tabPictureWidth;
 			var tabScoreWidth = tabInnerWidth*.3;
 			var tabScoreHeight = tabPictureHeight;
 			var scoreMarginTop = x1;
@@ -107,7 +119,7 @@ var View = function(model_in){
 			var lastPointHeight = pointHeight*2;
 			var pointMarginBottom = x2;
 			var pointMarginRight = 0;
-			var playersPaneHeight = tabPictureHeight+x1*4;
+			playersPaneHeight = tabPictureHeight+x1*4;
 			var scoreInner2Width = "100%";
 			var scoreInner2Height = "150%";
 
@@ -129,7 +141,7 @@ var View = function(model_in){
 			var lastPointHeight = pointHeight;
 			var pointMarginBottom = 0;
 			var pointMarginRight = x2;
-			var playersPaneHeight = tabPictureHeight+tabScoreHeight+ x1*5;
+			playersPaneHeight = tabPictureHeight+tabScoreHeight+ x1;
 			var scoreInner2Width = "150%";
 			var scoreInner2Height = "100%";
 		}
@@ -139,15 +151,15 @@ var View = function(model_in){
 			tabScoreHeight=x1*12;
 			var pointHeight = tabScoreHeight-x2*2;
 			var lastPointHeight = pointHeight*2;
-			$(".playerTab .picture").hide();
+			$(".playerTab .photoHolder").hide();
 		}
 		else {
-			$(".playerTab .picture").show();
+			$(".playerTab .photoHolder").show();
 		}
 		
 		$(".players").height(playersPaneHeight);
 		$(".playerTab").css({"width":tabWidth, "margin-left":x1, "margin-top":x1});  	
-		$(".playerTab .picture").css({"width":tabPictureWidth-x2*2, "border-width":x2, "margin-top":x1, "margin-left":x1, "margin-bottom":x1});
+		$(".playerTab .photoHolder").css({"width":tabPictureWidth-x2*2,"height":tabPictureWidth-x2*2, "border-width":x2, "margin-top":x1, "margin-left":x1, "margin-bottom":x1});
 		$(".playerTab .score").css({"width":tabScoreWidth, "height":tabScoreHeight, "margin-top":scoreMarginTop, "margin-left":x1, "margin-bottom":x1});
 		$(".playerTab .scoreInner").css({"margin":x2, "height":tabScoreHeight-x2*2, "width":tabScoreWidth-x2*2});
 		$(".playerTab .scoreInner2").css({"width":scoreInner2Width, "height":scoreInner2Height});
@@ -155,52 +167,95 @@ var View = function(model_in){
 		$(".playerTab .point").css({"width":pointWidth, "height":pointHeight, "margin-bottom":pointMarginBottom, "margin-right":pointMarginRight});
 		$(".playerTab .point:last-child").css({"width":lastPointWidth, "height":lastPointHeight});
 		corner( $(".playerTab"), x1*2);
-		corner( $(".playerTab .picture, .playerTab .score"), x1*1.5);
+		corner( $(".playerTab .photoHolder, .playerTab .score"), x1*1.5);
 		corner( $(".playerTab .scoreInner"), x1);
 
 		$("#topButtons").width(topButtonWidth+x1);
 		$("#topButtons >img").css({"margin-top":x1, "height":topButtonWidth, "width":topButtonWidth});
 		corner( $("#topButtons img"), x1*1.5);
+	}
+	resizeX = function(){
+	}
+	resizeX = function(){
+	}
 
 
-		var characterHeight = winH - playersPaneHeight - x1*37;
-		
-		var challengePlayerHeight = (winH - playersPaneHeight - x1*10) / (Math.ceil((numPlayers-1)/2)) - x1*16; 
-		$(".challengePlayer").css({"margin":x1*2});
-		$(".challengePlayer >img").css({"max-width":winW/2-x1*14, "max-height":challengePlayerHeight});
-		corner( $(".challengePlayer"), x1*4);
-		
 
+  doResize = function(){
+  	winW = $(window).innerWidth();
+  	winH = $(window).innerHeight();
+  	x1 = Math.round(winW/100);
+  	x2 = Math.round(x1/2);
 
-		$(".characterHolder").css({"margin-top":x1*2, "border-width":x1, "height":characterHeight, "margin-left":x1*2, "margin-right":x1*2});
-		corner( $(".characterHolder"), x1*4);
+	  $("body").css("font-size",x1*5);
 
+	  resizeTabs();
+	  resizeMain();
+		resizeMenu();
+		resizeOptions();
+		resizeCamera();
+		resizeWin();
+		resizeNext();
+		resizeChallenge();
   }
 
   $(window).resize(doResize);
-
   this.init = function(){
   	doResize();
+	}
+
+	this.setImage = function(playerIndex, url, aspectRatio){
+		var imgH, imgW, imgL, imgT;
+		if (aspectRatio>1){ //wide
+			imgH="100%";
+			imgW="auto";
+			imgT=0;
+			imgL= (1-aspectRatio)/2 *100 +"%";
+		}
+		else { //tall
+			imgH="auto";
+			imgW="100%";
+			imgT=(1-1/aspectRatio)/2 *100 +"%";
+			imgL=0;
+		}
+		$holders = $(".playerTab"+playerIndex+" .photoHolder");
+		$holders.find("img").attr("src",url).css({"width":imgW, "height":imgH, "top":imgT, "left":imgL});
 	}
 
 	this.startGame = function(numPlayers_in, maxPointsIn, playerIconTypeIn){
 		numPlayers = numPlayers_in;
 		maxPoints = maxPointsIn;
 		playerIconType = playerIconTypeIn;
-		
-		setPlayerHtml();
+		this.togglePlayers();
+
 		$("#challenge").hide();
 		$("#guess").hide();
 		toggleIntro("Record");
 		this.showGame();
-	  doResize();
   	model.stopPlayingTheme(1000);
 	}
 
+	this.togglePlayers = function(){
+		console.log("num:"+numPlayers);
+  	for (var i=0; i<MAX_PLAYERS; i++){
+  		var showPlayer = (i<numPlayers);
+  		console.log("toggle:"+i+" > "+showPlayer+" ... "+numPlayers);
+			$("#cameraOptions #pic"+i).toggle(showPlayer);
+			$(".playerTab"+i).toggle(showPlayer);
+			$(".challengePlayer"+i).toggle(showPlayer);
+  	}
+	}
 	this.updatePlayersScore = function(playerScores){
 		for (var i=0; i<playerScores.length; i++){
 			$("#gameScreen .playerTab"+i+" .score").removeClass().addClass("score s"+playerScores[i]);
 		}
+	}
+
+	this.showNextPlayerPrompt = function(nextPlayerIndex){
+		$("#nextPlayerLabel").html("Player "+nextPlayerIndex);
+		$("#nextPlayerPrompt").show().removeClass().addClass("player"+nextPlayerIndex);
+		$(".nextPlayerPhoto").hide();
+		$("#nextPlayerPhoto"+nextPlayerIndex).show();
 	}
 
 	this.showGuess = function(playerIndex, characterIndex, numFacts, isChallenge){
@@ -211,16 +266,18 @@ var View = function(model_in){
 		$("#addInfo").hide();
 		$("#gameScreen").removeClass().addClass("screen player"+playerIndex);
 		if (isChallenge){
-			$("#guessChallenge").addClass("disabled");
+			$("#challengeBlock").addClass("disabled");
+			$("#guessOr").addClass("hidden");
 		}
 		else {
-			$("#guessChallenge").removeClass("disabled");
+			$("#challengeBlock").removeClass("disabled");
+			$("#guessOr").removeClass("hidden");
 		}
 		highlightPlayer(playerIndex);
 		showCharacter(characterIndex);
 	}
 
-	this.showIntro = function(playerIndex, characterId, fact){
+	this.showIntro = function(playerIndex, characterId, prompt){
 		this.showGame();
 		$("#challenge").hide();
 		$("#character").show();
@@ -229,8 +286,8 @@ var View = function(model_in){
 
 		highlightPlayer(playerIndex);
 		showCharacter(characterId);
-  	$("#factLabel2").html(fact.prompt+"?").css({"font-size":fact.size+"em"});
-  	$("#introNext").addClass("disabled");
+  	$("#introPrompt1").html(prompt);
+  	$("#nextBlock, #undoBlock").addClass("disabled");
 		toggleIntro("Record");
 	}
 
@@ -245,42 +302,20 @@ var View = function(model_in){
 	}
 	function startRecording(){
 		toggleIntro("Stop");
-  	$("#introNext").addClass("disabled");
+  	$("#nextBlock, #undoBlock").addClass("disabled");
 		model.startRecordingCharacterFact();
 	}
 	function stopRecording(){
 		toggleIntro("Play");
 		model.stopRecordingCharacterFact();
-  	$("#introNext").removeClass("disabled");
+  	$("#nextBlock, #undoBlock").removeClass("disabled");
 	}
 	function playRecording(){
-		toggleIntro("Record");
 		model.startPlayingCurrentCharacterFact();
 	}
-
-	function setPlayerHtml(){
-		var playersHtml="";
-		var challengeHtml="";
-		var cameraHtml="";
-		
-		for (var p=0; p<numPlayers; p++){
-			var img = "img/players_numbers/player"+p+".jpg";
-			if (playerIconType=="animal") img = "img/players_animals/player"+p+".jpg";
-			if (playerIconType=="photo") {
-				if (playerPhotos[p]) img = playerPhotos[p];
-				else img = "img/players_numbers/player"+p+".jpg";
-			}
-			playersHtml+='<div class="playerTab playerTab'+p+'"><img class="picture" src="'+img+'"/><div class="score"></div></div>';
-			challengeHtml+='<a href="#" class="challengePlayer challengePlayer'+p+'" data-index="'+p+'"><img src="'+img+'"></a>';
-  		cameraHtml += '<a href="#" class="pic" id="pic'+p+'" data-index="'+p+'"><img src="img/cameraTemp.jpg"/></a>';
-  		if (p%2!=0) cameraHtml += '<br/>';
-		}
-		$(".players").html(playersHtml);
-		$("#challengeOptions").html(challengeHtml);
-		$("#cameraOptions").html(cameraHtml);
-
-		$("#challenge .challengePlayer").click(function(){ model.submitChallenge( $(this).attr("data-index") ); });
-		$("#cameraScreen .pic").click( function(){ takePlayerPhoto( $(this).data("index") ) });
+	function undoRecording(){
+		toggleIntro("Record");
+  	$("#nextBlock, #undoBlock").addClass("disabled");
 	}
 
 	this.showGame = function(){
@@ -294,16 +329,14 @@ var View = function(model_in){
 	this.showInstructions = function(){
 		showScreen("instructions")
 	}
-	this.showHints = function(){
-		showScreen("hints")
-	}
 	this.showCamera = function(){
-		numPlayers = $("#optionsPlayers .chosen").attr("data-value");
+		numPlayers = optionValues[0]+1;
 		showScreen("camera");
-		setPlayerHtml();
+		this.togglePlayers();
 	}
 	this.showMenu = function(){
   	model.startPlayingTheme();
+  	resizeMenu();
 		showScreen("menu");
 	}
 
@@ -315,20 +348,31 @@ var View = function(model_in){
   	model.startPlayingTheme();
 	}
 
-	function takePlayerPhoto(playerIndex){
-		model.takePlayerPhoto(playerIndex);
-	}
-	this.setPlayerPicture = function(playerIndex, imageReference){
-		$("#cameraOptions #pic"+playerIndex).attr("src", imageReference);
-		playerPhotos[playerIndex] = imageReference;
+	this.setPlayerPicture = function(playerIndex, url, aspectRatio){
+		var imgH, imgW, imgL, imgT;
+		if (aspectRatio>1){ //wide
+			imgH="100%";
+			imgW="auto";
+			imgT=0;
+			imgL= (1-aspectRatio)/2 *100 +"%";
+		}
+		else { //tall
+			imgH="auto";
+			imgW="100%";
+			imgT=(1-1/aspectRatio)/2 *100 +"%";
+			imgL=0;
+		}
+		console.log("Set: "+ $(".challengePlayer"+playerIndex+" img").length );
+		$images = $(".playerTab"+playerIndex+" img, .challengePlayer"+playerIndex+" img, #cameraOptions #pic"+playerIndex+" img");
+		$images.attr("src",url).css({"width":imgW, "height":imgH, "top":imgT, "left":imgL});
 	}
 
 	this.showChallengePlayers = function(currentPlayerIndex){
 		this.showGame();
 		$("#challenge").show();
 		$("#character").hide();
-		$(".challengePlayer").show();
-		$(".challengePlayer"+currentPlayerIndex).hide();
+		$(".challengePlayer").removeClass("hidden");
+		$(".challengePlayer"+currentPlayerIndex).addClass("hidden");
 	}
 
 	this.showContinueLinks = function(){
@@ -415,25 +459,33 @@ var View = function(model_in){
 	$(".instructionsLink").click( function(){ view.showInstructions() });
 	$(".cameraLink").click( function(){ view.showCamera() });
 
-	//$(".hintsLink").click( function(){ view.showHints() });
 	$("#introRecord").click( function(){ startRecording() });
 	$("#introStop").click( function(){ stopRecording() });
 	$("#introPlay").click( function(){ playRecording() });
 	$("#introNext").click( function(){ model.introComplete(); });
+	$("#introUndo").click( function(){ undoRecording(); });
 	$("#guessCheck").click( function(){ model.playAllFactsForCurrentCharacter() });
 	$("#guessCorrect").click( function(){ model.submitCorrect() });
 	$("#guessIncorrect").click( function(){ model.submitIncorrect() });
 	$("#guessChallenge").click( function(){ model.showChallengePlayers() });
 	$("#optionsScreen a").click(function(){ optionClick( $(this) ) });
-	
-	/*$("#menuSplash").on("touchstart", function(){ model.testStoreData() });
-	$("#splashTagline").on("touchstart", function(){ model.testRetrieveData() });*/
+	$("#nextPlayerPrompt").click( function(){ $(this).hide(); });
+	$("#challenge .challengePlayer").click(function(){ model.submitChallenge($(this).data("index")); });
+	$("#cameraScreen .pic").click( function(){ model.takePlayerPhoto($(this).data("index")); });
 }
 
 function corner(target, val){
 	if (typeof val == "number"){
 		target.css({ 
 			"-webkit-border-radius":val, "-moz-border-radius":val, "border-radius":val
+		});
+	}
+	else {
+		target.css({ 
+			"-webkit-border-top-left-radius":val[0], "-moz-border-radius-topleft":val[0], "border-top-left-radius":val[0],
+			"-webkit-border-top-right-radius":val[1], "-moz-border-radius-topright":val[1], "border-top-right-radius":val[1],
+			"-webkit-border-bottom-right-radius":val[2], "-moz-border-radius-bottomright":val[2], "border-bottom-right-radius":val[2],
+			"-webkit-border-bottom-left-radius":val[3], "-moz-border-radius-bottomleft":val[3], "border-bottom-left-radius":val[3]
 		});
 	}
 	//might later add option for array, for asymmetrical corners

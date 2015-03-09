@@ -8,7 +8,7 @@ var Model = function(){
 	var initFacts=0;
 	var maxScore;
 
-  this.init = function(){
+  this.init = function(){//init
   	if (isInitialized) return;
   	isInitialized=true;
 		characters = new Characters();
@@ -18,8 +18,14 @@ var Model = function(){
 		view.hideContinueLinks();
 		view.showMenu();
 		view.init();
-		setTimeout(function(){ $("#splash img").attr("src","img/splash2.jpg")},1200);
-		setTimeout(function(){ $("#splash").hide()},4000);
+		if (inBrowser) {
+			 $("#splash").hide();
+		}
+		else {
+			setTimeout(function(){ $("#splash img").attr("src","img/splash2.jpg")},1200);
+			setTimeout(function(){ $("#splash").hide()},4000);
+		}
+		logError("oops");
   }
 
   this.startPlayingTheme = function(){
@@ -31,11 +37,11 @@ var Model = function(){
   //  ======================================== PRIMARY GAMEPLAY ========================================
 
 	this.startGame = function(numPlayers, maxS, initF, initChars, maxChars, chanceOfUnnamed, playerIconType){
+		console.log("start num:"+numPlayers);
 		view.showContinueLinks();
 		this.maxScore=maxS;
 		players.setPlayers(numPlayers);
 		characters = new Characters();
-		console.log("Chance:"+chanceOfUnnamed);
 	  characters.setValues(initChars, maxChars, chanceOfUnnamed);
 		view.startGame(players.getNumberOfPlayers(), this.maxScore, playerIconType);
 		currentlyInChallenge = false;
@@ -46,14 +52,16 @@ var Model = function(){
 	this.startTurn = function(){
 	  currentlyInChallenge = false;
 		players.changeCurrentPlayer();
+		
+		view.showNextPlayerPrompt(players.getActivePlayerIndex());
 
 		if ( characters.getIfStillInitialNaming() ) {
-			characters.changeCharacter(true);
+			characters.changeCharacter(true, players.getActivePlayerIndex() );
 			characters.updateFactIndex();
 			view.showIntro(players.getActivePlayerIndex(), characters.getCurrentCharacterIndex(), characters.getFactPrompt());
 		}
 		else {
-			characters.changeCharacter(false);
+			characters.changeCharacter(false, players.getActivePlayerIndex());
 			view.showGuess(players.getActivePlayerIndex(), characters.getCurrentCharacterIndex(), characters.getCurrentCharacterNumberOfFacts(), false);
 		}
 
@@ -76,7 +84,7 @@ var Model = function(){
 		
 		if ( players.getActivePlayerScore() < this.maxScore ){ 	
 			if ( characters.showUnnamed() ){
-				characters.changeCharacter(true);
+				characters.changeCharacter(true, players.getActivePlayerIndex());
 			}
 			characters.updateFactIndex();
 			view.showIntro(players.getActivePlayerIndex(), characters.currentCharacter.index, characters.getFactPrompt());
@@ -119,7 +127,7 @@ var Model = function(){
 	}
 
 	this.characterFactCallback = function(filename){
-		characters.setFact(filename);
+		characters.setFact(filename, players.getActivePlayerIndex());
 	}
 
 	this.startPlayingCharacterFact = function(characterIndex, factIndex, callback){
@@ -174,8 +182,8 @@ document.addEventListener("deviceready", function(){ model.init() }, false);
 
 //  ======================================== HELPERS ========================================
 
-var inBrowser = false;
-var autoMode = "";//empty,start,init,win
+var inBrowser = true;
+var autoMode = "start";//empty,start,init,win
 var debugMode = "console";//popup, console, none
 
 
@@ -186,7 +194,14 @@ function debug(message) {
   else console.log(message);
 }
 function logError(message) {
-  $("#debug").show().append("<br/><b style='color:#990000'>*** "+message+"</b>");
+  //$("#debug").show().append("<br/><b style='color:#990000'>*** "+message+"</b>");
+  
+
+  console.log("ERROR:"+message );
+  return;
+  $.ajax({
+	  url: "http://www.daveberzack.com/hobnob/logError?m="+message
+	});
 }
 $("#debug").hide().click(function(){ $(this).hide().html(""); });
 
@@ -196,15 +211,25 @@ $("#debug").hide().click(function(){ $(this).hide().html(""); });
 	var delay=0;
 	var data = []; //no automation
 
-	if (autoMode!="") model.startGame(6,3,1,5,20,.7,4,"photo");
-
+	if (autoMode!="") {
+		model.startGame(3,3,1,5,20,.7,4,"photo");
+		data = [
+			["#nextPlayerPrompt",5]
+		]
+	}
+	if (autoMode=="photos"){
+		data = [ //gameplay to init
+			[".cameraLink",5]
+		]
+	}
 	if (autoMode=="init"){
 		data = [ //gameplay to init
 			["#introRecord",2], ["#introRecord",5], ["#introNext",2], 
 			["#introRecord",2], ["#introRecord",5], ["#introNext",2], 
 			["#introRecord",2], ["#introRecord",5], ["#introNext",2], 
 			["#introRecord",2], ["#introRecord",5], ["#introNext",2], 
-			["#introRecord",2], ["#introRecord",5], ["#introNext",2]
+			["#introRecord",2], ["#introRecord",5], ["#introNext",2], 
+			["#nextPlayerPrompt",5]
 		]
 	}
 	else if (autoMode=="win"){

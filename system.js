@@ -1,53 +1,9 @@
 var System = function(){
 
-
-  // ========================= PERSISTENT DATA STORAGE ========================= 
-  /*
-  this.db;
-  this.confirmData = function(){
-    debug("INIT DATA: new?"+ !(this.db) );
-    if (!this.db) {
-      this.db = window.openDatabase("Database", "1.0", "HobnobDatabase", 200000);
-      db.transaction(initDatabase, this.errorCallback, this.successCallback);
-    }
-  }
-  this.initDatabase = function(tx){
-    tx.executeSql('CREATE TABLE IF NOT EXISTS data(key unique, val)');
-  }
-
-  var valTemp;
-  var keyTemp;
-  this.storeData = function(key, val){
-    this.confirmData();
-    valTemp=val;
-    keyTemp=key;
-    debug("STORE DATA:"+key+">"+val);
-    db.transaction(updateDatabase, this.errorCallback, this.successCallback);
-  }
-  this.updateDatabase = function(tx){
-    tx.executeSql('UPDATE data SET val="'+valTemp+'" WHERE key="'+keyTemp+'";');
-  }
-
-  this.retrieveData = function(key){
-    this.confirmData();
-    keyTemp=key;
-    db.transaction(selectDatabase, this.errorCallback, this.selectCallback);
-    return val;
-  }
-  this.selectDatabase = function(tx){
-    tx.executeSql('SELECT val FROM data WHERE key="'+keyTemp+'";');
-  }
-  this.selectCallback = function(tx){
-    $.each(result.rows,function(index){
-      debug("RETRIEVE DATA:"+keyTemp+">"+result.rows.item(index) );
-    });
-  }
-  */
-
   // ========================= CAMERA / IMAGE CAPTURE ========================= 
 
 	this.takePlayerPhoto = function(playerIndex, callback){
-    //debug("TAKE PICTURE:"+playerIndex);
+    debug("TAKE PICTURE:"+playerIndex);
     if (isCameraEnabled()){
       var options = { quality: 50, destinationType: Camera.DestinationType.FILE_URI, sourceType:1, encodingType:0, allowEdit:false, cameraDirection:1, saveToPhotoAlbum:false, correctOrientation:true };
       navigator.camera.getPicture(
@@ -63,7 +19,8 @@ var System = function(){
       );
     }
     else {
-      callback(playerIndex, "playerImage"+playerIndex+".jpg");
+      var ars = [.75, 2, 1, .5, .75, .75, .75, .75];
+      callback(playerIndex, "img/players_test/player"+playerIndex+".jpg", ars[playerIndex]);
     }
   }
 
