@@ -59,7 +59,7 @@ h1,h2,h3,h4,h5,h6 {
   font-weight:normal;
 }
 h1,h2 {
-	font-size:3em;
+	font-size:2.5em;
 }
 h3 {
 	font-size:1.7em;
@@ -104,6 +104,19 @@ h6 {
 	width:100%;
 	top:0;
 	left:0;
+}
+
+.mainButton {
+	display:inline-block;
+	background:#FFFFFF;
+	color:#062f37;
+	border-radius:999px;
+	-webkit-border-radius: 999px;
+	-moz-border-radius: 999px;
+	border-color:#062f37;
+	border-style:solid;
+	text-align:center;
+	width:60%;
 }
 
 /* ////////////////////////////////////////////////// SPLASH SCREEN */
@@ -189,6 +202,36 @@ h6 {
 	font-size:.8em;
 }
 
+
+/* ////////////////////////////////////////////////// CAMERA SCREEN */
+
+#cameraScreen {
+	background:#c09d49;
+	color:#062f37;
+	text-align:center;
+}
+#cameraTitle {
+	text-align:center;
+}
+
+#cameraScreen .pic {
+	display:inline-block;
+	overflow:hidden;
+	border-style:solid;
+	border-color:#222222 !important;
+}
+#cameraOptions {
+	text-align:center;
+}
+#cameraScreen .pic img {
+	position:relative;
+}
+
+#cameraScreen .photoHolder {
+	width:100%;
+	height:100%;
+}
+
 /* ////////////////////////////////////////////////// OPTIONS SCREEN */
 
 #optionsScreen {
@@ -222,11 +265,11 @@ h6 {
 	overflow:hidden;
 	border-color:#b55600;
 	border-style:solid;
-	background:#b55600;
 	color:#b55600;
 }
 #optionsPlayers a {
 	display:inline-block;
+	background-color:#b55600;
 	text-align:center;
 	line-height:3;
   font-family: 'Lobster', Georgia, Times, serif;
@@ -234,24 +277,41 @@ h6 {
 .optionGroup a.chosen {
 	border-color:#062f37;
 	color:#062f37;
-	background-color:#062f37;
+	background-color:#062f37 !important;
 }
 .optionGroup a img{
 	width:100%;
+	opacity:.5;
 }
-#optionsScreen >a, #winScreen a {
-	display:inline-block;
-	background:#FFFFFF;
-	color:#062f37;
-	border-radius:999px;
-	-webkit-border-radius: 999px;
-	-moz-border-radius: 999px;
-	border-color:#062f37;
-	border-style:solid;
-	text-align:center;
-	width:60%;
+.optionGroup a.chosen img{
+	opacity:1;
 }
 
+#optionsGeneral {
+	overflow:hidden;
+}
+/*
+#optionsSpecifics h6 {
+	font-family: 'Cabin', Helvetica, Arial, sans-serif;
+	width:50%;
+	margin-right:2%;
+	display:inline-block;
+	text-align:right;
+}
+#optionsSpecifics input {
+  font-family: 'Lobster', Georgia, Times, serif;
+	width:14%;
+	font-size:.8em;
+	display: inline-block;
+	text-align:center;
+	padding:0;
+
+	background:#FFFFFF;
+	color:#062f37;
+	border-color:#b55600;
+	border-style:solid;
+}
+*/
 /* ////////////////////////////////////////////////// WIN SCREEN */
 
 #winScreen {
@@ -274,26 +334,6 @@ h6 {
 	background:#c09d49;
 	padding-bottom:200px;
 	width:100%;
-}
-
-/* ////////////////////////////////////////////////// CAMERA SCREEN */
-
-#cameraScreen .pic {
-	display:inline-block;
-	overflow:hidden;
-}
-#cameraOptions {
-	text-align:center;
-}
-#cameraScreen .pic img {
-	width:100%;
-	top:0;
-	left:0;
-}
-
-#cameraScreen .photoHolder {
-	width:100%;
-	height:100%;
 }
 
 /* ////////////////////////////////////////////////// TOP BUTTONS */
@@ -443,16 +483,29 @@ h6 {
 	height:100%;
 }
 .nextPlayerPhoto {
-	width:70%;
-	margin-left:15%;
+	overflow:hidden;
 	border-style:solid;
 	border-color:#222222 !important;
 }
+.nextPlayerPhoto img {
+	position:relative;
+}
+
 #nextPlayerLabel {
 	text-align:center;
 }
 #nextPlayerLabel2 {
 	text-align:center;
+	background-color:#222222;
+	background-image:url("img/bg_arrow.gif");
+	background-repeat:repeat-x;
+	background-size: contain;
+	color:#FFFFFF;
+}
+#nextPlayerLabel2 h3 {
+	width:60%;
+	margin-left:20%;
+	background:#222222;
 }
 /* ////////////////////////////////////////////////// CHALLENGE SELECTION */
 
@@ -627,7 +680,7 @@ h6 {
 #overlay {
 	background:#000000;
 	pointer-events:none;
-	opacity:.9;
+	opacity:0;
 	position:absolute;
 	width:100%;
 	height:100%;

@@ -34,30 +34,33 @@ var Characters = function(){
 
 
 
-  this.changeCharacter = function(getUnnamed, currentPlayer){ //pull a character from 
-  	debug("Change Char:"+getUnnamed)
-	  if (getUnnamed){
-	  	pos = Math.floor(Math.random()*this.unnamed.length);
-			this.currentCharacter = this.unnamed.splice(pos,1)[0];
-	  }
-	  else {
-	  	//get one of the three least recently seen characters
-			var pos = Math.floor(Math.random()*3);
-	  	//if this player introduced that character, just get the oldest one that they didn't
-	  	if ( this.named[pos].player == currentPlayer ){
-	  		pos=0;
-	  		while (this.named[pos].player == currentPlayer) {
-		  		pos++;
+  this.changeCharacter = function(getUnnamed, currentPlayer){ 
+	  try {
+		  if (getUnnamed){
+		  	pos = Math.floor(Math.random()*this.unnamed.length);
+				this.currentCharacter = this.unnamed.splice(pos,1)[0];
+		  }
+		  else {
+		  	//get one of the three least recently seen characters
+				var pos = Math.floor(Math.random()*3);
+		  	//if this player introduced that character, just get the oldest one that they didn't
+		  	if ( this.named[pos].player == currentPlayer ){
+		  		pos=0;
+		  		while (this.named[pos].player == currentPlayer) {
+			  		pos++;
+			  	}
 		  	}
-	  	}
 
-	  	debug("before:"+this.getNamedLog() +" ... "+pos)
-
-			this.currentCharacter = this.named.splice(pos,1)[0];
-	  }
-		this.named.push(this.currentCharacter);
-	  	debug("...... "+this.getNamedLog()+" : "+this.currentCharacter.index )
-	}
+				this.currentCharacter = this.named.splice(pos,1)[0];
+		  }
+			this.named.push(this.currentCharacter);
+			throw "changeError";
+		}
+		catch (err) {
+			logError("changeCharacter",arguments, err);
+		}
+  }
+ 
 
 	this.getNamedLog = function(){
 		out="";
@@ -71,7 +74,6 @@ var Characters = function(){
 		var reduceProbability = 1 - (this.named.length/maxCharacters);
 		var rand = Math.random();
 		var prob = chanceOfUnnamed*reduceProbability
-		console.log("UNNAMED? "+(prob>rand)+" named:"+this.named.length+" chance:"+chanceOfUnnamed+" reduce:"+reduceProbability +" rand:"+rand );
 		return prob>rand;
 	}
   

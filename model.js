@@ -8,24 +8,28 @@ var Model = function(){
 	var initFacts=0;
 	var maxScore;
 
-  this.init = function(){//init
-  	if (isInitialized) return;
-  	isInitialized=true;
-		characters = new Characters();
-		players = new Players();
-		system = new System();
-		view = new View(this);
-		view.hideContinueLinks();
-		view.showMenu();
-		view.init();
-		if (inBrowser) {
-			 $("#splash").hide();
+  this.init = function(){
+	  try {
+	  	if (isInitialized) return;
+	  	isInitialized=true;
+			characters = new Characters();
+			players = new Players();
+			system = new System();
+			view = new View(this);
+			view.hideContinueLinks();
+			view.showMenu();
+			view.init();
+			if (inBrowser) {
+				 $("#splash").hide();
+			}
+			else {
+				setTimeout(function(){ $("#splash img").attr("src","img/splash2.jpg")},1200);
+				setTimeout(function(){ $("#splash").hide()},4000);
+			}
 		}
-		else {
-			setTimeout(function(){ $("#splash img").attr("src","img/splash2.jpg")},1200);
-			setTimeout(function(){ $("#splash").hide()},4000);
+		catch (err) {
+			logError("init",arguments, err);
 		}
-		logError("oops");
   }
 
   this.startPlayingTheme = function(){
@@ -36,64 +40,82 @@ var Model = function(){
   }
   //  ======================================== PRIMARY GAMEPLAY ========================================
 
-	this.startGame = function(numPlayers, maxS, initF, initChars, maxChars, chanceOfUnnamed, playerIconType){
-		console.log("start num:"+numPlayers);
-		view.showContinueLinks();
-		this.maxScore=maxS;
-		players.setPlayers(numPlayers);
-		characters = new Characters();
-	  characters.setValues(initChars, maxChars, chanceOfUnnamed);
-		view.startGame(players.getNumberOfPlayers(), this.maxScore, playerIconType);
-		currentlyInChallenge = false;
-		initFacts=initF;
-		this.startTurn();
+	this.startGame = function(numPlayers, maxS, initF, initChars, playerIconType){
+		try {
+			debug("start p:"+numPlayers+", s:"+maxS+", f:"+initF+", c:"+initChars+", a:"+playerIconType);
+			view.showContinueLinks();
+			this.maxScore=maxS;
+			players.setPlayers(numPlayers);
+			characters = new Characters();
+		  characters.setValues(initChars, 20, .75);
+			view.startGame(players.getNumberOfPlayers(), this.maxScore, playerIconType);
+			currentlyInChallenge = false;
+			initFacts=initF;
+			this.startTurn();
+    }
+    catch (err) {
+      logError("model.startGame",arguments, err);
+    }
 	}
 
 	this.startTurn = function(){
-	  currentlyInChallenge = false;
-		players.changeCurrentPlayer();
-		
-		view.showNextPlayerPrompt(players.getActivePlayerIndex());
+		try {
+		  currentlyInChallenge = false;
+			players.changeCurrentPlayer();
+			
+			view.showNextPlayerPrompt(players.getActivePlayerIndex(), false);
 
-		if ( characters.getIfStillInitialNaming() ) {
-			characters.changeCharacter(true, players.getActivePlayerIndex() );
-			characters.updateFactIndex();
-			view.showIntro(players.getActivePlayerIndex(), characters.getCurrentCharacterIndex(), characters.getFactPrompt());
-		}
-		else {
-			characters.changeCharacter(false, players.getActivePlayerIndex());
-			view.showGuess(players.getActivePlayerIndex(), characters.getCurrentCharacterIndex(), characters.getCurrentCharacterNumberOfFacts(), false);
-		}
-
-
+			if ( characters.getIfStillInitialNaming() ) {
+				characters.changeCharacter(true, players.getActivePlayerIndex() );
+				characters.updateFactIndex();
+				view.showIntro(players.getActivePlayerIndex(), characters.getCurrentCharacterIndex(), characters.getFactPrompt());
+			}
+			else {
+				characters.changeCharacter(false, players.getActivePlayerIndex());
+				view.showGuess(players.getActivePlayerIndex(), characters.getCurrentCharacterIndex(), characters.getCurrentCharacterNumberOfFacts(), false);
+			}
+    }
+    catch (err) {
+      logError("startTurn",arguments, err);
+    }
 	}
 
 	this.introComplete = function(){
-		if (characters.getCurrentCharacterNumberOfFacts()<initFacts) {
-			characters.updateFactIndex();
-			view.showIntro(players.getActivePlayerIndex(), characters.getCurrentCharacterIndex(), characters.getFactPrompt());
-		}
-		else {
-			this.startTurn();
-		}
+		try{
+			if (characters.getCurrentCharacterNumberOfFacts()<initFacts) {
+				characters.updateFactIndex();
+				view.showIntro(players.getActivePlayerIndex(), characters.getCurrentCharacterIndex(), characters.getFactPrompt());
+			}
+			else {
+				this.startTurn();
+			}
+    }
+    catch (err) {
+      logError("introComplete",arguments, err);
+    }
 	}
 
 	this.submitCorrect = function(){
-		players.giveActivePlayerAPoint();
-		view.updatePlayersScore( players.getPlayerScores() );
-		
-		if ( players.getActivePlayerScore() < this.maxScore ){ 	
-			if ( characters.showUnnamed() ){
-				characters.changeCharacter(true, players.getActivePlayerIndex());
+		try {
+			players.giveActivePlayerAPoint();
+			view.updatePlayersScore( players.getPlayerScores() );
+			
+			if ( players.getActivePlayerScore() < this.maxScore ){ 	
+				if ( characters.showUnnamed() ){
+					characters.changeCharacter(true, players.getActivePlayerIndex());
+				}
+				characters.updateFactIndex();
+				view.showIntro(players.getActivePlayerIndex(), characters.currentCharacter.index, characters.getFactPrompt());
+				view.hideContinueLinks();
 			}
-			characters.updateFactIndex();
-			view.showIntro(players.getActivePlayerIndex(), characters.currentCharacter.index, characters.getFactPrompt());
-			view.hideContinueLinks();
-		}
-		else {
-			view.showWinScreen(players.getActivePlayerIndex());
-			view.hideContinueLinks();
-		}
+			else {
+				view.showWinScreen(players.getActivePlayerIndex());
+				view.hideContinueLinks();
+			}
+    }
+    catch (err) {
+      logError("submitCorrect",arguments, err);
+    }
 	}
 
 	this.submitIncorrect = function(){
@@ -111,6 +133,7 @@ var Model = function(){
 		players.setActivePlayer(playerIndex);
 		currentlyInChallenge = true;
 		view.showGuess(players.getActivePlayerIndex(), characters.getCurrentCharacterIndex(), characters.getCurrentCharacterNumberOfFacts(), true);
+		view.showNextPlayerPrompt(players.getActivePlayerIndex(), true);
 	}
 
 
@@ -156,22 +179,9 @@ var Model = function(){
 	this.takePlayerPhoto = function(cameraPlayerIndex){
 		system.takePlayerPhoto(cameraPlayerIndex, view.setPlayerPicture);
 	}
-
-/*
-	var tempVal=0;
-	this.testStoreData = function(){
-		tempVal++;
-		system.storeData("testkey", tempVal);
-	}
-	this.testRetrieveData = function(){
-		tempVal = system.retrieveData("testkey");
-	}
-*/
 }
 
 var model;
-
-logError("Start")
 
 if (typeof model == "undefined") model = new Model();
 document.addEventListener("deviceready", function(){ model.init() }, false);
@@ -183,7 +193,7 @@ document.addEventListener("deviceready", function(){ model.init() }, false);
 //  ======================================== HELPERS ========================================
 
 var inBrowser = true;
-var autoMode = "start";//empty,start,init,win
+var autoMode = "options";//empty,start,init,win
 var debugMode = "console";//popup, console, none
 
 
@@ -193,16 +203,17 @@ function debug(message) {
   if (debugMode=="popup") $("#debug").show().append("<br/>"+message);
   else console.log(message);
 }
-function logError(message) {
-  //$("#debug").show().append("<br/><b style='color:#990000'>*** "+message+"</b>");
-  
 
-  console.log("ERROR:"+message );
-  return;
-  $.ajax({
-	  url: "http://www.daveberzack.com/hobnob/logError?m="+message
-	});
+function logError(f, p, e) {
+	var pString="";
+	for (var i=0; i<p.length; i++){
+		pString=pString+p[i];
+		if (i<p.length-1) pString = pString+",";
+	}
+	console.log("...ERROR F:"+f+", P:"+pString+" *** E:"+e);
 }
+
+
 $("#debug").hide().click(function(){ $(this).hide().html(""); });
 
 //AUTOMATION
@@ -212,13 +223,18 @@ $("#debug").hide().click(function(){ $(this).hide().html(""); });
 	var data = []; //no automation
 
 	if (autoMode!="") {
-		model.startGame(3,3,1,5,20,.7,4,"photo");
+		model.startGame(6,3,1,5,20,.7,4,"photo");
 		data = [
 			["#nextPlayerPrompt",5]
 		]
 	}
+	if (autoMode=="options"){
+		data = [ //show photo screen
+			[".newGameLink",5]
+		]
+	}
 	if (autoMode=="photos"){
-		data = [ //gameplay to init
+		data = [ //show photo screen
 			[".cameraLink",5]
 		]
 	}

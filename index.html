@@ -69,19 +69,19 @@
 		</div>
 	</div>
 	<div id="nextPlayerPrompt">
-		<img id="nextPlayerPhoto0" class="nextPlayerPhoto" src="img/players_default/0.jpg"/>
-		<img id="nextPlayerPhoto1" class="nextPlayerPhoto" src="img/players_default/0.jpg"/>
-		<img id="nextPlayerPhoto2" class="nextPlayerPhoto" src="img/players_default/0.jpg"/>
-		<img id="nextPlayerPhoto3" class="nextPlayerPhoto" src="img/players_default/0.jpg"/>
-		<img id="nextPlayerPhoto4" class="nextPlayerPhoto" src="img/players_default/0.jpg"/>
-		<img id="nextPlayerPhoto5" class="nextPlayerPhoto" src="img/players_default/0.jpg"/>
-		<img id="nextPlayerPhoto6" class="nextPlayerPhoto" src="img/players_default/0.jpg"/>
-		<img id="nextPlayerPhoto7" class="nextPlayerPhoto" src="img/players_default/0.jpg"/>
+		<div id="nextPlayerPhoto0" class="nextPlayerPhoto" ><img /></div>
+		<div id="nextPlayerPhoto1" class="nextPlayerPhoto" ><img /></div>
+		<div id="nextPlayerPhoto2" class="nextPlayerPhoto" ><img /></div>
+		<div id="nextPlayerPhoto3" class="nextPlayerPhoto" ><img /></div>
+		<div id="nextPlayerPhoto4" class="nextPlayerPhoto" ><img /></div>
+		<div id="nextPlayerPhoto5" class="nextPlayerPhoto" ><img /></div>
+		<div id="nextPlayerPhoto6" class="nextPlayerPhoto" ><img /></div>
+		<div id="nextPlayerPhoto7" class="nextPlayerPhoto" ><img /></div>
 		<h2 id="nextPlayerLabel">Player X</h2>
-		<h3 id="nextPlayerLabel2">You are next</h3>
+		<div id="nextPlayerLabel2"><h3 id="nextTurnLabel">You Are Next</h3><h3 id="nextChallengeLabel">You Have Been Challenged</h3></div>
 	</div>
 	<div id="challenge" class="mainPane">
-	   <h2>Choose a Player to Challenge:</h2>
+	   <h3 id="challengeTitle">Choose a Player<br/>to Challenge:</h3>
 	   <div id="challengeOptions">
 			<a href="#" class="challengePlayer challengePlayer0" data-index="0"><div class="photoHolder"><img src="img/players_default/0.jpg"></div></a>
 			<a href="#" class="challengePlayer challengePlayer1" data-index="1"><div class="photoHolder"><img src="img/players_default/1.jpg"></div></a>
@@ -145,7 +145,7 @@
 <div id="optionsScreen" class="screen">
 	<h2 id="optionsTitle">Game Options</h2>
   <div id="optionsPlayers" class="optionGroup">
-	  <div class="optionLabel"><h3>Players:</h3><h5 id="optionValue0"></h5></div>
+	  <div class="optionLabel"><h3>Players:</h3><h6 id="optionValue0"></h6></div>
 	  <a href="#" id="options0_0" data-set="0" data-value="0" class="option"></a>
 	  <a href="#" id="options0_1" data-set="0" data-value="1" class="option"></a>
 	  <a href="#" id="options0_2" data-set="0" data-value="2" class="option"></a>
@@ -156,39 +156,34 @@
 	  <a href="#" id="options0_7" data-set="0" data-value="7" class="option"></a>
   </div>
 
-  <div id="optionsDifficulty" class="optionGroup">
-	  <div class="optionLabel"><h3>Level:</h3><h5 id="optionValue1"></h5></div>
-	  <a href="#" id="options1_0" data-set="1" data-value="0" class="option"><img src="img/players_numbers/player0.jpg"/></a>
-	  <a href="#" id="options1_1" data-set="1" data-value="1" class="option"><img src="img/players_numbers/player1.jpg"/></a>
-	  <a href="#" id="options1_2" data-set="1" data-value="2" class="option"><img src="img/players_numbers/player2.jpg"/></a>
-  </div>
-
-  <div id="optionsDepth" class="optionGroup">
-	  <div class="optionLabel"><h3>Depth:</h3><h5 id="optionValue2"></h5></div>
-	  <a href="#" id="options2_0" data-set="2" data-value="0" class="option"><img src="img/players_numbers/player0.jpg"/></a>
-	  <a href="#" id="options2_1" data-set="2" data-value="1" class="option"><img src="img/players_numbers/player1.jpg"/></a>
-	  <a href="#" id="options2_2" data-set="2" data-value="2" class="option"><img src="img/players_numbers/player2.jpg"/></a>
+  <div id="optionsLevel" class="optionGroup">
+  	<!--<div id="optionsGeneral">-->
+		  <div class="optionLabel"><h3>Level:</h3><h6 id="optionValue1"></h6></div>
+		  <a href="#" id="options1_0" data-set="1" data-value="0" class="option"><img src="img/options_easy.jpg"/></a>
+		  <a href="#" id="options1_1" data-set="1" data-value="1" class="option"><img src="img/options_medium.jpg"/></a>
+		  <a href="#" id="options1_2" data-set="1" data-value="2" class="option"><img src="img/options_hard.jpg"/></a>
+	 <!-- </div>
+	  
+	  <div id="optionsSpecifics">
+	  	<div><h6>Points needed to win:</h6><input type="text" id="optionsPoints" value="5"/></div>
+	  	<div><h6>Facts introduced with name:</h6><input type="text" id="optionsFacts" value="0"/></div>
+	  	<div><h6>Characters to start with:</h6><input type="text" id="optionsCharacters" value="5"/></div>
+	  </div>-->
   </div>
 
   <div id="optionsIcons" class="optionGroup">
-	  <div class="optionLabel"><h3>Tokens:</h3><h5 id="optionValue3"></h5></div>
-	  <a href="#" id="options3_0" data-set="3" data-value="0" class="option"><img src="img/players_temp/player1.jpg"/></a>
-	  <a href="#" id="options3_1" data-set="3" data-value="1" class="option"><img src="img/players_numbers/player0.jpg"/></a>
-	  <a href="#" id="options3_2" data-set="3" data-value="2" class="option"><img src="img/players_animals/player0.jpg"/></a>
+	  <div class="optionLabel"><h3>Avatars:</h3><h6 id="optionValue2"></h6></div>
+	  <a href="#" id="options2_0" data-set="2" data-value="0" class="option"><img src="img/options_selfie.jpg"/></a>
+	  <a href="#" id="options2_1" data-set="2" data-value="1" class="option"><img src="img/options_animal.jpg"/></a>
+	  <a href="#" id="options2_2" data-set="2" data-value="2" class="option"><img src="img/options_number.jpg"/></a>
   </div>
 
-<!--
-	points needed to win:
-	characters introduced before guessing:
-	introduce with a fun fact? yes/no
-	prompt for how many facts? yes/no
--->
-	<a href="#" class="startGameLink"><h4>Start the Game</h4></a>
-	<a href="#" class="cameraLink"><h4>Take Token Photos</h4></a>
+	<a href="#" class="startGameLink mainButton"><h4>Start the Game</h4></a>
+	<a href="#" class="cameraLink mainButton"><h4>Take Avatar Photos</h4></a>
 </div>
 
 <div id="cameraScreen" class="screen">
-  <h3>Take photos:</h3>
+  <h2 id="cameraTitle">Take photos:</h2>
   <div id="cameraOptions"/>
 		<a href="#" class="pic" id="pic0" data-index="0"><div class="photoHolder"><img src="img/players_default/0.jpg"/></div></a>
 		<a href="#" class="pic" id="pic1" data-index="1"><div class="photoHolder"><img src="img/players_default/1.jpg"/></div></a>
@@ -199,7 +194,7 @@
 		<a href="#" class="pic" id="pic6" data-index="6"><div class="photoHolder"><img src="img/players_default/6.jpg"/></div></a>
 		<a href="#" class="pic" id="pic7" data-index="7"><div class="photoHolder"><img src="img/players_default/7.jpg"/></div></a>
   </div>
-	<a href="#" class="startGameLink">Start Game</a><br/>
+	<a href="#" class="startGameLink mainButton"><h4>Start the Game</h4></a>
   </p>
 </div>
 
@@ -208,8 +203,8 @@
   <img id="winImage" src="img/players_numbers/player2.jpg"/>
   <h2>You Won!</h2>
   <div id="winLinks">
-		<a href="#" class="startGameLink"><h4>Play a Rematch</h4></a>
-		<a href="#" class="menuLink"><h4>Back to Main Menu</h4></a>
+		<a href="#" class="startGameLink mainButton"><h4>Play a Rematch</h4></a>
+		<a href="#" class="menuLink mainButton"><h4>Back to Main Menu</h4></a>
 	</div>
 </div>
 

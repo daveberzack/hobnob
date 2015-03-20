@@ -3,24 +3,27 @@ var System = function(){
   // ========================= CAMERA / IMAGE CAPTURE ========================= 
 
 	this.takePlayerPhoto = function(playerIndex, callback){
-    debug("TAKE PICTURE:"+playerIndex);
-    if (isCameraEnabled()){
-      var options = { quality: 50, destinationType: Camera.DestinationType.FILE_URI, sourceType:1, encodingType:0, allowEdit:false, cameraDirection:1, saveToPhotoAlbum:false, correctOrientation:true };
-      navigator.camera.getPicture(
-        function(imageReference) {
-          //debug('Success taking picture: '+playerIndex+" ... "+imageReference, 'Success'); 
-          $("#pic"+playerIndex+" img").attr('src', imageReference);
-          callback(playerIndex, imageReference);
-        },
-        function() { 
-          logError('Error taking picture'); 
-        }, 
-        options
-      );
+    try {
+      if (isCameraEnabled()){
+        var options = { quality: 50, destinationType: Camera.DestinationType.FILE_URI, sourceType:1, encodingType:0, allowEdit:false, cameraDirection:1, saveToPhotoAlbum:false, correctOrientation:true };
+        navigator.camera.getPicture(
+          function(imageReference) {
+            $("#pic"+playerIndex+" img").attr('src', imageReference);
+            callback(playerIndex, imageReference);
+          },
+          function() { 
+            logError('takePlayerPhoto:getPicture', arguments); 
+          }, 
+          options
+        );
+      }
+      else {
+        var ars = [.75, 2, 1, .5, .75, .75, .75, .75];
+        callback(playerIndex, "img/players_test/player"+playerIndex+".jpg", ars[playerIndex]);
+      }
     }
-    else {
-      var ars = [.75, 2, 1, .5, .75, .75, .75, .75];
-      callback(playerIndex, "img/players_test/player"+playerIndex+".jpg", ars[playerIndex]);
+    catch (err) {
+      logError("takePlayerPhoto",arguments, err);
     }
   }
 
@@ -28,109 +31,114 @@ var System = function(){
 
   var mediaRec;
 	this.startRecordingCharacterFact = function(characterIndex, factIndex, callback){
-    var filename = "fact"+characterIndex+"_"+factIndex+".mp3";
-    //debug("RECORD START:"+filename+" ..."+isMediaEnabled());
+    try {
+      var filename = "fact"+characterIndex+"_"+factIndex+".mp3";
 
-    if ( isMediaEnabled() ){
-      mediaRec = new Media(
-        filename,
-        function() { // success callback
-            //debug("recordAudio():Audio Success:"+mediaRec.src);
-            if (callback) callback(filename);
-        },
-        function(err) { // error callback
-            logError("recordAudio():Audio Error: "+ err.code);
-        }
-      );
-      mediaRec.startRecord();
+      if ( isMediaEnabled() ){
+        mediaRec = new Media(
+          filename,
+          function() { // success callback
+              if (callback) callback(filename);
+          },
+          function(err) { // error callback
+            logError('startRecordingCharacterFact:startRecord', arguments); 
+          }
+        );
+        mediaRec.startRecord();
+      }
+      else {
+        callback(filename); //for testing, just callback here
+      }
+
     }
-    else {
-      callback(filename); //for testing, just callback here
+    catch (err) {
+      logError("startRecordingCharacterFact",arguments, err);
     }
 	}
 
   this.stopRecordingCharacterFact = function(){
-    //debug("RECORD STOP:"+mediaRec);
     if (isMediaEnabled() ){
       setTimeout(function(temp){ temp.stopRecord(); }, 500, mediaRec );
     }
-    //otherwise, do nothing; callback is handled on record for debugging
   }
 
   this.startPlayingCharacterFact = function(characterIndex, factIndex, callback, scope){
-    var filename = "fact"+characterIndex+"_"+factIndex+".mp3";
-    //debug("PLAY:"+filename);
-    if (isMediaEnabled()){
-      var mediaPlay = new Media(
-        filename,
-        function() { // success callback
-          //debug("Play Success: ");
-          if (typeof callback=="function") callback.call(scope, filename);
-        },
-        function(err) {  // error callback
-          logError("Play Error: "+ err.code);
-        }
-      );
-      mediaPlay.play();
+    try {
+      var filename = "fact"+characterIndex+"_"+factIndex+".mp3";
+      if (isMediaEnabled()){
+        var mediaPlay = new Media(
+          filename,
+          function() { // success callback
+            if (typeof callback=="function") callback.call(scope, filename);
+          },
+          function(err) {  // error callback
+            logError('startPlayingCharacterFact:play', arguments); 
+          }
+        );
+        mediaPlay.play();
+      }
+      else {
+        if (typeof callback=="function") callback.call(scope, filename);
+      }
     }
-    else {
-      if (typeof callback=="function") callback.call(scope, filename);
-    }
-  }
-  /*
-  this.stopPlayingCharacterFact = function(characterIndex, factIndex){
-    //debug("STOP:"+characterIndex+","+factIndex);
-    if ( isMediaEnabled() ){
-      mediaPlay.stop();
+    catch (err) {
+      logError("startPlayingCharacterFact",arguments, err);
     }
   }
-*/
+
   this.startPlayingTheme = function(){
-    if (isThemePlaying) {
-      debug("THEME ALREADY PLAYING");
-      return;
+    try {
+      if (isThemePlaying) {
+        return;
+      }
+      isThemePlaying=true;
+      var path = window.location.pathname;
+      var filename = path.substring(0, path.lastIndexOf('/'))+"/theme.mp3";
+      if (isMediaEnabled()){
+        themePlay = new Media(
+          filename,
+          function() { // success callback
+            //do nothing
+          },
+          function(err) {  // error callback
+            logError('startPlayingTheme:play', arguments); 
+          }
+        );
+        themeVolume=.5;
+        themePlay.setVolume(themeVolume);
+        themePlay.play();
+      }
+      else {
+        if (typeof callback=="function") callback.call(scope, filename);
+      }
     }
-    isThemePlaying=true;
-    var path = window.location.pathname;
-    var filename = path.substring(0, path.lastIndexOf('/'))+"/theme.mp3";
-    debug("START THEME:"+filename);
-    if (isMediaEnabled()){
-      themePlay = new Media(
-        filename,
-        function() { // success callback
-          //do nothing
-        },
-        function(err) {  // error callback
-          logError("Theme Error: "+ err.code);
-        }
-      );
-      themeVolume=.5;
-      themePlay.setVolume(themeVolume);
-      themePlay.play();
-    }
-    else {
-      if (typeof callback=="function") callback.call(scope, filename);
+    catch (err) {
+      logError("startPlayingTheme",arguments, err);
     }
   }
 
 
   this.stopPlayingTheme = function(duration){
-    //debug("STOP THEME");
-    if (!isThemePlaying) {
-      return;
-    }
-    isThemePlaying=false;
-    if ( isMediaEnabled() ){
+    try {
+      if (!isThemePlaying) {
+        return;
+      }
+      isThemePlaying=false;
+      if ( isMediaEnabled() ){
 
-      themeStopInterval = setInterval(function(){
-        themeVolume = themeVolume-.01;
-        themePlay.setVolume(themeVolume);
-        if (themeVolume<.05) {
-          themePlay.stop();
-          clearInterval(themeStopInterval);
-        }
-      }, duration/( 50 ) );
-      
+        themeStopInterval = setInterval(function(){
+          themeVolume = themeVolume-.01;
+          themePlay.setVolume(themeVolume);
+          if (themeVolume<.05) {
+            themePlay.stop();
+            clearInterval(themeStopInterval);
+          }
+        }, duration/( 50 ) );
+        
+      }
+    }
+    catch (err) {
+      logError("stopPlayingTheme",arguments, err);
     }
   }
 

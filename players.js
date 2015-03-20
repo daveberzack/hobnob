@@ -2,16 +2,16 @@ var Players = function(){
 
 	////////////////// FOR NOW, JUST PREDEFINE THIS ...TODO: PLAYER SELECT SCREEN
 	var all = [];
-	var activePlayer;
-	var currentPlayer;
+	var activePlayer; //the player whose turn it is (persists during a challenge)
+	var currentPlayer; //the player with the device (changes for a challenge)
 
 	this.setPlayers = function(numPlayers){
 		all=[];
 		for (var p=0; p<numPlayers; p++){
 			all.push({index:p, score:0});
 		};
-		currentPlayer = all[ all.length-1 ]; //the player whose turn it is (persists during a challenge)
-		activePlayer = currentPlayer; //the player with the device (changes for a challenge)
+		currentPlayer = all[ all.length-1 ];
+		activePlayer = currentPlayer;
 	}
 
 	this.changeCurrentPlayer = function(){
