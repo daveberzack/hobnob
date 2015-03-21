@@ -520,7 +520,8 @@ h6 {
 }
 .challengePlayer {
 	overflow:hidden;
-	border:#222222 4px solid !important;
+	border-color:#222222 !important;
+	border-style:solid;
 	display:inline-block;
 }
 

@@ -211,11 +211,12 @@ var Model = function(){
 		console.log("e:"+e);
 
 		message = "params:"+pString+" | state:"+state+" |  stack:"+e.stack;
-
+		var d = {"params":pstring, "state":state,"stack":e.stack};
+		
 		$.ajax({
         type       : "POST",
         url        : "http://www.daveberzack.com/hobnob/error.php",
-        data       : {"m": message},
+        data       : d,
         success    : function(response) {
             console.log("log success");
         },
@@ -240,7 +241,7 @@ document.addEventListener("deviceready", function(){ model.init() }, false);
 
 var inBrowser = false;
 var autoMode = "";//empty,start,init,win
-var debugMode = "popup";//popup, console, none
+var debugMode = "console";//popup, console, none
 
 
 if (inBrowser) model.init();

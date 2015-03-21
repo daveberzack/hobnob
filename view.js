@@ -91,7 +91,7 @@ var View = function(model_in){
 			var challengePlayerHeight = (challengePlayerAvailableHeight)/(Math.ceil(numPlayers/2)) - x1*16; 
 			var challengePlayerWidth = winW/2-x1*14;
 			var cph = Math.min(challengePlayerWidth, challengePlayerHeight);
-			$(".challengePlayer").css({"margin":x1*2});
+			$(".challengePlayer").css({"margin":x1*2,"border-width":x1});
 			$(".challengePlayer .photoHolder").css({"width":cph, "height":cph});
 			corner( $(".challengePlayer"), x1*4);
 			$("#challengeTitle").css({"margin":x1*5});
