@@ -1,11 +1,12 @@
 
-var Characters = function(){
+var Characters = function(model_in){
+	var model=model_in;
+
 	var NUMBER_OF_CHARACTERS=79;
-	var minimumTurnsBeforeRepeat=4;
-	var maxCharacters;
-	var chanceOfUnnamed;
+	var maxCharacters=20;
+	var chanceOfUnnamed=.75;
 	var initialCharactersNamed;
-	FACT_TYPES = [
+	var FACT_TYPES = [
 		{prompt:"What's My Name?"},
 		{prompt:"What's My Job?"},
 		{prompt:"What's My Favorite Hobby?"},
@@ -17,19 +18,16 @@ var Characters = function(){
 		{prompt:"What's My Mood, Right Now?"},
 		{prompt:"What's My Life Goal?"}
 	]
-  currentFactIndex = 0;
-	this.unnamed = [];
+  var currentFactIndex = 0;
+	var unnamed = [];
 	for (var i=1; i<=NUMBER_OF_CHARACTERS; i++){ 
-		this.unnamed.push({index:i, facts:["","","","",""], player:-1}); 
+		unnamed.push({index:i, facts:["","","","",""], player:-1}); 
 	}
-	this.named = [];
-	this.currentCharacter;
+	var named = [];
+	var currentCharacter;
 
-
-	this.setValues = function(initChars, maxChars, chance){
+	this.setValues = function(initChars){
 		initialCharactersNamed = initChars;
-		maxCharacters = maxChars;
-		chanceOfUnnamed = chance;
 	}
 
 
@@ -37,41 +35,40 @@ var Characters = function(){
   this.changeCharacter = function(getUnnamed, currentPlayer){ 
 	  try {
 		  if (getUnnamed){
-		  	pos = Math.floor(Math.random()*this.unnamed.length);
-				this.currentCharacter = this.unnamed.splice(pos,1)[0];
+		  	pos = Math.floor(Math.random()*unnamed.length);
+				this.currentCharacter = unnamed.splice(pos,1)[0];
 		  }
 		  else {
 		  	//get one of the three least recently seen characters
 				var pos = Math.floor(Math.random()*3);
 		  	//if this player introduced that character, just get the oldest one that they didn't
-		  	if ( this.named[pos].player == currentPlayer ){
+		  	if ( named[pos].player == currentPlayer ){
 		  		pos=0;
-		  		while (this.named[pos].player == currentPlayer) {
+		  		while (named[pos].player == currentPlayer) {
 			  		pos++;
 			  	}
 		  	}
 
-				this.currentCharacter = this.named.splice(pos,1)[0];
+				this.currentCharacter = named.splice(pos,1)[0];
 		  }
-			this.named.push(this.currentCharacter);
-			throw "changeError";
+			named.push(this.currentCharacter);
 		}
 		catch (err) {
-			logError("changeCharacter",arguments, err);
+			model.logError(err, arguments);
 		}
   }
  
 
 	this.getNamedLog = function(){
 		out="";
-		for (var i=0; i<this.named.length; i++){ 
-			out += this.named[i].index+",";
+		for (var i=0; i<named.length; i++){ 
+			out += named[i].index+",";
 		}
 		return out;
 	}
 
 	this.showUnnamed = function(){
-		var reduceProbability = 1 - (this.named.length/maxCharacters);
+		var reduceProbability = 1 - (named.length/maxCharacters);
 		var rand = Math.random();
 		var prob = chanceOfUnnamed*reduceProbability
 		return prob>rand;
@@ -121,7 +118,19 @@ var Characters = function(){
   }
 
 	this.getIfStillInitialNaming = function() {
-		return this.named.length<initialCharactersNamed;
+		return named.length<initialCharactersNamed;
 	}
+
+
+  this.toString = function() {
+  	out = "Characters: initialCharactersNamed="+initialCharactersNamed;
+  	out += " currentFactIndex:"+currentFactIndex;
+  	out += " currentCharacter:"+this.currentCharacter;
+  	out += " named:";
+  	for (var i=0; i<named.length; i++){
+  		out+="{i:"+named[i].index+" f:"+named[i].facts+" p:"+named[i].player+"} ";
+  	}
+  	return out;
+  }
 
 }

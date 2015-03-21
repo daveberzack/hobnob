@@ -12,10 +12,12 @@ var Model = function(){
 	  try {
 	  	if (isInitialized) return;
 	  	isInitialized=true;
-			characters = new Characters();
-			players = new Players();
-			system = new System();
+
+			characters = new Characters(this);
+			players = new Players(this);
+			system = new System(this);
 			view = new View(this);
+
 			view.hideContinueLinks();
 			view.showMenu();
 			view.init();
@@ -26,9 +28,10 @@ var Model = function(){
 				setTimeout(function(){ $("#splash img").attr("src","img/splash2.jpg")},1200);
 				setTimeout(function(){ $("#splash").hide()},4000);
 			}
+			var x = oops.nope();
 		}
 		catch (err) {
-			logError("init",arguments, err);
+			this.logError(err, arguments);
 		}
   }
 
@@ -42,19 +45,19 @@ var Model = function(){
 
 	this.startGame = function(numPlayers, maxS, initF, initChars, playerIconType){
 		try {
-			debug("start p:"+numPlayers+", s:"+maxS+", f:"+initF+", c:"+initChars+", a:"+playerIconType);
+			this.debug("start p:"+numPlayers+", s:"+maxS+", f:"+initF+", c:"+initChars+", a:"+playerIconType);
 			view.showContinueLinks();
 			this.maxScore=maxS;
 			players.setPlayers(numPlayers);
-			characters = new Characters();
-		  characters.setValues(initChars, 20, .75);
-			view.startGame(players.getNumberOfPlayers(), this.maxScore, playerIconType);
+			characters = new Characters(this);
+		  characters.setValues(initChars);
+			view.startGame(numPlayers, this.maxScore, playerIconType);
 			currentlyInChallenge = false;
 			initFacts=initF;
 			this.startTurn();
     }
     catch (err) {
-      logError("model.startGame",arguments, err);
+      model.logError(err, arguments);
     }
 	}
 
@@ -76,7 +79,7 @@ var Model = function(){
 			}
     }
     catch (err) {
-      logError("startTurn",arguments, err);
+      model.logError(err, arguments);
     }
 	}
 
@@ -91,7 +94,7 @@ var Model = function(){
 			}
     }
     catch (err) {
-      logError("introComplete",arguments, err);
+      model.logError(err, arguments);
     }
 	}
 
@@ -114,16 +117,21 @@ var Model = function(){
 			}
     }
     catch (err) {
-      logError("submitCorrect",arguments, err);
+      model.logError(err, arguments);
     }
 	}
 
 	this.submitIncorrect = function(){
-		if (currentlyInChallenge) {
-			players.giveCurrentPlayerAPoint();
-		  view.updatePlayersScore( players.getPlayerScores() );
-		}
-		this.startTurn();
+		try {
+			if (currentlyInChallenge) {
+				players.giveCurrentPlayerAPoint();
+			  view.updatePlayersScore( players.getPlayerScores() );
+			}
+			this.startTurn();
+    }
+    catch (err) {
+      model.logError(err, arguments);
+    }
 	}
 
 	this.showChallengePlayers = function(){
@@ -179,7 +187,46 @@ var Model = function(){
 	this.takePlayerPhoto = function(cameraPlayerIndex){
 		system.takePlayerPhoto(cameraPlayerIndex, view.setPlayerPicture);
 	}
+
+
+  //  ======================================== DEBUGGING ========================================
+
+	this.debug = function(message){
+	  if (debugMode=="popup") $("#debug").show().append("<br/>"+message);
+	  else console.log(message);
+	}
+
+	this.logError = function(e,p){
+		var pString="";
+		for (var i=0; i<p.length; i++){
+			pString=pString+p[i];
+			if (i<p.length-1) pString = pString+",";
+		}
+
+		var state = characters.toString()+" ... "+players.toString();
+		console.log("......... ERROR ..........");
+		console.log("params:"+pString);
+		console.log("state:"+state);
+		console.log("stack:"+e.stack);
+		console.log("e:"+e);
+
+		message = "params:"+pString+" | state:"+state+" |  stack:"+e.stack;
+
+		$.ajax({
+        type       : "POST",
+        url        : "http://www.daveberzack.com/hobnob/error.php",
+        data       : {"m": message},
+        success    : function(response) {
+            console.log("log success");
+        },
+        error      : function() {
+            console.error("log error");
+        }
+    });
+	}
+
 }
+
 
 var model;
 
@@ -189,29 +236,16 @@ document.addEventListener("deviceready", function(){ model.init() }, false);
 
 
 
-
 //  ======================================== HELPERS ========================================
 
-var inBrowser = true;
-var autoMode = "options";//empty,start,init,win
-var debugMode = "console";//popup, console, none
+var inBrowser = false;
+var autoMode = "";//empty,start,init,win
+var debugMode = "popup";//popup, console, none
 
 
 if (inBrowser) model.init();
 
-function debug(message) {
-  if (debugMode=="popup") $("#debug").show().append("<br/>"+message);
-  else console.log(message);
-}
 
-function logError(f, p, e) {
-	var pString="";
-	for (var i=0; i<p.length; i++){
-		pString=pString+p[i];
-		if (i<p.length-1) pString = pString+",";
-	}
-	console.log("...ERROR F:"+f+", P:"+pString+" *** E:"+e);
-}
 
 
 $("#debug").hide().click(function(){ $(this).hide().html(""); });

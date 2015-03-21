@@ -24,7 +24,7 @@ var View = function(model_in){
 			$("#menuLogo").css({"width":logoW ,"margin-bottom":logoH*-.18 });
     }
     catch (err) {
-      logError("resizeMenu",arguments, err);
+      model.logError(err, arguments);
     }
 	}
 	resizeOptions = function(){
@@ -41,7 +41,7 @@ var View = function(model_in){
 			$("#optionsScreen >a").css({"border-width":x1, "margin-top":x1*2, "padding":x1*2 });
     }
     catch (err) {
-      logError("resizeOptions",arguments, err);
+      model.logError(err, arguments);
     }
 	}
 	resizeNext = function(){
@@ -55,19 +55,21 @@ var View = function(model_in){
 			corner( $("#nextPlayerLabel2 h3"), x1*5);
     }
     catch (err) {
-      logError("resizeNext",arguments, err);
+      model.logError(err, arguments);
     }
 	}
 	resizeWin = function(){
 		try {
 			$("#winScreen a").css({"border-width":x1, "margin-top":x1*2, "padding":x1*2 });
 			$("#winLinks").css({"border-top-width":x1, "padding-top":x1*4, "padding-bottom":x1*4 });
-			corner( $("#winImage"), x1*8);
+			corner( $(".winImage"), x1*8);
 			var winImageH = winH - x1*75;
-			$("#winScreen img").css({"border-width":x1*2, "margin-top":x1*8, "margin-bottom":x1*6, "width":winImageH*.75 });			
+			$(".winImage").css({"border-width":x1*2, "margin-top":x1*8, "width":winImageH*.75 });	
+			$("#winScreen h2").css({"margin-top":x1*4});			
+			$("#winScreen h3").css({"margin-top":x1*4, "padding":x1});			
     }
     catch (err) {
-      logError("resizeWin",arguments, err);
+      model.logError(err, arguments);
     }
 	}
 	resizeCamera = function(){
@@ -80,7 +82,7 @@ var View = function(model_in){
 			corner( $("#cameraScreen .pic"), x1*4);
     }
     catch (err) {
-      logError("resizeCamera",arguments, err);
+      model.logError(err, arguments);
     }
 	}
 	resizeChallenge = function(){
@@ -96,7 +98,7 @@ var View = function(model_in){
 			$("#challenge").css({"height":winH});
     }
     catch (err) {
-      logError("resizeChallenge",arguments, err);
+      model.logError(err, arguments);
     }
 	}
 	resizeMain = function(){
@@ -134,7 +136,7 @@ var View = function(model_in){
 			corner( $(".characterHolder"), x1*4);
     }
     catch (err) {
-      logError("resizeMain",arguments, err);
+      model.logError(err, arguments);
     }
 	}
 	resizeTabs = function(){
@@ -216,8 +218,8 @@ var View = function(model_in){
 			corner( $("#topButtons img"), x1*1.5);
     }
     catch (err) {
-      logError("resizeTabs",arguments, err);
-    }
+			model.logError(err, arguments);    
+		}
 	}
 
   doResize = function(){
@@ -239,7 +241,7 @@ var View = function(model_in){
 			resizeChallenge();
     }
     catch (err) {
-      logError("doResize",arguments, err);
+      model.logError(err, arguments);
     }
   }
 
@@ -260,10 +262,13 @@ var View = function(model_in){
 			toggleIntro("Record");
 			this.showGame();
 	  	model.stopPlayingTheme(1000);
+	  	var scores = [];
+	  	for (var i=0; i<numPlayers; i++){ scores.push(0); }
+	  	this.updatePlayersScore(scores);
 	  	doResize();
     }
     catch (err) {
-      logError("view.startGame",arguments, err);
+      model.logError(err, arguments);
     }
 	}
 
@@ -277,7 +282,7 @@ var View = function(model_in){
 	  	}
     }
     catch (err) {
-      logError("togglePlayers",arguments, err);
+      model.logError(err, arguments);
     }
 	}
 	this.updatePlayersScore = function(playerScores){
@@ -287,7 +292,7 @@ var View = function(model_in){
 			}
     }
     catch (err) {
-      logError("updatePlayerScore",arguments, err);
+      model.logError(err, arguments);
     }
 	}
 
@@ -315,6 +320,9 @@ var View = function(model_in){
 			$("#challengeBlock").removeClass("disabled");
 			$("#guessOr").removeClass("hidden");
 		}
+		$("#guessPrompt2 h2").html(numFacts);
+		if (numFacts>1) $("#guessPrompt3").html("Things About Me?");
+		else $("#guessPrompt3").html("Thing About Me?");
 		highlightPlayer(playerIndex);
 		showCharacter(characterIndex);
 	}
@@ -384,9 +392,11 @@ var View = function(model_in){
 	}
 
 	this.showWinScreen = function(playerIndex){
-		$("#winScreen h3").html("Player "+(playerIndex+1)+" won!");
+		$("#winPlayer").html("Player "+(playerIndex+1));
 		$("#winScreen").removeClass().addClass("screen player"+playerIndex);
-		$("#winImage").attr("src","img/players_numbers/player"+playerIndex+".jpg");
+		//$("#winImage").attr("src","img/players_numbers/player"+playerIndex+".jpg");
+		$(".winImage").addClass("hidden");
+		$("#winImage"+playerIndex).removeClass("hidden");
 		showScreen("win");
   	model.startPlayingTheme();
 	}
@@ -406,11 +416,11 @@ var View = function(model_in){
 				imgT=(1-1/aspectRatio)/2 *100 +"%";
 				imgL=0;
 			}
-			$images = $(".playerTab"+playerIndex+" img, .challengePlayer"+playerIndex+" img, #nextPlayerPhoto"+playerIndex+" img, #cameraOptions #pic"+playerIndex+" img");
+			$images = $(".playerTab"+playerIndex+" img, #winImage"+playerIndex+" img, .challengePlayer"+playerIndex+" img, #nextPlayerPhoto"+playerIndex+" img, #cameraOptions #pic"+playerIndex+" img");
 			$images.attr("src",url).css({"width":imgW, "height":imgH, "top":imgT, "left":imgL});
     }
     catch (err) {
-      logError("setPlayerPicture",arguments, err);
+      model.logError(err, arguments);
     }
 	}
 
@@ -484,7 +494,7 @@ var View = function(model_in){
 			}
     }
     catch (err) {
-      logError("updateOptions",arguments, err);
+      model.logError(err, arguments);
     }
 	}
 
@@ -549,5 +559,4 @@ function corner(target, val){
 			"-webkit-border-bottom-left-radius":val[3], "-moz-border-radius-bottomleft":val[3], "border-bottom-left-radius":val[3]
 		});
 	}
-	//might later add option for array, for asymmetrical corners
 }

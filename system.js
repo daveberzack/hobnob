@@ -1,4 +1,5 @@
-var System = function(){
+var System = function(model_in){
+  var model=model_in;
 
   // ========================= CAMERA / IMAGE CAPTURE ========================= 
 
@@ -12,7 +13,7 @@ var System = function(){
             callback(playerIndex, imageReference);
           },
           function() { 
-            logError('takePlayerPhoto:getPicture', arguments); 
+            model.logError(err, arguments);
           }, 
           options
         );
@@ -23,7 +24,7 @@ var System = function(){
       }
     }
     catch (err) {
-      logError("takePlayerPhoto",arguments, err);
+      model.logError(err, arguments);
     }
   }
 
@@ -41,7 +42,7 @@ var System = function(){
               if (callback) callback(filename);
           },
           function(err) { // error callback
-            logError('startRecordingCharacterFact:startRecord', arguments); 
+            model.logError(err, arguments);
           }
         );
         mediaRec.startRecord();
@@ -52,7 +53,7 @@ var System = function(){
 
     }
     catch (err) {
-      logError("startRecordingCharacterFact",arguments, err);
+      model.logError(err, arguments);
     }
 	}
 
@@ -72,7 +73,7 @@ var System = function(){
             if (typeof callback=="function") callback.call(scope, filename);
           },
           function(err) {  // error callback
-            logError('startPlayingCharacterFact:play', arguments); 
+            model.logError(err, arguments);
           }
         );
         mediaPlay.play();
@@ -82,7 +83,7 @@ var System = function(){
       }
     }
     catch (err) {
-      logError("startPlayingCharacterFact",arguments, err);
+      model.logError(err, arguments);
     }
   }
 
@@ -101,7 +102,7 @@ var System = function(){
             //do nothing
           },
           function(err) {  // error callback
-            logError('startPlayingTheme:play', arguments); 
+            model.logError(err, arguments);
           }
         );
         themeVolume=.5;
@@ -113,7 +114,7 @@ var System = function(){
       }
     }
     catch (err) {
-      logError("startPlayingTheme",arguments, err);
+      model.logError(err, arguments);
     }
   }
 
@@ -138,7 +139,7 @@ var System = function(){
       }
     }
     catch (err) {
-      logError("stopPlayingTheme",arguments, err);
+      model.logError(err, arguments);
     }
   }
 

@@ -100,7 +100,7 @@ h6 {
 	overflow:hidden;
 }
 .photoHolder img {
-	position:absolute;
+	position:relative;
 	width:100%;
 	top:0;
 	left:0;
@@ -322,8 +322,9 @@ h6 {
 	-webkit-border-radius: 999px;
 	-moz-border-radius: 999px;
 }
-#winImage {
+.winImage {
 	border-style:solid;
+  display: inline-block;
 }
 #winLinks {
 	position:absolute;
@@ -334,6 +335,11 @@ h6 {
 	background:#c09d49;
 	padding-bottom:200px;
 	width:100%;
+}
+#winWon {
+	background:#222222;
+	text-align:center;
+	color:#FFFFFF;
 }
 
 /* ////////////////////////////////////////////////// TOP BUTTONS */

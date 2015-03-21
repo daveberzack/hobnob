@@ -1,9 +1,11 @@
-var Players = function(){
+var Players = function(model_in){
+	var model=model_in;
 
 	////////////////// FOR NOW, JUST PREDEFINE THIS ...TODO: PLAYER SELECT SCREEN
 	var all = [];
 	var activePlayer; //the player whose turn it is (persists during a challenge)
 	var currentPlayer; //the player with the device (changes for a challenge)
+
 
 	this.setPlayers = function(numPlayers){
 		all=[];
@@ -60,4 +62,17 @@ var Players = function(){
 	}
 
 
+
+  this.toString = function() {
+  	var out="";
+  	if (activePlayer && currentPlayer){
+	  	out += "Players: activePlayer="+activePlayer.index;
+	  	out += " currentPlayer:"+currentPlayer.index;
+	  }
+  	out += " all:";
+  	for (var i=0; i<all.length; i++){
+  		out+="{i:"+all[i].index+" s:"+all[i].score+"} ";
+  	}
+  	return out;
+  }
 }
