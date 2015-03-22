@@ -6,11 +6,11 @@ var System = function(model_in){
 	this.takePlayerPhoto = function(playerIndex, callback){
     try {
       if (isCameraEnabled()){
-        var options = { quality: 50, destinationType: Camera.DestinationType.FILE_URI, sourceType:1, encodingType:0, allowEdit:false, cameraDirection:1, saveToPhotoAlbum:false, correctOrientation:true };
+        var options = { quality: 90, destinationType: Camera.DestinationType.FILE_URI, sourceType:1, encodingType:0, allowEdit:false, cameraDirection:1, saveToPhotoAlbum:false, correctOrientation:false };
         navigator.camera.getPicture(
           function(imageReference) {
             $("#pic"+playerIndex+" img").attr('src', imageReference);
-            callback(playerIndex, imageReference);
+            callback(playerIndex, imageReference, ar, true);
           },
           function() { 
             model.logError(err, arguments);

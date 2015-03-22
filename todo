@@ -1,13 +1,10 @@
 
 
-Saturday:
 
-challenge screen borders
-win screen image, add player #
-not showing return to game button (after win?)
 
 Sunday:
 
+challenge styles
 horizontal photo sizing
 screen messed up after camera
 default photos on photo screen
@@ -16,7 +13,6 @@ Write all content
 
 
 
-exception handling: call script
 deploy on ios
 in app purchases
 
@@ -53,9 +49,9 @@ On your turn, you'll see a new face. Show it to everyone, then click (o) and spe
 
 --- Mix & Mingle
 
-After a while, you'll instead see a character that was introduced earlier. If you can recall the name and all the facts, click (o) to score a point. If you guess wrong, click (o). 
+After a while, you'll instead see a character that was introduced earlier. If you can recall their name and all the facts, click (o) to score a point. If you guess wrong, click (o). 
 
-Or... instead of guessing, you can challenge another player by clicking (o). If they get it right, they get a point. If not, you will get a point after all.
+Or... instead of guessing, you can challenge another player by clicking (o). If they get it right, they get a point. If not, you get a point after all.
 
 Any time you can recall a character correctly, you'll get to either add another fun fact about that character, or introduce a new character.
 

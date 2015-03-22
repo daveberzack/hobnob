@@ -28,7 +28,6 @@ var Model = function(){
 				setTimeout(function(){ $("#splash img").attr("src","img/splash2.jpg")},1200);
 				setTimeout(function(){ $("#splash").hide()},4000);
 			}
-			var x = oops.nope();
 		}
 		catch (err) {
 			this.logError(err, arguments);
@@ -185,7 +184,7 @@ var Model = function(){
   //  ======================================== CAMERA ========================================
 
 	this.takePlayerPhoto = function(cameraPlayerIndex){
-		system.takePlayerPhoto(cameraPlayerIndex, view.setPlayerPicture);
+		system.takePlayerPhoto(cameraPlayerIndex, view.setAvatar);
 	}
 
 
@@ -211,8 +210,8 @@ var Model = function(){
 		console.log("e:"+e);
 
 		message = "params:"+pString+" | state:"+state+" |  stack:"+e.stack;
-		var d = {"params":pstring, "state":state,"stack":e.stack};
-		
+		var d = {"params":pString, "state":state,"stack":e.stack};
+
 		$.ajax({
         type       : "POST",
         url        : "http://www.daveberzack.com/hobnob/error.php",
@@ -239,8 +238,8 @@ document.addEventListener("deviceready", function(){ model.init() }, false);
 
 //  ======================================== HELPERS ========================================
 
-var inBrowser = false;
-var autoMode = "";//empty,start,init,win
+var inBrowser = true;
+var autoMode = "init";//empty,start,init,win
 var debugMode = "console";//popup, console, none
 
 

@@ -401,7 +401,8 @@ var View = function(model_in){
   	model.startPlayingTheme();
 	}
 
-	this.setPlayerPicture = function(playerIndex, url, aspectRatio){
+	this.setAvatar = function(playerIndex, url, aspectRatio, setCameraScreen){
+	 model.debug("setphoto i:"+playerIndex+", u:"+url+", a:"+aspectRatio)
 		try {
 			var imgH, imgW, imgL, imgT;
 			if (aspectRatio>1){ //wide
@@ -416,21 +417,24 @@ var View = function(model_in){
 				imgT=(1-1/aspectRatio)/2 *100 +"%";
 				imgL=0;
 			}
-			$images = $(".playerTab"+playerIndex+" img, #winImage"+playerIndex+" img, .challengePlayer"+playerIndex+" img, #nextPlayerPhoto"+playerIndex+" img, #cameraOptions #pic"+playerIndex+" img");
-			$images.attr("src",url).css({"width":imgW, "height":imgH, "top":imgT, "left":imgL});
+			var imageSelector = ".playerTab"+playerIndex+" img, #winImage"+playerIndex+" img, .challengePlayer"+playerIndex+" img, #nextPlayerPhoto"+playerIndex+" img";
+			if (setCameraScreen) imageSelector +=", #cameraOptions #pic"+playerIndex+" img";
+			console.log("... "+setCameraScreen+" ... "+imageSelector);
+			$(imageSelector).attr("src",url).css({"width":imgW, "height":imgH, "top":imgT, "left":imgL});
     }
     catch (err) {
       model.logError(err, arguments);
     }
 	}
 
-	this.setAllPlayerPictures = function() {
+	this.setAllAvatars = function() {
+		model.debug("setAllAvatars")
 		if (optionValues[2]==1) type="animals";
 		else if (optionValues[2]==2) type="numbers";
 		else return;
 
 		for (var i=0; i<8; i++){
-			this.setPlayerPicture(i, "img/players_"+type+"/player"+i+".jpg", 1);
+			this.setAvatar(i, "img/players_"+type+"/player"+i+".jpg", 1, false);
 		}
 	}
 
@@ -538,7 +542,7 @@ var View = function(model_in){
 	$("#guessIncorrect").click( function(){ model.submitIncorrect() });
 	$("#guessChallenge").click( function(){ model.showChallengePlayers() });
 	$(".optionGroup a").click(function(){ optionClick( $(this) ) });
-	$("#optionsIcons a").click( function(){ view.setAllPlayerPictures(); });
+	$("#optionsIcons a").click( function(){ view.setAllAvatars(); });
 
 	$("#nextPlayerPrompt").click( function(){ $(this).hide(); });
 	$("#challenge .challengePlayer").click(function(){ model.submitChallenge($(this).data("index")); });
