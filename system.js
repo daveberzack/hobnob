@@ -9,7 +9,9 @@ var System = function(model_in){
         var options = { quality: 90, destinationType: Camera.DestinationType.FILE_URI, sourceType:1, encodingType:0, allowEdit:false, cameraDirection:1, saveToPhotoAlbum:false, correctOrientation:false };
         navigator.camera.getPicture(
           function(imageReference) {
-            $("#pic"+playerIndex+" img").attr('src', imageReference);
+            var $pic = $("#cameraOptions #pic"+playerIndex+" img");
+            $pic.attr('src', imageReference); //this is redundant for display, but lets us calculate aspect ratio
+            var ar = $pic.width()/$pic.height(); 
             callback(playerIndex, imageReference, ar, true);
           },
           function() { 

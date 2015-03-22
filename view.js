@@ -419,7 +419,7 @@ var View = function(model_in){
 			}
 			var imageSelector = ".playerTab"+playerIndex+" img, #winImage"+playerIndex+" img, .challengePlayer"+playerIndex+" img, #nextPlayerPhoto"+playerIndex+" img";
 			if (setCameraScreen) imageSelector +=", #cameraOptions #pic"+playerIndex+" img";
-			console.log("... "+setCameraScreen+" ... "+imageSelector);
+			//console.log("... "+setCameraScreen+" ... "+imageSelector);
 			$(imageSelector).attr("src",url).css({"width":imgW, "height":imgH, "top":imgT, "left":imgL});
     }
     catch (err) {

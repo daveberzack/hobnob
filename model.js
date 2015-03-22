@@ -240,7 +240,7 @@ document.addEventListener("deviceready", function(){ model.init() }, false);
 
 var inBrowser = true;
 var autoMode = "init";//empty,start,init,win
-var debugMode = "console";//popup, console, none
+var debugMode = "popup";//popup, console, none
 
 
 if (inBrowser) model.init();
