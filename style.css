@@ -741,6 +741,9 @@ h6 {
 .disabled a{
 	pointer-events:none;
 }
+.inactive {
+	pointer-events:none;
+}
 
 #overlay {
 	background:#000000;

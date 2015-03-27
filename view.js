@@ -170,18 +170,21 @@ var View = function(model_in){
 		$("#playerNameInput").val("Player "+(playerSetupIndex+1));
 		if (avatarType==0) {
 			$("#avatarSelect").attr("src","img/players_numbers/"+playerSetupIndex+".jpg");
+			$("#avatarSelect").addClass("inactive");
 		}
 		else if (avatarType==1){
 			$("#avatarSelect").attr("src","img/avatar_default.jpg");
 			$("#avatarOptions .animal").hide();
 			$("#avatarOptions .icon").show();
 			$("#playersScreen .mainButton").addClass("disabled");
+			$("#avatarSelect").removeClass("inactive");
 		}
 		else  {
 			$("#avatarSelect").attr("src","img/avatar_default.jpg");
 			$("#avatarOptions .animal").show();
 			$("#avatarOptions .icon").hide();
 			$("#playersScreen .mainButton").addClass("disabled");
+			$("#avatarSelect").removeClass("inactive");
 		}
 
 		if (playerSetupIndex+1>=numPlayers) {

@@ -49,6 +49,8 @@ var System = function(model_in){
             model.logError(err, arguments);
           }
         );
+        mediaVolume=.8;
+        mediaPlay.setVolume(mediaVolume);
         mediaPlay.play();
       }
       else {
