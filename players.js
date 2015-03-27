@@ -7,13 +7,19 @@ var Players = function(model_in){
 	var currentPlayer; //the player with the device (changes for a challenge)
 
 
-	this.setPlayers = function(numPlayers){
+	this.initPlayers = function(numPlayers){
 		all=[];
 		for (var p=0; p<numPlayers; p++){
-			all.push({index:p, score:0});
+			all.push({index:p, score:0, name:"Player "+(p+1) });
 		};
 		currentPlayer = all[ all.length-1 ];
 		activePlayer = currentPlayer;
+	}
+
+	this.setPlayerName = function(playerIndex, playerName){
+		console.log("asdfset "+playerIndex+","+playerName, all);
+		all[playerIndex].name = playerName;
+		console.log("aaaa");
 	}
 
 	this.changeCurrentPlayer = function(){
@@ -49,6 +55,10 @@ var Players = function(model_in){
 		return activePlayer.index;
 	}
 
+	this.getActivePlayerName = function(){
+		return activePlayer.name;
+	}
+
 	this.getActivePlayerScore = function(){
 		return activePlayer.score;
 	}
@@ -64,15 +74,21 @@ var Players = function(model_in){
 
 
   this.toString = function() {
-  	var out="";
-  	if (activePlayer && currentPlayer){
-	  	out += "Players: activePlayer="+activePlayer.index;
-	  	out += " currentPlayer:"+currentPlayer.index;
-	  }
-  	out += " all:";
-  	for (var i=0; i<all.length; i++){
-  		out+="{i:"+all[i].index+" s:"+all[i].score+"} ";
+  	var out="Players String Error";
+  	try {
+	  	out=""
+	  	if (activePlayer && currentPlayer){
+		  	out += "Players: activePlayer="+activePlayer.index;
+		  	out += " currentPlayer:"+currentPlayer.index;
+		  }
+	  	out += " all:";
+	  	for (var i=0; i<all.length; i++){
+	  		out+="{i:"+all[i].index+" s:"+all[i].score+"} ";
+	  	}
   	}
+		catch (err) {
+			//do nothing
+		}
   	return out;
   }
 }

@@ -12,47 +12,30 @@ var Model = function(){
 	  try {
 	  	if (isInitialized) return;
 	  	isInitialized=true;
-
 			characters = new Characters(this);
 			players = new Players(this);
 			system = new System(this);
 			view = new View(this);
-
-			view.hideContinueLinks();
-			view.showMenu();
-			view.init();
-			if (inBrowser) {
-				 $("#splash").hide();
-			}
-			else {
-				setTimeout(function(){ $("#splash img").attr("src","img/splash2.jpg")},1200);
-				setTimeout(function(){ $("#splash").hide()},4000);
-			}
+			view.init(inBrowser);
 		}
 		catch (err) {
 			this.logError(err, arguments);
 		}
   }
 
-  this.startPlayingTheme = function(){
-  	system.startPlayingTheme();
-  }
-  this.stopPlayingTheme = function(duration){
-  	system.stopPlayingTheme(duration);
-  }
   //  ======================================== PRIMARY GAMEPLAY ========================================
 
-	this.startGame = function(numPlayers, maxS, initF, initChars, playerIconType){
+	this.startGame = function(numPlayers, maxS, initF, initChars){
 		try {
-			this.debug("start p:"+numPlayers+", s:"+maxS+", f:"+initF+", c:"+initChars+", a:"+playerIconType);
-			view.showContinueLinks();
 			this.maxScore=maxS;
-			players.setPlayers(numPlayers);
-			characters = new Characters(this);
-		  characters.setValues(initChars);
-			view.startGame(numPlayers, this.maxScore, playerIconType);
-			currentlyInChallenge = false;
 			initFacts=initF;
+			players.initPlayers(numPlayers);
+			characters = new Characters(this);
+		  characters.init(initChars);
+			currentlyInChallenge = false;
+
+			view.showContinueLinks();
+			view.startGame(numPlayers, this.maxScore);
 			this.startTurn();
     }
     catch (err) {
@@ -65,7 +48,7 @@ var Model = function(){
 		  currentlyInChallenge = false;
 			players.changeCurrentPlayer();
 			
-			view.showNextPlayerPrompt(players.getActivePlayerIndex(), false);
+			view.showNextPlayerPrompt(players.getActivePlayerIndex(), players.getActivePlayerName(), false);
 
 			if ( characters.getIfStillInitialNaming() ) {
 				characters.changeCharacter(true, players.getActivePlayerIndex() );
@@ -140,9 +123,17 @@ var Model = function(){
 		players.setActivePlayer(playerIndex);
 		currentlyInChallenge = true;
 		view.showGuess(players.getActivePlayerIndex(), characters.getCurrentCharacterIndex(), characters.getCurrentCharacterNumberOfFacts(), true);
-		view.showNextPlayerPrompt(players.getActivePlayerIndex(), true);
+		view.showNextPlayerPrompt(players.getActivePlayerIndex(), players.getActivePlayerName(), true);
 	}
 
+	this.initPlayers = function(numPlayers){
+		players.initPlayers(numPlayers)
+	}
+	this.setPlayerName = function(index, name){
+		console.log("set "+index+","+name);
+		players.setPlayerName(index,name);
+		console.log("set2 "+index+","+name);
+	}
 
   //  ======================================== AUDIO ========================================
 
@@ -181,14 +172,20 @@ var Model = function(){
 		system.startPlayingCharacterFact( characters.getCurrentCharacterIndex(), ind, this.playNextFactForCurrentCharacter, this );
 	}
 
-  //  ======================================== CAMERA ========================================
+  this.startPlayingTheme = function(){
+  	system.startPlayingTheme();
+  }
+  this.stopPlayingTheme = function(duration){
+  	system.stopPlayingTheme(duration);
+  }
 
-	this.takePlayerPhoto = function(cameraPlayerIndex){
-		system.takePlayerPhoto(cameraPlayerIndex, view.setAvatar);
-	}
+
+
 
 
   //  ======================================== DEBUGGING ========================================
+
+
 
 	this.debug = function(message){
 	  if (debugMode=="popup") $("#debug").show().append("<br/>"+message);
@@ -239,8 +236,8 @@ document.addEventListener("deviceready", function(){ model.init() }, false);
 //  ======================================== HELPERS ========================================
 
 var inBrowser = true;
-var autoMode = "init";//empty,start,init,win
-var debugMode = "popup";//popup, console, none
+var autoMode = "";//empty,start,init,win
+var debugMode = "console";//popup, console, none
 
 
 if (inBrowser) model.init();
@@ -257,19 +254,24 @@ $("#debug").hide().click(function(){ $(this).hide().html(""); });
 	var data = []; //no automation
 
 	if (autoMode!="") {
-		model.startGame(6,3,1,5,20,.7,4,"photo");
+		model.startGame(6,3,1,5,20,.7,4);
 		data = [
 			["#nextPlayerPrompt",5]
 		]
 	}
 	if (autoMode=="options"){
-		data = [ //show photo screen
+		data = [
 			[".newGameLink",5]
 		]
 	}
-	if (autoMode=="photos"){
-		data = [ //show photo screen
-			[".cameraLink",5]
+	if (autoMode=="players"){
+		data = [
+			[".playersLink",5]
+		]
+	}
+	if (autoMode=="instructions"){
+		data = [
+			[".instructionsLink",5]
 		]
 	}
 	if (autoMode=="init"){
@@ -308,5 +310,3 @@ $("#debug").hide().click(function(){ $(this).hide().html(""); });
 		delay+=data[i][1]*factor;
 		setTimeout(function(d){ $(d).click() }, delay, data[i][0] );
 	}
-
-///// START IT UP

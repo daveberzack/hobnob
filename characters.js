@@ -26,7 +26,7 @@ var Characters = function(model_in){
 	var named = [];
 	var currentCharacter;
 
-	this.setValues = function(initChars){
+	this.init = function(initChars){
 		initialCharactersNamed = initChars;
 	}
 
@@ -123,13 +123,19 @@ var Characters = function(model_in){
 
 
   this.toString = function() {
-  	out = "Characters: initialCharactersNamed="+initialCharactersNamed;
-  	out += " currentFactIndex:"+currentFactIndex;
-  	out += " currentCharacter:"+this.currentCharacter;
-  	out += " named:";
-  	for (var i=0; i<named.length; i++){
-  		out+="{i:"+named[i].index+" f:"+named[i].facts+" p:"+named[i].player+"} ";
-  	}
+  	var out="Character String Error";
+  	try {
+	  	out = "Characters: initialCharactersNamed="+initialCharactersNamed;
+	  	out += " currentFactIndex:"+currentFactIndex;
+	  	out += " currentCharacter:"+this.currentCharacter.index;
+	  	out += " named:";
+	  	for (var i=0; i<named.length; i++){
+	  		out+="{i:"+named[i].index+" f:"+named[i].facts+" p:"+named[i].player+"} ";
+	  	}
+	  }
+		catch (err) {
+			//do nothing
+		}
   	return out;
   }
 

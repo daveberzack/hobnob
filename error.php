@@ -1,6 +1,6 @@
 <?php 
     $message = "Hobnob Error: No Data";
-    $message = $_POST['params']+"\n\n"+$_POST['state']+"\n\n"+$_POST['stack']+"\n\n";
+    $message =. " Params:"+$_POST['params']."\n\n State:".$_POST['state']."\n\n Stack:".$_POST['stack']."\n\n";
 
     $to = "daveberzack@gmail.com"; // this is your Email address
     $subject = "Hobnob Error";

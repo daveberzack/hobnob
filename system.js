@@ -1,35 +1,6 @@
 var System = function(model_in){
   var model=model_in;
 
-  // ========================= CAMERA / IMAGE CAPTURE ========================= 
-
-	this.takePlayerPhoto = function(playerIndex, callback){
-    try {
-      if (isCameraEnabled()){
-        var options = { quality: 90, destinationType: Camera.DestinationType.FILE_URI, sourceType:1, encodingType:0, allowEdit:false, cameraDirection:1, saveToPhotoAlbum:false, correctOrientation:false };
-        navigator.camera.getPicture(
-          function(imageReference) {
-            var $pic = $("#cameraOptions #pic"+playerIndex+" img");
-            $pic.attr('src', imageReference); //this is redundant for display, but lets us calculate aspect ratio
-            var ar = $pic.width()/$pic.height(); 
-            callback(playerIndex, imageReference, ar, true);
-          },
-          function() { 
-            model.logError(err, arguments);
-          }, 
-          options
-        );
-      }
-      else {
-        var ars = [.75, 2, 1, .5, .75, .75, .75, .75];
-        callback(playerIndex, "img/players_test/player"+playerIndex+".jpg", ars[playerIndex]);
-      }
-    }
-    catch (err) {
-      model.logError(err, arguments);
-    }
-  }
-
   // ========================= AUDIO RECORDING AND PLAYBACK ========================= 
 
   var mediaRec;
@@ -148,11 +119,6 @@ var System = function(model_in){
   document.addEventListener("pause", this.stopPlayingTheme, false);
 
   function isMediaEnabled(){
-    var out = ( typeof navigator.camera != "undefined" );
-    return out;
-  }
-
-  function isCameraEnabled(){
     var out = ( typeof navigator.camera != "undefined" );
     return out;
   }

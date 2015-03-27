@@ -1,24 +1,23 @@
 <html>
 <head>
-<meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
-        
+<meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />      
 	<title>Hobnob</title>
-	<link href="http://fonts.googleapis.com/css?family=Lobster" rel="stylesheet" type="text/css">
-  <link href="http://fonts.googleapis.com/css?family=Cabin" rel="stylesheet" type="text/css">
 	<link rel="stylesheet" href="style.css">
 </head>
 <body>
 
+<!-- -----------------------------------  GAME & WIN SCREENS ---------------------------------- -->
+
 <div id="gameScreen" class="screen">
 	<div class="players">
-	  <div class="playerTab playerTab0"><div class="photoHolder"><img src="img/players_numbers/player0.jpg"/></div><div class="score"></div></div>
-	  <div class="playerTab playerTab1"><div class="photoHolder"><img src="img/players_numbers/player1.jpg" /></div><div class="score"></div></div>
-	  <div class="playerTab playerTab2"><div class="photoHolder"><img src="img/players_numbers/player2.jpg" /></div><div class="score"></div></div>
-	  <div class="playerTab playerTab3"><div class="photoHolder"><img src="img/players_numbers/player3.jpg" /></div><div class="score"></div></div>
-	  <div class="playerTab playerTab4"><div class="photoHolder"><img src="img/players_numbers/player4.jpg" /></div><div class="score"></div></div>
-	  <div class="playerTab playerTab5"><div class="photoHolder"><img src="img/players_numbers/player5.jpg" /></div><div class="score"></div></div>
-	  <div class="playerTab playerTab6"><div class="photoHolder"><img src="img/players_numbers/player6.jpg" /></div><div class="score"></div></div>
-	  <div class="playerTab playerTab7"><div class="photoHolder"><img src="img/players_numbers/player7.jpg" /></div><div class="score"></div></div>
+	  <div class="playerTab playerTab0"><img class="avatar avatar0"/><div class="score"></div></div>
+	  <div class="playerTab playerTab1"><img class="avatar avatar1"/><div class="score"></div></div>
+	  <div class="playerTab playerTab2"><img class="avatar avatar2"/><div class="score"></div></div>
+	  <div class="playerTab playerTab3"><img class="avatar avatar3"/><div class="score"></div></div>
+	  <div class="playerTab playerTab4"><img class="avatar avatar4"/><div class="score"></div></div>
+	  <div class="playerTab playerTab5"><img class="avatar avatar5"/><div class="score"></div></div>
+	  <div class="playerTab playerTab6"><img class="avatar avatar6"/><div class="score"></div></div>
+	  <div class="playerTab playerTab7"><img class="avatar avatar7"/><div class="score"></div></div>
 	</div>
 	<div id="topButtons">
 		<img class="menuLink" src="img/menu.png"/>
@@ -68,33 +67,57 @@
 			</div>
 		</div>
 	</div>
+
 	<div id="nextPlayerPrompt">
-		<div id="nextPlayerPhoto0" class="nextPlayerPhoto" ><img /></div>
-		<div id="nextPlayerPhoto1" class="nextPlayerPhoto" ><img /></div>
-		<div id="nextPlayerPhoto2" class="nextPlayerPhoto" ><img /></div>
-		<div id="nextPlayerPhoto3" class="nextPlayerPhoto" ><img /></div>
-		<div id="nextPlayerPhoto4" class="nextPlayerPhoto" ><img /></div>
-		<div id="nextPlayerPhoto5" class="nextPlayerPhoto" ><img /></div>
-		<div id="nextPlayerPhoto6" class="nextPlayerPhoto" ><img /></div>
-		<div id="nextPlayerPhoto7" class="nextPlayerPhoto" ><img /></div>
-		<h2 id="nextPlayerLabel">Player X</h2>
+		<div id="nextPlayerPhoto0" class="nextPlayerPhoto" ><img class="avatar0"/></div>
+		<div id="nextPlayerPhoto1" class="nextPlayerPhoto" ><img class="avatar1"/></div>
+		<div id="nextPlayerPhoto2" class="nextPlayerPhoto" ><img class="avatar2"/></div>
+		<div id="nextPlayerPhoto3" class="nextPlayerPhoto" ><img class="avatar3"/></div>
+		<div id="nextPlayerPhoto4" class="nextPlayerPhoto" ><img class="avatar4"/></div>
+		<div id="nextPlayerPhoto5" class="nextPlayerPhoto" ><img class="avatar5"/></div>
+		<div id="nextPlayerPhoto6" class="nextPlayerPhoto" ><img class="avatar6"/></div>
+		<div id="nextPlayerPhoto7" class="nextPlayerPhoto" ><img class="avatar7"/></div>
+		<h2 id="nextPlayerLabel">Hey!</h2>
 		<div id="nextPlayerLabel2"><h3 id="nextTurnLabel">You Are Next</h3><h3 id="nextChallengeLabel">You Have Been Challenged</h3></div>
 	</div>
+
 	<div id="challenge" class="mainPane">
 	   <h3 id="challengeTitle">Choose a Player<br/>to Challenge:</h3>
 	   <div id="challengeOptions">
-			<a href="#" class="challengePlayer challengePlayer0" data-index="0"><div class="photoHolder"><img src="img/players_numbers/player0.jpg"></div></a>
-			<a href="#" class="challengePlayer challengePlayer1" data-index="1"><div class="photoHolder"><img src="img/players_numbers/player1.jpg"></div></a>
-			<a href="#" class="challengePlayer challengePlayer2" data-index="2"><div class="photoHolder"><img src="img/players_numbers/player2.jpg"></div></a>
-			<a href="#" class="challengePlayer challengePlayer3" data-index="3"><div class="photoHolder"><img src="img/players_numbers/player3.jpg"></div></a>
-			<a href="#" class="challengePlayer challengePlayer4" data-index="4"><div class="photoHolder"><img src="img/players_numbers/player4.jpg"></div></a>
-			<a href="#" class="challengePlayer challengePlayer5" data-index="5"><div class="photoHolder"><img src="img/players_numbers/player5.jpg"></div></a>
-			<a href="#" class="challengePlayer challengePlayer6" data-index="6"><div class="photoHolder"><img src="img/players_numbers/player6.jpg"></div></a>
-			<a href="#" class="challengePlayer challengePlayer7" data-index="7"><div class="photoHolder"><img src="img/players_numbers/player7.jpg"></div></a>
+			<a href="#" class="challengePlayer challengePlayer0" data-index="0"><img class="avatar avatar0"/></a>
+			<a href="#" class="challengePlayer challengePlayer1" data-index="1"><img class="avatar avatar1"/></a>
+			<a href="#" class="challengePlayer challengePlayer2" data-index="2"><img class="avatar avatar2"/></a>
+			<a href="#" class="challengePlayer challengePlayer3" data-index="3"><img class="avatar avatar3"/></a>
+			<a href="#" class="challengePlayer challengePlayer4" data-index="4"><img class="avatar avatar4"/></a>
+			<a href="#" class="challengePlayer challengePlayer5" data-index="5"><img class="avatar avatar5"/></a>
+			<a href="#" class="challengePlayer challengePlayer6" data-index="6"><img class="avatar avatar6"/></a>
+			<a href="#" class="challengePlayer challengePlayer7" data-index="7"><img class="avatar avatar7"/></a>
 	   </div>
 	</div>
 
 </div>
+
+
+<div id="winScreen" class="screen">
+	<img class="avatar0 avatar"/>
+	<img class="avatar1 avatar"/>
+	<img class="avatar2 avatar"/>
+	<img class="avatar3 avatar"/>
+	<img class="avatar4 avatar"/>
+	<img class="avatar5 avatar"/>
+	<img class="avatar6 avatar"/>
+	<img class="avatar7 avatar"/>
+	
+  <h2 id="winPlayer">Hey!</h2>
+  <h3 id="winWon">You Won!</h3>
+  <div id="winLinks">
+		<a href="#" class="startGameLink mainButton"><h4>Play a Rematch</h4></a>
+		<a href="#" class="menuLink mainButton"><h4>Back to Main Menu</h4></a>
+	</div>
+</div>
+
+
+<!-- ----------------------------------- MENU, OPTIONS & PLAYERS ---------------------------------- -->
 
 <div id="menuScreen" class="screen">
 	<div id="logoHolder">
@@ -111,36 +134,7 @@
 	</div>
 </div>
 
-<div id="instructionsScreen" class="screen">
-		<h2>Instructions</h2>
-<p>Hobnob is a game about making friends and remembering them.</p>
 
-<p>Players take turns introducing characters by coming up with names and fun facts about each one.</p>
-
-<p>When it's your turn, show everyone the face, then click "record", say the name or fun fact, then click stop. You can check and re-record it, or just click "next".</p>
-
-<p>At harder difficulty levels, you also introduce a fun fact.</p>
-
-<p>After several characters have been introduced, you'll instead be shown a character you met earlier. You can try guess the name and all the other facts that have been introduced for that character. Then, either click "Wrong" to end your turn. or click "Right" to give yourself a point and then introduce some new information: either a new fact about this character or a new character (this is random, based on the "depth" option).</p>
-
-<p>If players disagree on the correct answer, click "check" to replay the name and all facts.</p>
-
-<p>If you don't remember the name and all the facts, instead of guessing you can "defer" to another player. If they get it right, they get a point and introduce a new fact or character. But if they get it wrong, you get a point.</p>
-
-<p>Turns and scores are tracked with the tabs at the top of the screen. As soon as a player fills up their score meter, they win.</p>
-
-<p>Note: Part of the fun is getting creative and witty when introducing characters. But if a name or fact is too obscure or offensive, other players can veto it. If half of the players vote it down, the player must record something different. Likewise, if a player is close enough when guessing a weird name or fact, the other players can vote to accept it anyway.</p>
-
-		<a href="#" class="menuLink">Main Menu</a><br/>
-</div>
-<div id="hintsScreen" class="screen">
-  <p>
-	  Hints...
-		<a href="#" class="continueGameLink">Continue Game</a><br/>
-		<a href="#" class="newGameLink">Start a New Game</a><br/>
-		<a href="#" class="menuLink">Main Menu</a><br/>
-	</p>
-</div>
 
 <div id="optionsScreen" class="screen">
 	<h2 id="optionsTitle">Game Options</h2>
@@ -157,68 +151,153 @@
   </div>
 
   <div id="optionsLevel" class="optionGroup">
-  	<!--<div id="optionsGeneral">-->
 		  <div class="optionLabel"><h3>Level:</h3><h6 id="optionValue1"></h6></div>
 		  <a href="#" id="options1_0" data-set="1" data-value="0" class="option"><img src="img/options_easy.jpg"/></a>
 		  <a href="#" id="options1_1" data-set="1" data-value="1" class="option"><img src="img/options_medium.jpg"/></a>
 		  <a href="#" id="options1_2" data-set="1" data-value="2" class="option"><img src="img/options_hard.jpg"/></a>
-	 <!-- </div>
-	  
-	  <div id="optionsSpecifics">
-	  	<div><h6>Points needed to win:</h6><input type="text" id="optionsPoints" value="5"/></div>
-	  	<div><h6>Facts introduced with name:</h6><input type="text" id="optionsFacts" value="0"/></div>
-	  	<div><h6>Characters to start with:</h6><input type="text" id="optionsCharacters" value="5"/></div>
-	  </div>-->
   </div>
 
   <div id="optionsIcons" class="optionGroup">
 	  <div class="optionLabel"><h3>Avatars:</h3><h6 id="optionValue2"></h6></div>
-	  <a href="#" id="options2_0" data-set="2" data-value="0" class="option"><img src="img/options_selfie.jpg"/></a>
-	  <a href="#" id="options2_1" data-set="2" data-value="1" class="option"><img src="img/options_animal.jpg"/></a>
-	  <a href="#" id="options2_2" data-set="2" data-value="2" class="option"><img src="img/options_number.jpg"/></a>
+	  <a href="#" id="options2_0" data-set="2" data-value="0" class="option"><img src="img/options_number.jpg"/></a>
+	  <a href="#" id="options2_1" data-set="2" data-value="1" class="option"><img src="img/options_icon.jpg"/></a>
+	  <a href="#" id="options2_2" data-set="2" data-value="2" class="option"><img src="img/options_animal.jpg"/></a>
   </div>
 
-	<a href="#" class="startGameLink mainButton"><h4>Start the Game</h4></a>
-	<a href="#" class="cameraLink mainButton"><h4>Take Avatar Photos</h4></a>
+	<a href="#" class="playersLink mainButton"><h4>Continue</h4></a>
 </div>
 
-<div id="cameraScreen" class="screen">
-  <h2 id="cameraTitle">Take photos:</h2>
-  <div id="cameraOptions"/>
-		<a href="#" class="pic" id="pic0" data-index="0"><div class="photoHolder"><img src="img/camera_default.jpg"/></div></a>
-		<a href="#" class="pic" id="pic1" data-index="1"><div class="photoHolder"><img src="img/camera_default.jpg"/></div></a>
-		<a href="#" class="pic" id="pic2" data-index="2"><div class="photoHolder"><img src="img/camera_default.jpg"/></div></a>
-		<a href="#" class="pic" id="pic3" data-index="3"><div class="photoHolder"><img src="img/camera_default.jpg"/></div></a>
-		<a href="#" class="pic" id="pic4" data-index="4"><div class="photoHolder"><img src="img/camera_default.jpg"/></div></a>
-		<a href="#" class="pic" id="pic5" data-index="5"><div class="photoHolder"><img src="img/camera_default.jpg"/></div></a>
-		<a href="#" class="pic" id="pic6" data-index="6"><div class="photoHolder"><img src="img/camera_default.jpg"/></div></a>
-		<a href="#" class="pic" id="pic7" data-index="7"><div class="photoHolder"><img src="img/camera_default.jpg"/></div></a>
-  </div>
+<div id="playersScreen" class="screen">
+  <h2 id="playersTitle">Player Setup</h2>
+	<img src="img/avatar_default.jpg" class="avatar" id="avatarSelect"/>
+	<input id="playerNameInput">
+	<a href="#" class="nextPlayerLink mainButton"><h4>Next Player</h4></a>
 	<a href="#" class="startGameLink mainButton"><h4>Start the Game</h4></a>
+	<div id="avatarOptions">
+		<img class="animal" src="img/players_animals/cat.png"/>
+		<img class="animal" src="img/players_animals/chicken.png"/>
+		<img class="animal" src="img/players_animals/cow.png"/>
+		<img class="animal" src="img/players_animals/dog.png"/>
+		<img class="animal" src="img/players_animals/donkey.png"/>
+		<img class="animal" src="img/players_animals/fox.png"/>
+		<img class="animal" src="img/players_animals/lion.png"/>
+		<img class="animal" src="img/players_animals/elephant.png"/>
+		<img class="animal" src="img/players_animals/monkey.png"/>
+		<img class="animal" src="img/players_animals/owl.png"/>
+		<img class="animal" src="img/players_animals/panda.png"/>
+		<img class="animal" src="img/players_animals/penguin.png"/>
+		<img class="animal" src="img/players_animals/pig.png"/>
+		<img class="animal" src="img/players_animals/sheep.png"/>
+		<img class="animal" src="img/players_animals/tiger.png"/>
+		<img class="animal" src="img/players_animals/zebra.png"/>
+		<img class="icon" src="img/players_icons/alien.png"/>
+		<img class="icon" src="img/players_icons/banana.png"/>
+		<img class="icon" src="img/players_icons/bolt.png"/>
+		<img class="icon" src="img/players_icons/bulb.png"/>
+		<!--<img class="icon" src="img/players_icons/candy.png"/>-->
+		<img class="icon" src="img/players_icons/cat.png"/>
+		<img class="icon" src="img/players_icons/chess.png"/>
+		<img class="icon" src="img/players_icons/cone.png"/>
+		<img class="icon" src="img/players_icons/control.png"/>
+		<img class="icon" src="img/players_icons/crown.png"/>
+		<img class="icon" src="img/players_icons/eye.png"/>
+		<img class="icon" src="img/players_icons/feet.png"/>
+		<img class="icon" src="img/players_icons/fire.png"/>
+		<img class="icon" src="img/players_icons/fish.png"/>
+		<img class="icon" src="img/players_icons/flower.png"/>
+		<img class="icon" src="img/players_icons/ghost.png"/>
+		<img class="icon" src="img/players_icons/leaf.png"/>
+		<img class="icon" src="img/players_icons/lips.png"/>
+		<img class="icon" src="img/players_icons/masks.png"/>
+		<img class="icon" src="img/players_icons/ninja.png"/>
+		<img class="icon" src="img/players_icons/paw.png"/>
+		<img class="icon" src="img/players_icons/rocket.png"/>
+		<img class="icon" src="img/players_icons/skull.png"/>
+		<img class="icon" src="img/players_icons/spade.png"/>
+		<img class="icon" src="img/players_icons/spider.png"/>
+		<img class="icon" src="img/players_icons/star.png"/>
+		<img class="icon" src="img/players_icons/sun.png"/>
+		<img class="icon" src="img/players_icons/swords.png"/>
+		<img class="icon" src="img/players_icons/tophat.png"/>
+		<img class="icon" src="img/players_icons/wheat.png"/>
+		<img class="icon" src="img/players_icons/yinyang.png"/>
+	</div>
   </p>
 </div>
 
 
-<div id="winScreen" class="screen">
-	<div class="photoHolder winImage" id="winImage0" ><img src="img/players_numbers/player0.jpg"/></div>
-	<div class="photoHolder winImage" id="winImage1" ><img src="img/players_numbers/player1.jpg"/></div>
-	<div class="photoHolder winImage" id="winImage2" ><img src="img/players_numbers/player2.jpg"/></div>
-	<div class="photoHolder winImage" id="winImage3" ><img src="img/players_numbers/player3.jpg"/></div>
-	<div class="photoHolder winImage" id="winImage4" ><img src="img/players_numbers/player4.jpg"/></div>
-	<div class="photoHolder winImage" id="winImage5" ><img src="img/players_numbers/player5.jpg"/></div>
-	<div class="photoHolder winImage" id="winImage6" ><img src="img/players_numbers/player6.jpg"/></div>
-	<div class="photoHolder winImage" id="winImage7" ><img src="img/players_numbers/player7.jpg"/></div>
-	
-  <h2 id="winPlayer">Hey!</h2>
-  <h3 id="winWon">You Won!</h3>
-  <div id="winLinks">
-		<a href="#" class="startGameLink mainButton"><h4>Play a Rematch</h4></a>
-		<a href="#" class="menuLink mainButton"><h4>Back to Main Menu</h4></a>
+<!-- -----------------------------------  INFO SCREENS ---------------------------------- -->
+
+<div id="instructionsScreen" class="infoScreen screen">
+
+	<div class="page" id="instructionsPage0">
+		<h3>How To Play</h3>
+		<div class="pageCopy">
+			<img class="topImage" src="img/instructions1.jpg"/>
+			<p>Hobnob is a game about making friends and remembering them.</p>
+			<p>Players introduce fun characters by making up names and fun facts about colorful faces.</p>
+			<p>Later, you score points by remembering those characters.</p>
+			<p>The first player to fill their score meter is the winner.</p>
+		</div>
 	</div>
+
+	<div class="page" id="instructionsPage1">
+		<h3>Meet & Greet</h3>
+		<div class="pageCopy">
+			<img class="topImage" src="img/instructions2.jpg"/>
+			<p>On your turn, you'll see a new character.</p>
+			<p>Show it to everyone, then click <img class="inlineImage" src="img/record.gif"/> and speak that character's name. Then, click <img class="inlineImage" src="img/next.gif"/> and pass the device to the next player.</p>
+			<p>* Note: on higher difficulty levels, you will also introduce a fun fact about each new character</p>
+		</div>
+	</div>
+
+	<div class="page" id="instructionsPage2">
+		<h3>Mix & Mingle</h3>
+		<div class="pageCopy">
+			<img class="topImage" src="img/instructions3.jpg"/>
+			<p>After a while, you'll instead see a character that was introduced earlier. If you can recall their name and all the facts, click <img class="inlineImage" src="img/right.gif"/> to score a point. If you guess wrong, click <img class="inlineImage" src="img/wrong.gif"/>. </p>
+			<p>Or... instead of guessing, you can challenge another player by clicking <img class="inlineImage" src="img/target.gif"/>. If they get it right, they get a point. If not, you get a point after all.</p>
+			<p>Any time you can recall a character correctly, you'll get to either add another fun fact about that character, or introduce a new character.</p>
+		</div>
+	</div>
+
+	<div class="page" id="instructionsPage3">
+		<h3>Final Notes</h3>
+		<div class="pageCopy">
+			<p>Usually, you can judge responses by general consensus. But if players can't remember or agree, click <img class="inlineImage" src="img/undo.gif"/> to replay the name and fun facts for that character.</p>
+			<p>Part of the fun is getting creative when making up names and fun facts. But if a majority of other players find something too hard to remember or offensive, you have to change it.</p>
+			<p>Also, if a response is wrong but close (especially with exotic names and strange facts), other players can vote to accept it.</p>
+			<p>I hope you enjoy playing this game as much as I've enjoyed making it, and that it helps you get better at this important life skill!</p>
+			<p>- Dave</p>
+		</div>
+	</div>
+
+	<div class="infoNav">
+	<a href="#" class="infoPrev" data-change="-1"><img src="img/info_prev.png"/></a>
+	<a href="#" class="infoPage" data-index="0"></a>
+	<a href="#" class="infoPage" data-index="1"></a>
+	<a href="#" class="infoPage" data-index="2"></a>
+	<a href="#" class="infoPage" data-index="3"></a>
+	<a href="#" class="infoNext" data-change="1"><img src="img/info_next.png"/></a>
+	</div>
+	<div class="infoFooter"><a href="#" class="menuLink">Main Menu</a></div>
+
 </div>
 
+
+<div id="hintsScreen" class="screen">
+  <p>
+	  Hints...
+		<a href="#" class="continueGameLink">Continue Game</a><br/>
+		<a href="#" class="newGameLink">Start a New Game</a><br/>
+		<a href="#" class="menuLink">Main Menu</a><br/>
+	</p>
+</div>
+
+
+<!-- -----------------------------------  SPLASH, SCRIPTS, ETC. ---------------------------------- -->
+
 <div id="debug"></div>
-<div id="overlay"></div>
 <div id="splash"><img src="img/splash1.jpg"/></div>
 
 <script src="jquery-2.1.3.min.js"></script>

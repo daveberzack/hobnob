@@ -3,11 +3,354 @@ var View = function(model_in){
 	var view = this;
 	var MAX_PLAYERS = 8;
   var maxPoints;
+  var avatarType;
   var numPlayers=4;
-  
+  var playerSetupIndex=0;
 
-  var playerIconType="number";
-  var cameraPlayerIndex;
+
+
+	this.startGame = function(numPlayers_in, maxPointsIn){
+		try {
+			numPlayers = numPlayers_in;
+			maxPoints = maxPointsIn;
+			this.togglePlayers();
+
+			$("#challenge").hide();
+			$("#guess").hide();
+			toggleIntro("Record");
+			this.showGame();
+	  	model.stopPlayingTheme(1000);
+	  	var scores = [];
+	  	for (var i=0; i<numPlayers; i++){ scores.push(0); }
+	  	this.updatePlayersScore(scores);
+	  	doResize();
+    }
+    catch (err) {
+      model.logError(err, arguments);
+    }
+	}
+
+	this.togglePlayers = function(){
+		try {
+	  	for (var i=0; i<MAX_PLAYERS; i++){
+	  		var showPlayer = (i<numPlayers);
+				$("#cameraOptions #pic"+i).toggle(showPlayer);
+				$(".playerTab"+i).toggle(showPlayer);
+				$(".challengePlayer"+i).toggle(showPlayer);
+	  	}
+    }
+    catch (err) {
+      model.logError(err, arguments);
+    }
+	}
+
+	this.updatePlayersScore = function(playerScores){
+		try {
+			for (var i=0; i<playerScores.length; i++){
+				$("#gameScreen .playerTab"+i+" .score").removeClass().addClass("score s"+playerScores[i]);
+			}
+    }
+    catch (err) {
+      model.logError(err, arguments);
+    }
+	}
+
+
+	function toggleIntro(which){
+		$("#introRecord, #introStop, #introPlay").addClass("hidden");
+		$("#intro"+which).removeClass("hidden");
+	}
+	function startRecording(){
+		toggleIntro("Stop");
+  	$("#nextBlock, #undoBlock").addClass("disabled");
+		model.startRecordingCharacterFact();
+	}
+	function stopRecording(){
+		toggleIntro("Play");
+		model.stopRecordingCharacterFact();
+  	$("#nextBlock, #undoBlock").removeClass("disabled");
+	}
+	function playRecording(){
+		model.startPlayingCurrentCharacterFact();
+	}
+	function undoRecording(){
+		toggleIntro("Record");
+  	$("#nextBlock, #undoBlock").addClass("disabled");
+	}
+
+
+
+
+	this.showNextPlayerPrompt = function(nextPlayerIndex, nextPlayerName, isChallenge){
+		$("#nextPlayerLabel").html(nextPlayerName);
+		$("#nextPlayerPrompt").show().removeClass().addClass("player"+nextPlayerIndex);
+		$(".nextPlayerPhoto").hide();
+		$("#nextPlayerPhoto"+nextPlayerIndex).show();
+		$("#nextTurnLabel").toggle(!isChallenge);
+		$("#nextChallengeLabel").toggle(isChallenge);
+	}
+
+	this.showGuess = function(playerIndex, characterIndex, numFacts, isChallenge){
+		this.showGame();
+		$("#challenge").hide();
+		$("#character").show();
+		$("#guess").show();
+		$("#addInfo").hide();
+		$("#gameScreen").removeClass().addClass("screen player"+playerIndex);
+		if (isChallenge){
+			$("#challengeBlock").addClass("disabled");
+			$("#guessOr").addClass("hidden");
+		}
+		else {
+			$("#challengeBlock").removeClass("disabled");
+			$("#guessOr").removeClass("hidden");
+		}
+		$("#guessPrompt2 h2").html(numFacts);
+		if (numFacts>1) $("#guessPrompt3").html("Things About Me?");
+		else $("#guessPrompt3").html("Thing About Me?");
+		highlightPlayer(playerIndex);
+		showCharacter(characterIndex);
+	}
+
+	this.showIntro = function(playerIndex, characterId, prompt){
+		this.showGame();
+		$("#challenge").hide();
+		$("#character").show();
+		$("#guess").hide();
+		$("#addInfo").show();
+
+		highlightPlayer(playerIndex);
+		showCharacter(characterId);
+  	$("#introPrompt1").html(prompt);
+  	$("#nextBlock, #undoBlock").addClass("disabled");
+		toggleIntro("Record");
+	}
+
+	function showCharacter(id){
+		if (!id) id=1;
+		$(".characterHolder img").attr("src", "img/characters/c"+id+".png");
+	}
+
+	this.showGame = function(){
+		showScreen("game");
+  	model.stopPlayingTheme(1000);
+	}
+	this.showOptions = function(){
+		optionClick( $() );
+		showScreen("options");
+	}
+	this.showInstructions = function(){
+		showScreen("instructions");
+		this.showInstructionsPage(0);
+	}
+	var currentInstructionsIndex=0;
+	this.showInstructionsPage = function(index){
+		currentInstructionsIndex=index;
+		$("#instructionsScreen .page").hide();
+		$("#instructionsPage"+index).show();
+		$("#instructionsScreen .infoPage").removeClass("current");
+		$("#instructionsScreen .infoPage:eq("+index+")").addClass("current");
+
+		if (index<=0) $("#instructionsScreen .infoPrev").addClass("disabled");
+		else $("#instructionsScreen .infoPrev").removeClass("disabled");
+		if (index>=3) $("#instructionsScreen .infoNext").addClass("disabled");
+		else $("#instructionsScreen .infoNext").removeClass("disabled");
+	}
+	this.changeInstructionsPage = function(change){
+		this.showInstructionsPage(currentInstructionsIndex+change);
+	}
+
+	this.showPlayers = function(index_in){
+		if (typeof index_in == "undefined") index_in=-1;
+		playerSetupIndex=index_in+1;
+
+		numPlayers = optionValues[0]+1;
+		avatarType = optionValues[2];
+		model.initPlayers(numPlayers);
+		$("#playerNameInput").val("Player "+(playerSetupIndex+1));
+		if (avatarType==0) {
+			$("#avatarSelect").attr("src","img/players_numbers/"+playerSetupIndex+".jpg");
+		}
+		else if (avatarType==1){
+			$("#avatarSelect").attr("src","img/avatar_default.jpg");
+			$("#avatarOptions .animal").hide();
+			$("#avatarOptions .icon").show();
+			$("#playersScreen .mainButton").addClass("disabled");
+		}
+		else  {
+			$("#avatarSelect").attr("src","img/avatar_default.jpg");
+			$("#avatarOptions .animal").show();
+			$("#avatarOptions .icon").hide();
+			$("#playersScreen .mainButton").addClass("disabled");
+		}
+
+		if (playerSetupIndex+1>=numPlayers) {
+			$("#playersScreen .startGameLink").show();
+			$("#playersScreen .nextPlayerLink").hide();
+		}
+		else {
+			$("#playersScreen .startGameLink").hide();
+			$("#playersScreen .nextPlayerLink").show();
+		}
+  	resizePlayers();
+		$("#avatarOptions").hide();
+		showScreen("players");
+		this.togglePlayers();
+		$("#playersScreen").removeClass().addClass("screen p"+playerSetupIndex);
+	}
+
+	this.setPlayer = function(){
+		try {
+			var i = playerSetupIndex;
+			var url = $("#avatarSelect").attr("src");
+			var imageSelector = ".playerTab"+i+" img, #winScreen .avatar"+i+", .challengePlayer"+i+" img, #nextPlayerPhoto"+i+" img, #playersScreen .player"+i+" img";
+			$(imageSelector).attr("src",url);//.css({"width":"100%", "top":0, "left":0});
+			model.setPlayerName(i, $("#playerNameInput").val());
+    }
+    catch (err) {
+      model.logError(err, arguments);
+    }
+	}
+	function showAvatarOptions(){
+		$("#avatarOptions").show();
+	}
+	function selectAvatar(src){
+		$("#avatarOptions").hide();
+		$("#avatarSelect").attr("src", src);
+			$("#playersScreen .mainButton").removeClass("disabled");
+	}
+
+
+	this.showMenu = function(){
+  	model.startPlayingTheme();
+  	resizeMenu();
+		showScreen("menu");
+	}
+
+	this.showWinScreen = function(playerIndex){
+		$("#winPlayer").html("Player "+(playerIndex+1));
+		$("#winScreen").removeClass().addClass("screen p"+playerIndex);
+		$("#winScreen .avatar").addClass("hidden");
+		$("#winScreen .avatar"+playerIndex).removeClass("hidden");
+		showScreen("win");
+  	model.startPlayingTheme();
+	}
+
+	this.showChallengePlayers = function(currentPlayerIndex){
+		this.showGame();
+		$("#challenge").show();
+		$("#character").hide();
+		$(".challengePlayer").removeClass("hidden");
+		$(".challengePlayer"+currentPlayerIndex).addClass("hidden");
+	}
+
+	this.showContinueLinks = function(){
+		$(".continueGameLink").show();
+		$(".newGameLink").addClass("narrow right");
+	}
+	this.hideContinueLinks = function(){
+		$(".continueGameLink").hide();
+		$(".newGameLink").removeClass("narrow right");
+	}
+
+	function highlightPlayer(playerIndex){
+		$("#gameScreen").removeClass().addClass("screen player"+playerIndex);
+		$(".playerTab").removeClass("active");
+		$("#gameScreen .playerTab"+playerIndex).addClass("active");
+	}
+
+	function showScreen(label){
+		$(".screen").hide();
+		$("#"+label+"Screen").show();
+	}
+
+	var optionLabels = [
+		["One","Two","Three","Four","Five","Six","Seven","Eight"],
+		["Easy","Medium","Hard"],
+		["Numbers","Icons","Animals"]
+	];
+	var optionValues = [3,0,0];
+
+
+	function updateOptions(){
+		try {
+			$("#optionsScreen .option").removeClass("chosen");
+
+			for (var i=0; i<optionValues.length;i++){
+				if (i==0){
+					for(var j=0; j<=optionValues[0]; j++){  $("#options0_"+j).addClass("chosen");  }
+				}
+				else {
+					$("#options"+i+"_"+optionValues[i]).addClass("chosen");	
+				}
+				$("#optionValue"+i).html( optionLabels[i][ optionValues[i] ] );
+			}
+    }
+    catch (err) {
+      model.logError(err, arguments);
+    }
+	}
+
+	function optionClick(me){
+		optionValues[me.data("set")] = me.data("value");
+		updateOptions();
+	}
+	updateOptions();
+  
+	function startGameClicked(){
+		var npl = optionValues[0];
+		var lvl = optionValues[1];
+		var dep = optionValues[2];
+		var tkn = optionValues[3];
+
+		var initFactsByLevel = [1,2,2];
+		var initCharsByLevel = [5,5,7];
+		var maxScoresByPlayer = [18,13,9,8,6,5,4,3,3];
+		var maxCharsByDepth=[26,20,15];
+		var chanceOfUnnamedByDepth=[.85,.75,.65];
+
+		model.startGame(npl+1, maxScoresByPlayer[npl]+lvl, initFactsByLevel[lvl], initCharsByLevel[lvl], maxCharsByDepth[dep], chanceOfUnnamedByDepth[dep]);
+	}
+
+	///////////////////// click handlers SHOULD BE ON TOUCH START
+
+	$(".newGameLink").click(  function(){ view.showOptions() });
+	$(".continueGameLink").click( function(){ view.showGame() });
+	$(".startGameLink").click( function(){ startGameClicked() });
+	$(".menuLink").click( function(){ view.showMenu() });
+	$(".instructionsLink").click( function(){ view.showInstructions() });
+	$(".playersLink").click( function(){ view.showPlayers(-1) });
+	$(".nextPlayerLink").click( function(){ view.setPlayer(); view.showPlayers(playerSetupIndex) });
+	$("#playersScreen .startGameLink").click( function(){ view.setPlayer(); });
+
+	$("#introRecord").click( function(){ startRecording() });
+	$("#introStop").click( function(){ stopRecording() });
+	$("#introPlay").click( function(){ playRecording() });
+	$("#introNext").click( function(){ model.introComplete(); });
+	$("#introUndo").click( function(){ undoRecording(); });
+	$("#guessCheck").click( function(){ model.playAllFactsForCurrentCharacter() });
+	$("#guessCorrect").click( function(){ model.submitCorrect() });
+	$("#guessIncorrect").click( function(){ model.submitIncorrect() });
+	$("#guessChallenge").click( function(){ model.showChallengePlayers() });
+	$(".optionGroup a").click(function(){ optionClick( $(this) ) });
+	$("#avatarSelect").click( function(){ showAvatarOptions(); });
+	$("#avatarOptions img").click( function(){ selectAvatar( $(this).attr("src") ); });
+
+	$("#nextPlayerPrompt").click( function(){ $(this).hide(); });
+	$("#challenge .challengePlayer").click(function(){ model.submitChallenge($(this).data("index")); });
+
+	$("#instructionsScreen .infoPage").click( function(){ view.showInstructionsPage($(this).data("index")); });
+	$("#instructionsScreen .infoPrev, #instructionsScreen .infoNext").click( function(){ view.changeInstructionsPage($(this).data("change")); });
+
+
+
+
+
+
+
+
+
+
 
   var winW,winH,x1,x2,playersPaneHeight;
 
@@ -17,11 +360,29 @@ var View = function(model_in){
 			var logoAspect = 882/1122;
 			var logoW = Math.min( winW*1.16, logoH*logoAspect );
 			var menuW = winW-x1*12;
-			$("#menuScreen a").css({"margin-bottom":x1*2, "padding":x1*2 });
-			$("#menuScreen a").css({"width":menuW-x1*2, "margin-left":x1*2, "margin-right":x1*2, "border-width":x1 });
+			$("#menuScreen a").css({"margin-bottom":x1*2, "padding":x1*2, "width":menuW-x1*2, "margin-left":x1*2, "margin-right":x1*2, "border-width":x1 });
 			$("#menuScreen a.narrow.left").css({"width":menuW/2-x1*5, "margin-right":x1 });
 			$("#menuScreen a.narrow.right").css({"width":menuW/2-x1*5, "margin-left":x1 });
 			$("#menuLogo").css({"width":logoW ,"margin-bottom":logoH*-.18 });
+    }
+    catch (err) {
+      model.logError(err, arguments);
+    }
+	}
+	resizeInfo = function(){
+		try {
+			$(".infoScreen .menuLink").css({"width":x1*7, "top":x1, "right":x1 });
+			$(".pageCopy .topImage").css({"border-width":x1 });
+			corner( $(".infoScreen .pageCopy"), x1*4);
+			corner( $(".pageCopy .topImage"), x1*3);
+			$(".infoScreen h3").css({"margin-top":x1*3, "margin-bottom":x1*3 });
+			$(".infoPage").css({"border-width":x1 });
+			$("#instructionsScreen .pageCopy").css({"height":winH-x1*48, "margin-bottom":x1*3});
+			$(".infoNav a").css({"width":x1*8, "height":x1*8 })
+			$(".infoPage").css({"width":x1*6, "height":x1*6 })
+
+			$(".infoScreen .menuLink").css({"padding":x1*2, "width":"50%", "border-width":x1 });
+			
     }
     catch (err) {
       model.logError(err, arguments);
@@ -62,9 +423,9 @@ var View = function(model_in){
 		try {
 			$("#winScreen a").css({"border-width":x1, "margin-top":x1*2, "padding":x1*2 });
 			$("#winLinks").css({"border-top-width":x1, "padding-top":x1*4, "padding-bottom":x1*4 });
-			corner( $(".winImage"), x1*8);
+			corner( $("#winScreen .avatar"), x1*8);
 			var winImageH = winH - x1*75;
-			$(".winImage").css({"border-width":x1*2, "margin-top":x1*8, "width":winImageH*.75 });	
+			$("#winScreen .avatar").css({"border-width":x1*2, "margin-top":x1*8, "width":winImageH*.75 });	
 			$("#winScreen h2").css({"margin-top":x1*4});			
 			$("#winScreen h3").css({"margin-top":x1*4, "padding":x1});			
     }
@@ -72,14 +433,20 @@ var View = function(model_in){
       model.logError(err, arguments);
     }
 	}
-	resizeCamera = function(){
+	resizePlayers = function(){
 		try {
-	    var cameraPicWidth = (winW-x1*44)/2;
-	    var cameraPicHeight = (winH - x1*8*numPlayers) / Math.ceil(numPlayers/2) - x1*2;
-			$("#cameraScreen .pic").css({"border-width":x1, "margin-left":x1*2, "margin-top":x1*2, "width": Math.min(cameraPicWidth, cameraPicHeight), "height": Math.min(cameraPicWidth, cameraPicHeight) })
-			$("#cameraTitle").css({"margin-top":x1*4, "margin-bottom":x1*6 });
-			$("#cameraScreen .mainButton").css({ "border-width":x1, "padding":x1*2, "margin-top":x1*5 });
-			corner( $("#cameraScreen .pic"), x1*4);
+			$("#playersTitle").css({"margin-top":x1*4});
+	    $("#avatarSelect").css({ "width":"60%", "border-width":x1, "margin-top":x1*8, "margin-bottom":x1*4 });
+	    $("#avatarOptions").css({ "width":winW*.8, "border-width":x1, "top":winH*.25, "left":winW*.1, "padding-bottom":x1*2 });
+	    $("#avatarOptions img").css({ "border-width":x1, "margin-top":x1*2, "margin-left":x1*2 });
+	    $("#avatarOptions .animal").css({ "width":(winW*.8-x1*2)/4 -x1*4 });
+	    $("#avatarOptions .icon").css({ "width":(winW*.8-x1*2)/6 -x1*4 });
+
+			corner( $("#avatarSelect"), x1*6);
+			corner( $("#avatarOptions"), x1*4);
+			corner( $("#avatarOptions img"), x1*2);
+	    $("#playerNameInput").css({ "width":"60%", "border-width":x1, "padding":x1*2});
+			$("#playersScreen .mainButton").css({"padding":x1*2, "width":"50%", "border-width":x1, "margin-top":x1*8 });
     }
     catch (err) {
       model.logError(err, arguments);
@@ -92,7 +459,7 @@ var View = function(model_in){
 			var challengePlayerWidth = winW/2-x1*14;
 			var cph = Math.min(challengePlayerWidth, challengePlayerHeight);
 			$(".challengePlayer").css({"margin":x1*2,"border-width":x1});
-			$(".challengePlayer .photoHolder").css({"width":cph, "height":cph});
+			$(".challengePlayer .avatar").css({"width":cph, "height":cph});
 			corner( $(".challengePlayer"), x1*4);
 			$("#challengeTitle").css({"margin":x1*5});
 			$("#challenge").css({"height":winH});
@@ -194,15 +561,15 @@ var View = function(model_in){
 				tabScoreHeight=x1*12;
 				var pointHeight = tabScoreHeight-x2*2;
 				var lastPointHeight = pointHeight*2;
-				$(".playerTab .photoHolder").hide();
+				$(".playerTab .avatar").hide();
 			}
 			else {
-				$(".playerTab .photoHolder").show();
+				$(".playerTab .avatar").show();
 			}
 			
 			$(".players").height(playersPaneHeight);
 			$(".playerTab").css({"width":tabWidth, "margin-left":x1, "margin-top":x1});  	
-			$(".playerTab .photoHolder").css({"width":tabPictureWidth-x2*2,"height":tabPictureWidth-x2*2, "border-width":x2, "margin-top":x1, "margin-left":x1, "margin-bottom":x1});
+			$(".playerTab .avatar").css({"width":tabPictureWidth-x2*2,"height":tabPictureWidth-x2*2, "border-width":x2, "margin-top":x1, "margin-left":x1, "margin-bottom":x1});
 			$(".playerTab .score").css({"width":tabScoreWidth, "height":tabScoreHeight, "margin-top":scoreMarginTop, "margin-left":x1, "margin-bottom":x1});
 			$(".playerTab .scoreInner").css({"margin":x2, "height":tabScoreHeight-x2*2, "width":tabScoreWidth-x2*2});
 			$(".playerTab .scoreInner2").css({"width":scoreInner2Width, "height":scoreInner2Height});
@@ -210,7 +577,7 @@ var View = function(model_in){
 			$(".playerTab .point").css({"width":pointWidth, "height":pointHeight, "margin-bottom":pointMarginBottom, "margin-right":pointMarginRight});
 			$(".playerTab .point:last-child").css({"width":lastPointWidth, "height":lastPointHeight});
 			corner( $(".playerTab"), x1*2);
-			corner( $(".playerTab .photoHolder, .playerTab .score"), x1*1.5);
+			corner( $(".playerTab .avatar, .playerTab .score"), x1*1.5);
 			corner( $(".playerTab .scoreInner"), x1);
 
 			$("#topButtons").width(topButtonWidth+x1);
@@ -232,10 +599,11 @@ var View = function(model_in){
 		  $("body").css("font-size",x1*5);
 
 		  resizeTabs();
+		  resizeInfo();
 		  resizeMain();
 			resizeMenu();
 			resizeOptions();
-			resizeCamera();
+			resizePlayers();
 			resizeWin();
 			resizeNext();
 			resizeChallenge();
@@ -246,308 +614,23 @@ var View = function(model_in){
   }
 
   $(window).resize(doResize);
-  this.init = function(){
+  this.init = function(inBrowser){
+		this.hideContinueLinks();
+		this.showMenu();
   	doResize();
-	}
 
-	this.startGame = function(numPlayers_in, maxPointsIn, playerIconTypeIn){
-		try {
-			numPlayers = numPlayers_in;
-			maxPoints = maxPointsIn;
-			playerIconType = playerIconTypeIn;
-			this.togglePlayers();
-
-			$("#challenge").hide();
-			$("#guess").hide();
-			toggleIntro("Record");
-			this.showGame();
-	  	model.stopPlayingTheme(1000);
-	  	var scores = [];
-	  	for (var i=0; i<numPlayers; i++){ scores.push(0); }
-	  	this.updatePlayersScore(scores);
-	  	doResize();
-    }
-    catch (err) {
-      model.logError(err, arguments);
-    }
-	}
-
-	this.togglePlayers = function(){
-		try {
-	  	for (var i=0; i<MAX_PLAYERS; i++){
-	  		var showPlayer = (i<numPlayers);
-				$("#cameraOptions #pic"+i).toggle(showPlayer);
-				$(".playerTab"+i).toggle(showPlayer);
-				$(".challengePlayer"+i).toggle(showPlayer);
-	  	}
-    }
-    catch (err) {
-      model.logError(err, arguments);
-    }
-	}
-	this.updatePlayersScore = function(playerScores){
-		try {
-			for (var i=0; i<playerScores.length; i++){
-				$("#gameScreen .playerTab"+i+" .score").removeClass().addClass("score s"+playerScores[i]);
-			}
-    }
-    catch (err) {
-      model.logError(err, arguments);
-    }
-	}
-
-	this.showNextPlayerPrompt = function(nextPlayerIndex, isChallenge){
-		$("#nextPlayerLabel").html("Player "+(nextPlayerIndex+1));
-		$("#nextPlayerPrompt").show().removeClass().addClass("player"+nextPlayerIndex);
-		$(".nextPlayerPhoto").hide();
-		$("#nextPlayerPhoto"+nextPlayerIndex).show();
-		$("#nextTurnLabel").toggle(!isChallenge);
-		$("#nextChallengeLabel").toggle(isChallenge);
-	}
-
-	this.showGuess = function(playerIndex, characterIndex, numFacts, isChallenge){
-		this.showGame();
-		$("#challenge").hide();
-		$("#character").show();
-		$("#guess").show();
-		$("#addInfo").hide();
-		$("#gameScreen").removeClass().addClass("screen player"+playerIndex);
-		if (isChallenge){
-			$("#challengeBlock").addClass("disabled");
-			$("#guessOr").addClass("hidden");
+		if (inBrowser) {
+			 $("#splash").hide();
 		}
 		else {
-			$("#challengeBlock").removeClass("disabled");
-			$("#guessOr").removeClass("hidden");
-		}
-		$("#guessPrompt2 h2").html(numFacts);
-		if (numFacts>1) $("#guessPrompt3").html("Things About Me?");
-		else $("#guessPrompt3").html("Thing About Me?");
-		highlightPlayer(playerIndex);
-		showCharacter(characterIndex);
-	}
-
-	this.showIntro = function(playerIndex, characterId, prompt){
-		this.showGame();
-		$("#challenge").hide();
-		$("#character").show();
-		$("#guess").hide();
-		$("#addInfo").show();
-
-		highlightPlayer(playerIndex);
-		showCharacter(characterId);
-  	$("#introPrompt1").html(prompt);
-  	$("#nextBlock, #undoBlock").addClass("disabled");
-		toggleIntro("Record");
-	}
-
-	function showCharacter(id){
-		if (!id) id=1;
-		$(".characterHolder img").attr("src", "img/characters/c"+id+".png");
-	}
-
-	function toggleIntro(which){
-		$("#introRecord, #introStop, #introPlay").addClass("hidden");
-		$("#intro"+which).removeClass("hidden");
-	}
-	function startRecording(){
-		toggleIntro("Stop");
-  	$("#nextBlock, #undoBlock").addClass("disabled");
-		model.startRecordingCharacterFact();
-	}
-	function stopRecording(){
-		toggleIntro("Play");
-		model.stopRecordingCharacterFact();
-  	$("#nextBlock, #undoBlock").removeClass("disabled");
-	}
-	function playRecording(){
-		model.startPlayingCurrentCharacterFact();
-	}
-	function undoRecording(){
-		toggleIntro("Record");
-  	$("#nextBlock, #undoBlock").addClass("disabled");
-	}
-
-	this.showGame = function(){
-		showScreen("game");
-  	model.stopPlayingTheme(1000);
-	}
-	this.showOptions = function(){
-		optionClick( $() );
-		showScreen("options");
-	}
-	this.showInstructions = function(){
-		showScreen("instructions")
-	}
-	this.showCamera = function(){
-		numPlayers = optionValues[0]+1;
-  	resizeCamera();
-		showScreen("camera");
-		this.togglePlayers();
-	}
-	this.showMenu = function(){
-  	model.startPlayingTheme();
-  	resizeMenu();
-		showScreen("menu");
-	}
-
-	this.showWinScreen = function(playerIndex){
-		$("#winPlayer").html("Player "+(playerIndex+1));
-		$("#winScreen").removeClass().addClass("screen player"+playerIndex);
-		//$("#winImage").attr("src","img/players_numbers/player"+playerIndex+".jpg");
-		$(".winImage").addClass("hidden");
-		$("#winImage"+playerIndex).removeClass("hidden");
-		showScreen("win");
-  	model.startPlayingTheme();
-	}
-
-	this.setAvatar = function(playerIndex, url, aspectRatio, setCameraScreen){
-	 model.debug("setphoto i:"+playerIndex+", u:"+url+", a:"+aspectRatio)
-		try {
-			var imgH, imgW, imgL, imgT;
-			if (aspectRatio>1){ //wide
-				imgH="100%";
-				imgW="auto";
-				imgT=0;
-				imgL= (1-aspectRatio)/2 *100 +"%";
-			}
-			else { //tall
-				imgH="auto";
-				imgW="100%";
-				imgT=(1-1/aspectRatio)/2 *100 +"%";
-				imgL=0;
-			}
-			var imageSelector = ".playerTab"+playerIndex+" img, #winImage"+playerIndex+" img, .challengePlayer"+playerIndex+" img, #nextPlayerPhoto"+playerIndex+" img";
-			if (setCameraScreen) imageSelector +=", #cameraOptions #pic"+playerIndex+" img";
-			//console.log("... "+setCameraScreen+" ... "+imageSelector);
-			$(imageSelector).attr("src",url).css({"width":imgW, "height":imgH, "top":imgT, "left":imgL});
-    }
-    catch (err) {
-      model.logError(err, arguments);
-    }
-	}
-
-	this.setAllAvatars = function() {
-		model.debug("setAllAvatars")
-		if (optionValues[2]==1) type="animals";
-		else if (optionValues[2]==2) type="numbers";
-		else return;
-
-		for (var i=0; i<8; i++){
-			this.setAvatar(i, "img/players_"+type+"/player"+i+".jpg", 1, false);
+			setTimeout(function(){ $("#splash img").attr("src","img/splash2.jpg")},1200);
+			setTimeout(function(){ $("#splash").hide()},4000);
 		}
 	}
 
-	this.showChallengePlayers = function(currentPlayerIndex){
-		this.showGame();
-		$("#challenge").show();
-		$("#character").hide();
-		$(".challengePlayer").removeClass("hidden");
-		$(".challengePlayer"+currentPlayerIndex).addClass("hidden");
-	}
-
-	this.showContinueLinks = function(){
-		$(".continueGameLink").show();
-		$(".newGameLink").addClass("narrow right");
-	}
-	this.hideContinueLinks = function(){
-		$(".continueGameLink").hide();
-		$(".newGameLink").removeClass("narrow right");
-	}
-
-	function highlightPlayer(playerIndex){
-		$("#gameScreen").removeClass().addClass("screen player"+playerIndex);
-		$(".playerTab").removeClass("active");
-		$("#gameScreen .playerTab"+playerIndex).addClass("active");
-	}
-
-	function showScreen(label){
-		$(".screen").hide();
-		$("#"+label+"Screen").show();
-	}
-
-	var optionLabels = [
-		["One","Two","Three","Four","Five","Six","Seven","Eight"],
-		["Easy","Medium","Hard"],
-		["Selfies","Animals","Numbers"]
-	];
-	var optionValues = [3,0,0];
-
-
-	function updateOptions(){
-		try {
-			$("#optionsScreen .option").removeClass("chosen");
-
-			for (var i=0; i<optionValues.length;i++){
-				if (i==0){
-					for(var j=0; j<=optionValues[0]; j++){  $("#options0_"+j).addClass("chosen");  }
-				}
-				else {
-					$("#options"+i+"_"+optionValues[i]).addClass("chosen");	
-				}
-				$("#optionValue"+i).html( optionLabels[i][ optionValues[i] ] );
-			}
-
-			if ( optionValues[2]==0 ){//OMG, selfie
-				$("#optionsScreen .startGameLink").hide();
-				$("#optionsScreen .cameraLink").show();
-			}
-			else {
-				$("#optionsScreen .startGameLink").show();
-				$("#optionsScreen .cameraLink").hide();
-			}
-    }
-    catch (err) {
-      model.logError(err, arguments);
-    }
-	}
-
-	function optionClick(me){
-		optionValues[me.data("set")] = me.data("value");
-		updateOptions();
-	}
-	updateOptions();
-  
-	function startGameClicked(){
-		var npl = optionValues[0];
-		var lvl = optionValues[1];
-		var dep = optionValues[2];
-		var tkn = optionValues[3];
-
-		var initFactsByLevel = [1,2,2];
-		var initCharsByLevel = [5,5,7];
-		var maxScoresByPlayer = [18,13,9,8,6,5,4,3,3];
-		var maxCharsByDepth=[26,20,15];
-		var chanceOfUnnamedByDepth=[.85,.75,.65];
-
-		model.startGame(npl+1, maxScoresByPlayer[npl]+lvl, initFactsByLevel[lvl], initCharsByLevel[lvl], maxCharsByDepth[dep], chanceOfUnnamedByDepth[dep], tkn);
-	}
-	
-
-	///////////////////// click handlers SHOULD BE ON TOUCH START
-	$(".newGameLink").click(  function(){ view.showOptions() });
-	$(".continueGameLink").click( function(){ view.showGame() });
-	$(".startGameLink").click( function(){ startGameClicked() });
-	$(".menuLink").click( function(){ view.showMenu() });
-	$(".instructionsLink").click( function(){ view.showInstructions() });
-	$(".cameraLink").click( function(){ view.showCamera() });
-
-	$("#introRecord").click( function(){ startRecording() });
-	$("#introStop").click( function(){ stopRecording() });
-	$("#introPlay").click( function(){ playRecording() });
-	$("#introNext").click( function(){ model.introComplete(); });
-	$("#introUndo").click( function(){ undoRecording(); });
-	$("#guessCheck").click( function(){ model.playAllFactsForCurrentCharacter() });
-	$("#guessCorrect").click( function(){ model.submitCorrect() });
-	$("#guessIncorrect").click( function(){ model.submitIncorrect() });
-	$("#guessChallenge").click( function(){ model.showChallengePlayers() });
-	$(".optionGroup a").click(function(){ optionClick( $(this) ) });
-	$("#optionsIcons a").click( function(){ view.setAllAvatars(); });
-
-	$("#nextPlayerPrompt").click( function(){ $(this).hide(); });
-	$("#challenge .challengePlayer").click(function(){ model.submitChallenge($(this).data("index")); });
-	$("#cameraScreen .pic").click( function(){ model.takePlayerPhoto($(this).data("index")); });
 }
+
+
 
 function corner(target, val){
 	if (typeof val == "number"){
